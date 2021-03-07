@@ -44,7 +44,7 @@ app.use(express.json());
 //app.use(cors())
 
 //for development mode
-app.use(express.static(__dirname + '/app/dist/app'));
+app.use(express.static(__dirname + '/app/dist/'));
 app.use('/images', express.static(path.join(__dirname, './images')));
 app.use('/upload', express.static(path.join(__dirname, './upload')));
 
@@ -54,7 +54,7 @@ app.use('/blogs', blogs);
 
 app.get('*', (req, res) => {
     //  res.send('<h1>Hello from the Server Side</h1>')
-    res.sendFile(path.join(__dirname + '/app/dist/app/index.html'),)
+    res.sendFile(path.join(__dirname + '/app/dist/index.html'),)
 });
 
 
