@@ -1,0 +1,58 @@
+<div class="row">
+	<div class="col-sm-12">
+		<nb-card>
+			<nb-card-header>
+				HR DASHBOARD
+				<div class="clock">
+					<span class="date">{{ date | date: 'EEE. MMM. d, yyyy' }} |</span> &nbsp;🕐&nbsp;
+					<span class="hour">{{ hours }}:</span>
+					<span class="min">{{ minutes }}:</span>
+					<span class="second">{{ seconds }}</span>
+					&nbsp;
+					<span> {{ PmAm >= 13 && PmAm <= 24 ? 'PM' : 'AM' }} </span>
+				</div>
+			</nb-card-header>
+		</nb-card>
+	</div>
+</div>
+<br />
+<div class="row">
+	<div class="col-md-6">
+		<div class="col-lg-6">
+			<nb-card (click)="goToEmployees()" class="pointer">
+				<nb-card-body class="nb-card-body"><i class="fas fa-user-tie"></i> {{ employees || '0' }}</nb-card-body>
+				<nb-card-header class="nb-card-header">TOTAL EMPLOYEE </nb-card-header>
+			</nb-card>
+		</div>
+	</div>
+	<div class="col-sm-6">
+		<nb-card [nbSpinner]="aLoader" nbSpinnerStatus="success">
+			<nb-card-header> Attendance </nb-card-header>
+			<nb-list>
+				<nb-list-item *ngFor="let data of attendance">
+					<div class="col-sm-8">
+						<nb-user class="nb-avatar" [picture]="this.sgs.connection + '/avatars/' + data.avatar" [name]="data.name" [title]="data.role"></nb-user>
+					</div>
+					<div class="col-sm-4">
+						<ng-container *ngIf="data?.attendance[0].in != 0">
+							<div class="attendance-time-container">IN: {{ data?.attendance[0].in | reversedate | date: 'mediumTime' }}</div>
+						</ng-container>
+						<ng-container *ngIf="data?.attendance[0].in == 0">
+							<div>-</div>
+						</ng-container>
+
+						<ng-container *ngIf="data?.attendance[0].out && data?.attendance[0].out != 0">
+							<div class="attendance-time-container" *ngIf="data?.attendance[data?.attendance.length - 1].out">OUT: {{ data?.attendance[0].out | reversedate | date: 'mediumTime' }}</div>
+						</ng-container>
+						<ng-container class="acenter" *ngIf="data?.attendance[0].out == '' || data?.attendance[0].out == null || data?.attendance[0].out == 0">
+							<div>-</div>
+						</ng-container>
+					</div>
+				</nb-list-item>
+				<nb-list-item *ngIf="!attendance?.length">
+					<span class="acenter"> Hmm.. no one is here today!</span>
+				</nb-list-item>
+			</nb-list>
+		</nb-card>
+	</div>
+</div>

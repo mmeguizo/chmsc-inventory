@@ -1,0 +1,19 @@
+<div class="header-container">
+  <div class="logo-container">
+    <a href="#" class="sidebar-toggle" matRipple [matRippleUnbounded]="true" [matRippleCentered]="true"
+      (click)="toggleSidebar()">
+      <nb-icon [icon]="(materialTheme$ | async) ? 'menu-outline' : 'menu-2-outline'"></nb-icon>
+    </a>
+    <a class="logo" href="#" (click)="navigateHome()">Chmsc IS Inventory</a>
+  </div>
+</div>
+
+<div class="header-container">
+  <nb-actions size="small">
+    <nb-action class="user-action" *nbIsGranted="['view', 'user']" matRipple>
+      <nb-user [nbContextMenu]="userMenu" nbSpinnerStatus="success" [name]="auth?.getTokenUsername()"
+        [onlyPicture]="userPictureOnly" [picture]="this.auth.domain + '/images/' + (auth?.avatar || 'user1.jpg')">
+      </nb-user>
+    </nb-action>
+  </nb-actions>
+</div>

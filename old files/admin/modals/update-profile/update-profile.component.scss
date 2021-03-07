@@ -1,0 +1,38 @@
+.error{
+    color: #ff6b83;
+}
+.fieldError{
+    border: 2px solid #ff6b83;
+}
+.avatar-container {
+    margin-top: 20px;
+    margin-left: 20px;
+    width: 200px;
+    height: 200px;
+    text-align: center;
+}
+
+.avatar-image{
+    font-size: 150px;
+    padding-top: 11%;
+}
+
+.display-photo{
+    height: 150px;
+    width: 150px;
+    border: 2px solid #eee;
+    border-radius: 50%;
+    background-color:#ccc;
+    background-size: cover;
+    background-position: center;
+    margin: 0 auto;
+}
+
+p{
+    margin-top: 5px;
+}
+
+.browse-btn {
+    margin-top: 10px;
+    padding: 4px;
+}

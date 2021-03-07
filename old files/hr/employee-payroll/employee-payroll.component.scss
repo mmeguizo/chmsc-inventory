@@ -1,0 +1,25 @@
+span.input-group-text {
+  background-color: #00d68f;
+  color: #fff;
+}
+.options{
+  color: rgb(0,128,192);
+  cursor: pointer;
+  font-weight: bold;
+  font-size:11px;
+  text-align: right;
+
+}
+
+.options:hover{
+  color: rgb(0,128,255);
+  border-bottom: 2px dotted rgb(0,128,192);
+
+}
+
+
+i#button-alignment {
+  font-size: 20px !important;
+  cursor: pointer;
+  color: #3366ff;
+}

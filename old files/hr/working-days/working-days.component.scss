@@ -1,0 +1,113 @@
+@import '../../@theme/styles/themes';
+// @import '~@nebular/theme/styles/global/bootstrap/hero-buttons';
+// @import '~bootstrap/scss/mixins/breakpoints';
+// @import '~@nebular/theme/styles/global/bootstrap/breakpoints';
+
+/deep/ .nb-theme-corporate nb-actions.medium nb-action i.control-icon {
+    font-size: 20px;
+    color: #494949;
+}
+
+.clear {
+    clear: both;
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+.badge{
+    color: #fff;
+}
+.demo-checkboxes {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 1rem;
+}
+
+.month_container{
+    width: 100%;
+  //  margin-bottom: 1px;
+   color: #fff;
+}
+
+.icon_container {
+    width: 15%;
+    height: 35px;
+    background-color: #0392a8;
+    float: left;
+    text-align: center;
+    padding: 3px;
+    font-size: 12pt;
+}
+
+.icon {
+    margin-top: 22%;
+}
+
+.month_title_container {
+    width: 100%;
+    background-color: #5DCFE3;
+    margin-left: 5px;
+    padding: 3px;
+    font-size: 12pt;
+    height: 35px;
+}
+
+.month_title_container1 {
+    width: 100%;
+    background-color: #801e69;
+    margin-left: 5px;
+    padding: 3px;
+    font-size: 12pt;
+    height: 35px;
+}
+
+.month_title_container1 {
+    width: 100%;
+    background-color: #ff386a;
+    margin-left: 5px;
+    padding: 3px;
+    font-size: 12pt;
+    height: 35px;
+}
+
+.month_title_container_selected{
+    width: 100%;
+    background-color: #0392a8;
+    margin-left: 5px;
+    padding: 3px;
+    font-size: 12pt;
+    height: 35px;
+}
+.month_title_container_selected1{
+    width: 100%;
+    background-color: #ff386a;
+    margin-left: 5px;
+    padding: 3px;
+    font-size: 12pt;
+    height: 35px;
+}
+
+.month_title_container:hover {
+    background-color: #0392a8;
+    cursor: pointer;
+}
+
+.hide {
+  display: none;
+}
+
+.month_title {
+    margin-left: 10px;
+    float: left;
+    margin-top: 2%;
+    // margin-top: 5%;
+}
+
+.calendar_month_header {
+    background-color: #10a5bf;
+    color: #fff;
+}
+.calendar_month_header1 {
+    background-color: #ff386a;
+    color: #fff;
+}

@@ -1,0 +1,49 @@
+<div class="modal-header">
+	Edit Overtime
+	<button class="close" aria-label="Close" (click)="closeModal()">
+		<span aria-hidden="true">&times;</span>
+	</button>
+</div>
+<form [formGroup]="form">
+	<div class="modal-body">
+		<div class="row">
+			<div class="col-sm-12">
+				<mat-form-field>
+					<mat-label>Cut off</mat-label>
+					<mat-select formControlName="payroll" #type id="payroll">
+						<mat-option selected *ngFor="let ot of overtimes" [value]="ot?.payroll_id">{{ ot.cutOffFrom | date: 'mediumDate' }} - {{ ot.cutOffTo | date: 'mediumDate' }}</mat-option>
+						<mat-option *ngFor="let date of dateRangeOptions" [value]="date?.id">{{ date.cutOffFrom | date: 'mediumDate' }} - {{ date.cutOffTo | date: 'mediumDate' }}</mat-option>
+					</mat-select>
+					<mat-error *ngIf="form?.get('payroll').touched && form.controls['payroll'].errors?.required">Type is <strong>required </strong> </mat-error>
+				</mat-form-field>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-sm-12">
+				<label>Overtime Start</label>
+				<timepicker [showSpinners]="false" formControlName="in"></timepicker>
+			</div>
+		</div>
+		<div class="clear"></div>
+		<div class="row">
+			<div class="col-sm-12">
+				<label>Overtime Ends</label>
+				<timepicker [showSpinners]="false" formControlName="out"></timepicker>
+			</div>
+		</div>
+		<div class="clear"></div>
+		<div class="row">
+			<div class="col-sm-12">
+				<mat-form-field class="input-example">
+					<mat-label>Reason</mat-label>
+					<input matInput autocomplete="off" formControlName="reason" required />
+					<mat-error *ngIf="form.get('reason').touched && form.controls['reason'].errors?.required">Reason is required</mat-error>
+				</mat-form-field>
+			</div>
+		</div>
+	</div>
+	<div class="modal-footer">
+		<button type="botton" class="btn btn-danger" (click)="closeModal()">Close</button>
+		<button class="btn btn-primary" (click)="updateOT(form)" [disabled]="form?.invalid">Submit</button>
+	</div>
+</form>

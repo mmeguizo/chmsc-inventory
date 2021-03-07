@@ -1,0 +1,41 @@
+<nb-card *ngIf="data.length">
+  <nb-card-header class="head">Change Oil</nb-card-header>
+  <nb-card-body>
+    <table class="table" [mfData]="data | dataFilter: filterQuery:selectQuery" #mf="mfDataTable" [mfRowsOnPage]="10"
+      [(mfSortBy)]="sortBy" [(mfSortOrder)]="sortOrder">
+      <thead>
+        <tr>
+          <th scope="col">#</th>
+          <th scope="col">Truck Model</th>
+          <th scope="col">Last Change Oil</th>
+          <th scope="col">Next Change Oil</th>
+          <th scope="col">Status</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngIf="mf.data.length < 1">
+          <td colspan="7" class="acenter error">No data found</td>
+        </tr>
+        <tr *ngFor="let data of mf.data; let idx = index">
+          <td scope="col">{{ (mf.activePage - 1) * mf.rowsOnPage + idx + 1 }}</td>
+          <td scope="col">{{ data.truckModel | titlecase }}</td>
+          <td scope="col">{{ data.lastChangeOil | reversedate | date }}</td>
+          <td scope="col">{{ data.nextChangeOil | reversedate | date }}</td>
+          <th scope="col" class="pointer" [routerLink]="['/admin/view-maintenance', data?.id]">
+            <a *ngIf="data.next > now && data.next !== 'NaNaNaN'"><i class="fas fa-circle circle-active"></i>
+              Expiring</a>
+            <a *ngIf="data.next == now"><i class="fas fa-exclamation-circle circle-break"></i> Last Day</a>
+            <a *ngIf="data.next < now"><i class="fas fa-exclamation-circle circle-inacvtive"></i> Overdue</a>
+            <a *ngIf="data.next == 'NaNaNaN'"><i class="fas fa-exclamation-circle circle-inacvtive"></i> Not Set</a>
+          </th>
+        </tr>
+      </tbody>
+      <tfoot>
+        <td colspan="10">
+          <mfBootstrapPaginator [rowsOnPageSet]="[10, 20, 50, 100]"></mfBootstrapPaginator>
+        </td>
+      </tfoot>
+    </table>
+  </nb-card-body>
+</nb-card>
+-

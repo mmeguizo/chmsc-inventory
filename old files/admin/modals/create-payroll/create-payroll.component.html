@@ -1,0 +1,69 @@
+<nb-card>
+  <nb-card-header>
+    <div class="action-groups-header" style="float: left; clear: both">Employee Payroll11</div>
+    <nb-actions size="medium" style="float: right; font-size: 10px">
+      <nb-action>
+        <!-- <input type="search" class="form-control" placeholder="Search.." [(ngModel)]="filterQuery"> -->
+      </nb-action>
+      <nb-action icon="close-square-outline" (click)="sgs.back()" nbPopover="Close" nbPopoverTrigger="hint" nbPopoverPlacement="top"></nb-action>
+    </nb-actions>
+  </nb-card-header>
+  <nb-card-body [nbSpinner]="sgs.loading" nbSpinnerStatus="success">
+    <div class="row">
+      <div class="col-sm-12">
+        <div class="cutOff">Cut-Off - {{ activePayroll?.cutOffFrom | reversedate | date: 'longDate' }} - {{ activePayroll?.cutOffTo | reversedate | date: 'longDate' }}</div>
+        <div class="clear"></div>
+        <table class="table" [mfData]="data | dataFilter: filterQuery:selectQuery" #mf="mfDataTable" [mfRowsOnPage]="10" [(mfSortBy)]="sortBy" [(mfSortOrder)]="sortOrder">
+          <thead>
+            <tr>
+              <th scope="col">#</th>
+              <th scope="col">Employee ID</th>
+              <th scope="col">Full Name</th>
+              <th scope="col">Position</th>
+              <th scope="col">Mobile Number</th>
+              <th scope="col">Marital Status</th>
+              <th scope="col" width="5%" class="acenter">Options</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngIf="mf.data.length < 1">
+              <td colspan="7" class="acenter error">No data found</td>
+            </tr>
+            <tr *ngFor="let data of mf.data; let i = index">
+              <td scope="col">{{ i + 1 }}</td>
+              <td scope="col">{{ data.id }}</td>
+              <td scope="col">{{ data.lname }}, {{ data.fname }}, {{ data.mname }}</td>
+              <td scope="col">{{ data.employmentDetails.position }}</td>
+              <td scope="col">{{ data.mobile }}</td>
+              <td scope="col">{{ data.maritalStatus }}</td>
+              <td class="align-middle">
+                <!-- <a [routerLink]="['../../employeeProfile', data._id]" nbTooltip="Click to view employment history and promotion" nbTooltipPlacement="top"><i class="fas fa-user-plus linkUncolored"></i>
+                    </a> &nbsp; -->
+                <a class="pointer linkUncolored" (click)="activePayroll?.status != 5 ? payslip(data) : ''" [ngClass]="{ linkDisabled: activePayroll?.status == 5 }"><i class="fas fa-table" nbTooltip="Click to generate payslip" nbTooltipPlacement="top"></i></a>
+                <!-- &nbsp;
+                    <ng-container *ngFor="let payroll of activePayroll?.summary">
+                      <a class="pointer linkUncolored" (click)="print(payroll, activePayroll?.cutOffFrom, activePayroll?.cutOffTo, activePayroll?.date_added, activePayroll?.id);" *ngIf="data?.id == payroll?.eid" nbTooltip="Click to print payslip"
+                      nbTooltipPlacement="top"><i class="fas fa-print" [ngClass]="{'isPrinted': payroll.isPrinted}"></i>&nbsp;&nbsp;</a>
+
+                      <a class="pointer linkUncolored" (click)="activePayroll?.status != 5 ? editPayslip(data.id, data) : ''" *ngIf="data?.id == payroll?.eid" nbTooltip="Click to edit payslip"
+                      nbTooltipPlacement="top"><i class="fas fa-edit" [ngClass]="{'linkDisabled' : activePayroll?.status == 5}"></i>&nbsp;&nbsp;</a>
+
+                      <a class="pointer linkUncolored" (click)="activePayroll?.status != 5 ? addAllowance(data.id) : ''" *ngIf="data?.id == payroll?.eid" nbTooltip="Add allowance to employee"
+                      nbTooltipPlacement="top"><i class="fas fa-wallet" [ngClass]="{'linkDisabled' : activePayroll?.status == 5}"></i></a>
+                    </ng-container> -->
+              </td>
+              <!-- </td> -->
+            </tr>
+          </tbody>
+          <tfoot>
+            <tr>
+              <td colspan="10">
+                <mfBootstrapPaginator [rowsOnPageSet]="[10, 20, 50, 100]"></mfBootstrapPaginator>
+              </td>
+            </tr>
+          </tfoot>
+        </table>
+      </div>
+    </div>
+  </nb-card-body>
+</nb-card>

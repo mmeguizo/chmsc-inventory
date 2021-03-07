@@ -1,0 +1,43 @@
+<nb-card>
+  <nb-card-header>
+    Update Document Image's
+    <button class="close" aria-label="Close" (click)="closeModal()">
+        <span aria-hidden="true">&times;</span>
+    </button>
+  </nb-card-header>
+  <nb-card-body>
+
+    <div class="clear"></div>
+    <div class="row">
+      <table class="table table-borderd">
+        <thead>
+          <tr style="font-weight: 600">
+              <td>File Name</td>
+              <td>File Type</td>
+              <td>Options</td>
+          </tr>
+        </thead>
+
+        <tbody>
+          <tr *ngIf="image?.length == 0">
+            <td colspan="7" class="acenter error">No data found</td>
+          </tr>
+          <tr *ngFor="let img of image; let i = index">
+              <td>{{img.fileName}}</td>
+              <td>{{img.type}}</td>
+           <td >
+
+            <a class="far fa-trash-alt pointer" title="Remove this Image."
+              (click)="removeImg(img._id, i)"></a>
+            &nbsp;
+            <a class="far fa-eye pointer" title="View this Image." (click)="viewImg(img.link)"></a>
+          </td>
+          </tr>
+        </tbody>
+      </table>
+      </div>
+  </nb-card-body>
+  <nb-card-footer class="aright">
+<button nbButton matRipple hero status="danger" (click)="closeModal()">Close</button>
+  </nb-card-footer>
+</nb-card>

@@ -1,0 +1,99 @@
+<div class="row">
+  <div class="col-sm-12">
+    <nb-card [nbSpinner]="loading" nbSpinnerStatus="success">
+      <nb-card-header>
+        <div>
+          <div class="action-groups-header" style="float: left; clear: both">Employee Payroll</div>
+          <nb-actions size="medium" style="float: right; font-size: 10px">
+            <nb-action>
+              <div class="input-group input-group-sm">
+                <div class="dropdown input-group-prepend input-group-btn" ngbDropdown>
+                  <button type="button" class="btn btn-success dropdown-toggle" ngbDropdownToggle style="min-width: 108px">
+                    {{ selectQueryString }}
+                  </button>
+                  <ul class="dropdown-menu" ngbDropdownMenu>
+                    <li class="dropdown-item" (click)="selectFilter('name', 'Name')">Name</li>
+                    <li class="dropdown-item" (click)="selectFilter('position', 'Position')">Role</li>
+                  </ul>
+                </div>
+                <input type="search" class="form-control" placeholder="Search.." [(ngModel)]="filterQuery" />
+              </div>
+            </nb-action>
+            <nb-action icon="save-outline" (click)="savePayroll()" tooltip="Save Payroll" placement="bottom" *ngIf="activePayroll?.status != 5"></nb-action>
+            <nb-action icon="eye-outline" (click)="viewPayrollEntry()" tooltip="View Payroll Entry" placement="bottom" *ngIf="activePayroll?.status == 5"></nb-action>
+            <nb-action icon="close-square-outline" (click)="sgs.back()" tooltip="Close" placement="top"></nb-action>
+          </nb-actions>
+        </div>
+      </nb-card-header>
+      <nb-card-body>
+        <div class="row">
+          <div class="col-sm-12">
+            <div class="cutOff">Cut-Off - {{ activePayroll?.cutOffFrom | reversedate | date: 'longDate' }} - {{ activePayroll?.cutOffTo | reversedate | date: 'longDate' }}</div>
+            <div class="clear"></div>
+            <table class="table" [mfData]="data | dataFilter: filterQuery:selectQuery" #mf="mfDataTable" [mfRowsOnPage]="10" [(mfSortBy)]="sortBy" [(mfSortOrder)]="sortOrder">
+              <thead>
+                <tr>
+                  <th scope="col">#</th>
+                  <th scope="col">Employee ID</th>
+                  <th scope="col">Name (Last name, First name, Middle name)</th>
+                  <th scope="col">Position</th>
+                  <th scope="col">Status</th>
+                  <th scope="col" width="10%">Options</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let data of mf.data; let i = index">
+                  <td scope="col">{{ i + 1 }}</td>
+                  <td scope="col">{{ data.id }}</td>
+                  <td scope="col">{{ data.name }}</td>
+                  <td scope="col">{{ data.role | titlecase }}</td>
+                  <td scope="col">
+                    <ng-container *ngFor="let payroll of activePayroll?.summary">
+                      <div *ngIf="data?.id == payroll?.eid">
+                        <a class="badge badge-success pointer" (click)="checkStatus()">OK</a>
+                      </div>
+                    </ng-container>
+                  </td>
+                  <td class="align-middle">
+                    <!-- <a [routerLink]="['/hr/employmentInformation', data._id]" nbPopover="Click to view employment history and promotion" nbPopoverMode="hint" nbPopoverPlacement="right"><i class="fas fa-user-plus linkUncolored"></i> </a> &nbsp; -->
+                    <a class="pointer linkUncolored" (click)="activePayroll?.status != 5 ? payslip(data.id) : ''" [ngClass]="{ linkDisabled: activePayroll?.status == 5 }">
+                      <!-- <i class="fas fa-table" nbPopover="Click to generate payslip" nbPopoverMode="hint" nbPopoverPlacement="right"></i> -->
+                      <nb-icon icon="file-text-outline" nbPopover="Click to generate payslip" nbPopoverMode="hint" nbPopoverPlacement="right"> </nb-icon>
+                    </a>
+                    &nbsp;
+                    <ng-container *ngFor="let payroll of activePayroll?.summary">
+                      <a class="pointer linkUncolored" (click)="print(payroll, activePayroll?.cutOffFrom, activePayroll?.cutOffTo, activePayroll?.date_added, activePayroll?.id)" *ngIf="data?.id == payroll?.eid" nbPopover="Click to print payslip" nbPopoverMode="hint" nbPopoverPlacement="right">
+                        <!-- <i class="fas fa-print" [ngClass]="{ isPrinted: payroll.isPrinted }"></i> -->
+                        <nb-icon icon="printer-outline" [ngClass]="{ isPrinted: payroll.isPrinted }"> </nb-icon>
+                        &nbsp;&nbsp;</a
+                      >
+
+                      <a class="pointer linkUncolored" (click)="activePayroll?.status != 5 ? editPayslip(data.id, data) : ''" *ngIf="data?.id == payroll?.eid" nbPopover="Click to edit payslip" nbPopoverMode="hint" nbPopoverPlacement="right">
+                        <!-- <i class="fas fa-edit" [ngClass]="{ linkDisabled: activePayroll?.status == 5 }"></i> -->
+                        <nb-icon icon="edit-2-outline" [ngClass]="{ linkDisabled: activePayroll?.status == 5 }"> </nb-icon>
+
+                        &nbsp;&nbsp;</a
+                      >
+
+                      <a class="pointer linkUncolored" (click)="activePayroll?.status != 5 ? addAllowance(data.id) : ''" *ngIf="data?.id == payroll?.eid" nbPopover="Add allowance to employee" nbPopoverMode="hint" nbPopoverPlancement="right">
+                        <!-- <i class="fas fa-wallet" [ngClass]="{ linkDisabled: activePayroll?.status == 5 }"></i> -->
+                        <nb-icon icon="book-open-outline" [ngClass]="{ linkDisabled: activePayroll?.status == 5 }"> </nb-icon>
+                      </a>
+                    </ng-container>
+                  </td>
+                </tr>
+              </tbody>
+              <tfoot>
+                <tr>
+                  <td colspan="10">
+                    <mfBootstrapPaginator [rowsOnPageSet]="[10, 20, 50, 100]"></mfBootstrapPaginator>
+                  </td>
+                </tr>
+              </tfoot>
+            </table>
+          </div>
+        </div>
+      </nb-card-body>
+    </nb-card>
+  </div>
+</div>

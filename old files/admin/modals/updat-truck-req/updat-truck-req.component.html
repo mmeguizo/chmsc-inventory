@@ -1,0 +1,155 @@
+<!-- <nb-card>
+  <nb-card-header>
+    Update Required Field
+    <button class="close" aria-label="Close" (click)="closeModal()">
+      <span aria-hidden="true">&times;</span>
+      </button>
+  </nb-card-header>
+  <nb-card-body >
+    <div class="panel-heading" cardTitle="Stocks Information"><b>Fields:</b></div>
+    <br>
+    <div class="row">
+      <div class="col-sm-12">
+        <label class="check_container">
+          <input type="checkbox" (click)="addItem($event)"  [checked]="truckModel" value="truckModel">
+          <span class="checkmark"></span>
+        </label> &nbsp;
+        <label for="">Name / model of truck </label>
+        <br>
+        <label class="check_container">
+          <input type="checkbox" (click)="addItem($event)"  [checked]="truckType" value="truckType">
+          <span class="checkmark"></span>
+        </label> &nbsp;
+        <label for="">Truck Type</label>
+        <br>
+        <label class="check_container">
+          <input type="checkbox" (click)="addItem($event)"  [checked]="plate" value="plate">
+          <span class="checkmark"></span>
+        </label> &nbsp;
+        <label for="">Plate Number</label>
+        <br>
+        <label class="check_container">
+          <input type="checkbox" (click)="addItem($event)"  [checked]="engine" value="engine">
+          <span class="checkmark"></span>
+        </label> &nbsp;
+        <label for="">Engine Number</label>
+        <br>
+        <label class="check_container">
+          <input type="checkbox" (click)="addItem($event)"  [checked]="chassis" value="chassis">
+          <span class="checkmark"></span>
+        </label> &nbsp;
+        <label for="">Chassis Number</label>
+        <br>
+        <label class="check_container">
+          <input type="checkbox" (click)="addItem($event)"  [checked]="insurancecolorRenewal" value="color">
+          <span class="checkmark"></span>
+        </label> &nbsp;
+        <label for="">Body color</label>
+        <br>
+        <label class="check_container">
+          <input type="checkbox" (click)="addItem($event)"  [checked]="weight" value="weight">
+          <span class="checkmark"></span>
+        </label> &nbsp;
+        <label for="">Weight of truck</label>
+        <br>
+        <label class="check_container">
+          <input type="checkbox" (click)="addItem($event)"  [checked]="length" value="length">
+          <span class="checkmark"></span>
+        </label> &nbsp;
+        <label for="">Length of truck</label>
+        <br>
+        <label class="check_container">
+          <input type="checkbox" (click)="addItem($event)"  [checked]="capacity" value="capacity">
+          <span class="checkmark"></span>
+        </label> &nbsp;
+        <label for="">Load capacity</label>
+        <br>
+        <label class="check_container">
+          <input type="checkbox" (click)="addItem($event)"  [checked]="tireSize" value="tireSize">
+          <span class="checkmark"></span>
+        </label> &nbsp;
+        <label for="">Tires size</label>
+        <br>
+        <label class="check_container">
+          <input type="checkbox" (click)="addItem($event)"  [checked]="batterySize" value="batterySize">
+          <span class="checkmark"></span>
+        </label> &nbsp;
+        <label for="">Battery size</label>
+        <br>
+        <label class="check_container">
+          <input type="checkbox" (click)="addItem($event)"  [checked]="garage" value="garage">
+          <span class="checkmark"></span>
+        </label> &nbsp;
+        <label for="">Garage</label>
+        <br>
+        <label class="check_container">
+          <input type="checkbox" (click)="addItem($event)"  [checked]="or" value="or">
+          <span class="checkmark"></span>
+        </label> &nbsp;
+        <label for="">OR #</label>
+        <br>
+        <label class="check_container">
+          <input type="checkbox" (click)="addItem($event)"  [checked]="cr" value="cr">
+          <span class="checkmark"></span>
+        </label> &nbsp;
+        <label for="">CR #</label>
+        <br>
+        <label class="check_container">
+          <input type="checkbox" (click)="addItem($event)"  [checked]="dateRegister" value="dateRegister">
+          <span class="checkmark"></span>
+        </label> &nbsp;
+        <label for="">Date of registration</label>
+        <br>
+        <label class="check_container">
+          <input type="checkbox" (click)="addItem($event)"  [checked]="renewal" value="renewal">
+          <span class="checkmark"></span>
+        </label> &nbsp;
+        <label for="">Truck renewal date</label>
+        <br>
+        <label class="check_container">
+          <input type="checkbox" (click)="addItem($event)"  [checked]="insurance" value="insurance">
+          <span class="checkmark"></span>
+        </label> &nbsp;
+        <label for="">Insurance</label>
+        <br>
+        <label class="check_container">
+          <input type="checkbox" (click)="addItem($event)"  [checked]="insuranceRenewal" value="insuranceRenewal">
+          <span class="checkmark"></span>
+        </label> &nbsp;
+        <label for="">Insurance renewal date</label>
+      </div>
+  </div>
+
+  </nb-card-body>
+  <nb-card-footer class="aright">
+    <button nbButton matRipple hero status= "danger" (click)="closeModal()">Close</button>
+    &nbsp;
+    <button nbButton matRipple hero status= "primary" (click)="update()">Save</button>
+  </nb-card-footer>
+</nb-card> -->
+<nb-card *ngIf="start">
+    <nb-card-header>
+        Update Required Field
+        <button class="close" aria-label="Close" (click)="closeModal()">
+          <span aria-hidden="true">&times;</span>
+          </button>
+    </nb-card-header>
+    <nb-card-body>
+     <div class="panel-heading" cardTitle="Stocks Information"><b>Fields:</b></div>
+    <br>
+    <div class="row">
+        <div class="col-sm-12" *ngFor="let part of parts">
+            <label class="check_container">
+                <input type="checkbox" (click)="addItem(part)" [checked]="part.status">
+                <span class="checkmark"></span>
+              </label> &nbsp;
+              <label for="">{{part.name}} </label>
+        </div>
+    </div>
+    </nb-card-body>
+    <nb-card-footer>
+        <button nbButton matRipple hero status= "danger" (click)="closeModal()">Close</button>
+        &nbsp;
+        <button nbButton matRipple hero status= "primary" (click)="update()">Save</button>
+    </nb-card-footer>
+</nb-card>

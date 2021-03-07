@@ -1,0 +1,18 @@
+<div class="row">
+  <div class="col-sm-12">
+    <nb-card>
+      <nb-card-header>
+        ADMIN DASHBOARD
+        <div class="clock">
+          <span class="date">{{ date | date: 'EEE. MMM. d, yyyy' }} |</span> &nbsp;🕐&nbsp;
+          <span class="hour">{{ hours }}:</span>
+          <span class="min">{{ minutes }}:</span>
+          <span class="second">{{ seconds }}</span>
+          &nbsp;
+          <span> {{ PmAm >= 12 && PmAm <= 24 ? 'PM' : 'AM' }} </span>
+        </div>
+      </nb-card-header>
+    </nb-card>
+  </div>
+</div>
+<br />

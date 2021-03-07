@@ -1,0 +1,94 @@
+<div class="row">
+    <div class="col-sm-12">
+      <nb-card [nbSpinner]="loading" nbSpinnerStatus="success">
+        <nb-card-header>
+          <div class="action-groups-header" style="float: left; clear: both">
+            User Lists
+          </div>
+          <nb-actions size="medium" style="float: right; font-size: 10px;">
+            <nb-action>
+              <div class="input-group">
+                <input type="search" #search class="form-control" [placeholder]="selectQueryString" [(ngModel)]="filterQuery">
+                <div class="input-group-append">
+                  <span class="input-group-text pointer" [nbPopover]="filter" nbPopoverPlacement="bottom">
+                    <i class="fas fa-filter"></i>
+                  </span>
+                </div>
+              </div>
+            </nb-action>
+            <nb-action icon="plus-square-outline" nbPopover="Add new user" nbPopoverTrigger="hint" nbPopoverPlacement="bottom" (click)="addUser()"></nb-action>
+            <nb-action icon="close-square-outline" (click)="sgs.back()"nbPopover="Close" nbPopoverTrigger="hint" nbPopoverPlacement="right"></nb-action>
+          </nb-actions>
+        </nb-card-header>
+        <nb-card-body>
+          <div class="row">
+            <div class="col-sm-12">
+              <div class="clear"></div>
+              <table class="table" [mfData]="data | dataFilter : filterQuery: selectQuery" #mf="mfDataTable" [mfRowsOnPage]="10" [(mfSortBy)]="sortBy" [(mfSortOrder)]="sortOrder">
+                <thead>
+                  <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Name</th>
+                    <th scope="col">Username</th>
+                    <th scope="col">Role</th>
+                    <th scope="col">Status</th>
+                    <th scope="col" width="10%">Options</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let data of mf.data">
+                    <td scope="col">{{ data.id }}</td>
+                    <td scope="col">{{ data.fname + ',' + data.mname + ',' + data.lname }}</td>
+                    <td scope="col">{{ data.username }}</td>
+                    <td scope="col">{{ data.role}}</td>
+                    <td scope="col" [ngClass]="{'disabled': me?.username == data.username}" >
+                      <a class="pointer" (click)="disableAccount(data._id)" *ngIf="data.status == 1"><i class="fas fa-circle circle-active"></i> Active</a>
+                      <a class="pointer" (click)="enableAccount(data._id)" *ngIf="data.status == 2"><i class="fas fa-circle circle-inacvtive"></i> Deactivated</a>
+                    </td>
+                    <td scope="col" >
+                      <div class="btn-group " dropdown placement="bottom right">
+                        <i id="button-alignment" dropdownToggle class="fas fa-chevron-circle-down" aria-controls="dropdown-alignment"></i>
+                        <ul id="dropdown-alignment" *dropdownMenu class="dropdown-menu dropdown-menu-right" role="menu" aria-labelledby="button-alignment">
+                          <li role="menuitem" class="dropdown-item pointer" (click)="updateUser(data.id)">   <nb-icon icon="edit-2" style="color: rgb(0, 132, 255)"></nb-icon> Update User</li>
+
+                        </ul>
+                      </div>
+                    </td>
+
+
+
+                  </tr>
+                </tbody>
+                <tfoot>
+                  <tr>
+                    <td colspan="10">
+                      <mfBootstrapPaginator [rowsOnPageSet]="[10,20,50,100]"></mfBootstrapPaginator>
+                    </td>
+                  </tr>
+                </tfoot>
+              </table>
+            </div>
+          </div>
+        </nb-card-body>
+      </nb-card>
+    </div>
+  </div>
+
+  <ng-template #filter nbPopoverTrigger="noop">
+    <nb-card style="margin-bottom: 0">
+      <nb-card-header>
+        Search Filter:
+      </nb-card-header>
+      <nb-list>
+        <nb-list-item class="pointer" (click)="selectFilter('id', 'ID')">ID</nb-list-item>
+        <nb-list-item class="pointer" (click)="selectFilter('fname', 'First Name')">First Name</nb-list-item>
+        <nb-list-item class="pointer" (click)="selectFilter('mname', 'Middle Name')">Middle Name</nb-list-item>
+        <nb-list-item class="pointer" (click)="selectFilter('lname', 'Last Name')">Last Name</nb-list-item>
+        <nb-list-item class="pointer" (click)="selectFilter('username', 'Username')">Username</nb-list-item>
+        <nb-list-item class="pointer" (click)="selectFilter('role', 'Role')">Role</nb-list-item>
+
+
+      </nb-list>
+    </nb-card>
+  </ng-template>
+

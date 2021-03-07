@@ -1,0 +1,22 @@
+<div class="modal-header">
+  {{ title }} Payroll - Cut Off
+  <button class="close" aria-label="Close" (click)="closeModal()">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+<div class="modal-body">
+  <div class="col-sm-12">
+    <label>Cut-Off</label>
+    <input type="text" class="form-control" readOnly="true" bsDaterangepicker [(ngModel)]="dateRange" [minDate]="minDate" />
+  </div>
+  <div class="clear"></div>
+  <div class="col-sm-12">
+    <label>Description</label>
+    <textarea class="form-control" [(ngModel)]="payrollDescription"></textarea>
+  </div>
+</div>
+<div class="modal-footer">
+  <button type="button" class="btn btn-danger" (click)="closeModal()">Close</button>
+  <button type="button" class="btn btn-success confirm-btn" *ngIf="status == 2" (click)="update()" [nbSpinner]="sgs.submitting" nbSpinnerStatus="success">Update</button>
+  <button type="button" class="btn btn-success confirm-btn" *ngIf="status == 1" (click)="create()" [nbSpinner]="sgs.submitting" nbSpinnerStatus="success" [disabled]="dateRange == undefined || sgs.submitting">Submit</button>
+</div>

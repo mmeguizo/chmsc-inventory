@@ -1,0 +1,47 @@
+<nb-layout>
+  <nb-layout-column>
+    <div class="wrapper">
+      <div class="container">
+        <h2 style="z-index: 9999999">Chmsc Inventory</h2>
+        <div class="form-text error">
+          {{ msg }}
+          <toaster-container [toasterconfig]="config">
+          </toaster-container>
+        </div>
+
+        <!-- <form class="form" #f="ngForm">
+        <input ng-model="login" type="text" placeholder="Username" [(ngModel)]="username" id="username" #userName="ngModel" name="username" required>
+        <input ng-model="pwd" type="password" placeholder="Password" [(ngModel)]="password"  #passWord="ngModel" name="password" id="password" required>
+        <button type="submit" id="login-button" (click)=" onLoginSubmit()" [disabled]="f.invalid" [nbSpinner]="" nbSpinnerStatus="success">Login</button>
+      </form> -->
+        <form [formGroup]="form" (submit)="onLoginSubmit()">
+          <div class="form-group">
+            <label style="color:white" for="username">Username</label>
+            <div
+              [ngClass]="{'has-error': form.controls.username.errors && form.controls.username.dirty, 'has-success': form.controls.username.valid && form.controls.username.dirty }">
+              <input class="form-control" type="text" name="username" formControlName="username" />
+              <ul class="help-block">
+                <li *ngIf="form.controls.username.errors?.required && form.controls.username.dirty">This field is
+                  required.</li>
+              </ul>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label style="color:white" for="password">Password</label>
+            <div
+              [ngClass]="{'has-error': form.controls.password.errors && form.controls.password.dirty, 'has-success': form.controls.password.valid && form.controls.password.dirty }">
+              <input class="form-control" type="password" name="password" formControlName="password" />
+              <ul class="help-block">
+                <li *ngIf="form.controls.password.errors?.required && form.controls.password.dirty">This field is
+                  required.</li>
+              </ul>
+            </div>
+          </div>
+          <input [disabled]="!form.valid || processing" class="btn btn-primary" type="submit" value="Login" />
+        </form>
+
+      </div>
+    </div>
+  </nb-layout-column>
+</nb-layout>

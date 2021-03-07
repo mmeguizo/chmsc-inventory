@@ -1,0 +1,163 @@
+<div class="row">
+	<div class="col-sm-12">
+		<nb-card [nbSpinner]="loading" nbSpinnerStatus="success">
+			<nb-card-header>
+				<div>
+					<div class="action-groups-header" style="float: left; clear: both">Employee Time Sheet</div>
+					<nb-actions size="medium" style="float: right; font-size: 10px">
+						<nb-action>
+							<div class="dropdown ghost-dropdown" ngbDropdown>
+								<button class="btn btn-primary" type="button" ngbDropdownToggle>Export As &nbsp;&nbsp;&nbsp;</button>
+								<ul class="dropdown-menu" ngbDropdownMenu>
+									<li class="dropdown-item">PDF</li>
+									<li class="dropdown-item">Microsoft Excel</li>
+								</ul>
+							</div>
+						</nb-action>
+						<nb-action icon="printer-outline" tooltip="Print" placement="bottom"></nb-action>
+						<nb-action icon="close-circle-outline" (click)="sgs.back()" nbPopover="Close" nbPopoverMode="hint" nbPopoverPlacement="right"></nb-action>
+					</nb-actions>
+				</div>
+			</nb-card-header>
+			<nb-card-body>
+				<div class="row">
+					<div class="col-sm-3">
+						<nb-card [nbSpinner]="loading" nbSpinnerStatus="success">
+							<nb-card-header> <i class="header-icons far fa-user-circle"></i> Personal Information </nb-card-header>
+							<nb-card-body>
+								<nb-user [name]="name?.lname + ', ' + name?.fname + ' ' + name?.mname" [title]="name?.role"></nb-user>
+								<div class="clear"></div>
+								<span class="title"
+									>Employee ID: <span class="data">{{ profile?.uid }}</span></span
+								><br />
+								<span class="title"
+									>Prefix: <span class="data">{{ profile?.prefix }}</span></span
+								><br />
+								<span class="title"
+									>NickName: <span class="data">{{ profile?.nickName }}</span></span
+								><br />
+								<hr />
+								<span class="title"
+									>Date of birth: <span class="data">{{ profile?.dateOfBirth | reversedate | date: 'longDate' }}</span></span
+								><br />
+								<span class="title"
+									>Age: <span class="data" *ngIf="profile?.age">{{ profile?.age }} Years old</span></span
+								><br />
+
+								<span class="title"
+									>Gender: <span class="data">{{ profile?.gender }} </span></span
+								><br />
+								<span class="title"
+									>Marital Status: <span class="data">{{ profile?.maritalStatus }} </span></span
+								><br />
+
+								<hr />
+								<i class="header-icons fas fa-info-circle"></i> Employment Information <br /><br />
+								<span class="title"
+									>Employment Type: <span class="data">{{ curEmployment?.employmentType }} </span></span
+								><br />
+								<span class="title"
+									>Position: <span class="data">{{ curEmployment?.position }} </span></span
+								><br />
+								<span class="title"
+									>Date Hired: <span class="data">{{ profile?.dateHired | reversedate | date: 'longDate' }} </span></span
+								><br />
+								<span class="title"
+									>Years of service: <span class="data">{{ profile?.yearsInService }} </span></span
+								><br />
+							</nb-card-body>
+						</nb-card>
+					</div>
+					<div class="col-sm-9">
+						<nb-card [nbSpinner]="loading" nbSpinnerStatus="success" *ngIf="!isPaySlip">
+							<nb-card-header>
+								<i class="header-icons fas fa-user-clock"></i> Time Sheet
+								<span class="fright">
+									<div class="input-group-sm">
+										<input type="text" [(ngModel)]="dateRange" (onHidden)="handler()" class="form-control dateRangerPicker" bsDaterangepicker placeholder="Date Filter" />
+									</div>
+								</span>
+							</nb-card-header>
+							<nb-card-body>
+								<table class="table" [mfData]="time" #mf="mfDataTable" [mfRowsOnPage]="1000" [(mfSortBy)]="sortBy" [(mfSortOrder)]="sortOrder">
+									<thead>
+										<tr class="acenter">
+											<td>#</td>
+											<td>Date</td>
+											<td width="15%">In</td>
+											<td width="15%">Out</td>
+											<!-- <td width="15%">In</td>
+                      <td width="15%">Out</td> -->
+											<td scope="col">Lunch</td>
+											<td scope="col">Break</td>
+											<td scope="col">Late</td>
+											<td scope="col">Total</td>
+											<td scope="col">OT</td>
+											<!-- <td scope="col">OT Status</td> -->
+											<td><i class="fas fa-bars"></i></td>
+										</tr>
+									</thead>
+									<tbody>
+										<tr *ngFor="let time of mf.data; let i = index" [ngClass]="{ noOut: time.attendance[0]?.out == null, noOut: time.attendance[time.attendance.length - 1].out == null }">
+											<td>{{ i + 1 }}</td>
+											<td class="acenter">{{ time.actualDate | reversedate | date: 'shortDate' }}</td>
+											<td class="acenter">{{ time.attendance[0]?.in | reversedate | date: 'shortTime' }}</td>
+											<td class="acenter">
+												<ng-container *ngIf="time.attendance[0]?.out != null">{{ time.attendance[0]?.out | reversedate | date: 'shortTime' }}</ng-container>
+												<ng-container *ngIf="time.attendance[0]?.out == null">No Out</ng-container>
+											</td>
+											<!-- <td>
+                        <ng-container *ngIf="time.attendance.length >= 2">
+                          {{ time.attendance[time.attendance.length - 1]?.in | reversedate | date: 'shortTime' }}
+                        </ng-container>
+                      </td>
+                      <td>
+                        <ng-container *ngIf="time.attendance.length >= 2">
+                          <ng-container *ngIf="time.attendance[time.attendance.length - 1].out != null">{{ time.attendance[time.attendance.length - 1]?.out | reversedate | date: 'shortTime' }}</ng-container>
+                          <ng-container *ngIf="time.attendance[time.attendance.length - 1].out == null">No Out</ng-container>
+                        </ng-container>
+                      </td> -->
+											<td class="acenter">
+												<ng-container *ngIf="time.lunchTotal === 60">{{ '1 hr' }}</ng-container>
+												<ng-container *ngIf="time.lunchTotal < 60">{{ time.lunchTotal }} mins</ng-container>
+												<ng-container *ngIf="time.lunchTotal > 60">{{ time.lunchTotal / 60 }} hrs</ng-container>
+												<ng-container *ngIf="!time.lunchTotal">{{ '-' }}</ng-container>
+											</td>
+
+											<td class="acenter">
+												<ng-container *ngIf="time.break === 60">{{ '1 hr' }}</ng-container>
+												<ng-container *ngIf="time.break < 60 && time.break !== 0">{{ time.break }} mins</ng-container>
+												<ng-container *ngIf="time.break > 60">{{ time.break / 60 }} hrs</ng-container>
+												<ng-container *ngIf="!time.break">{{ '-' }}</ng-container>
+											</td>
+
+											<td class="acenter">
+												<ng-container *ngIf="time.late">{{ time?.late | number: '.2-2' }} </ng-container>
+												<ng-container *ngIf="!time.late">{{ '-' }}</ng-container>
+											</td>
+
+											<td class="acenter">{{ time?.total / 60 | number: '.2-2' }}</td>
+											<td class="acenter">{{ time.overtime / 60 || '...' }}</td>
+
+											<td class="acenter">
+												<a (click)="updateTime(time?.id, time?.attendance, time?.uid, time?._id)" class="pointer"><i class="fas fa-eye"></i></a>
+											</td>
+										</tr>
+										<tr>
+											<td colspan="6">TOTAL</td>
+											<td class="acenter">{{ FinalTotalLate | number: '.2-2' }}</td>
+											<td class="acenter">{{ totalMinutes / 60 | number: '.2-2' }}</td>
+											<td class="acenter">{{ FinalTotalOT / 60 | number: '.2-2' }}</td>
+											<td></td>
+											<td></td>
+										</tr>
+									</tbody>
+								</table>
+							</nb-card-body>
+						</nb-card>
+					</div>
+				</div>
+			</nb-card-body>
+		</nb-card>
+	</div>
+</div>

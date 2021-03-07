@@ -1,0 +1,317 @@
+<div class="row">
+  <div class="col-sm-12">
+    <nb-card [nbSpinner]="loading" nbSpinnerStatus="success">
+      <nb-card-header>
+        <div>
+          <div class="action-groups-header" style="float: left; clear: both">
+            Contribution Settings <ng-container *ngIf="selected">- {{ selected }} </ng-container>
+          </div>
+          <nb-actions size="medium" style="float: right; font-size: 10px">
+            <nb-action icon="plus-outline" *ngIf="selected" (click)="addNewTable(selectQuery)" nbPopover="Create new contribution table" nbPopoverMode="hint" nbPopoverPlacement="bottom"></nb-action>
+            <nb-action icon="edit-2-outline" *ngIf="selected && !noData" (click)="addNewDataToTable()" nbPopover="Add new contribution to existing table" nbPopoverMode="hint" nbPopoverPlacement="bottom"></nb-action>
+            <nb-action>
+              <div class="dropdown ghost-dropdown" ngbDropdown>
+                <!-- <button type="button"  class='dropdown-trigger btn'  style="min-width: 175px">{{ selectQueryString }} &nbsp;&nbsp;</button> -->
+                <button type="button" class="btn btn-success dropdown-toggle" ngbDropdownToggle style="min-width: 175px">{{ selectQueryString }} &nbsp;&nbsp;</button>
+                <ul class="dropdown-menu" ngbDropdownMenu>
+                  <li class="dropdown-item" (click)="selectFilter('pHealth', 'Phil Health')">Phil Health</li>
+                  <li class="dropdown-item" (click)="selectFilter('sss', 'SSS')">SSS</li>
+                  <li class="dropdown-item" (click)="selectFilter('pagIbig', 'Pag-Ibig')">Pag-Ibig</li>
+                  <li class="dropdown-item" (click)="selectFilter('tax', 'TAX')">Tax</li>
+                </ul>
+              </div>
+              <!-- <a class='dropdown-trigger btn' href='#' data-target='dropdown1'>Drop Me!</a>
+              <ul id='dropdown1' class='dropdown-content'>
+                <li><a href="#!">one</a></li>
+                <li><a href="#!">two</a></li>
+                <li class="divider" tabindex="-1"></li>
+                <li><a href="#!">three</a></li>
+                <li><a href="#!"><i class="material-icons">view_module</i>four</a></li>
+                <li><a href="#!"><i class="material-icons">cloud</i>five</a></li>
+              </ul>
+                     -->
+            </nb-action>
+            <nb-action>
+              <div class="dropdown ghost-dropdown" ngbDropdown>
+                <button class="btn btn-primary" type="button" ngbDropdownToggle>Export As &nbsp;&nbsp;&nbsp;</button>
+                <ul class="dropdown-menu" ngbDropdownMenu>
+                  <li class="dropdown-item">PDF</li>
+                  <li class="dropdown-item">Microsoft Excel</li>
+                </ul>
+              </div>
+            </nb-action>
+            <nb-action icon="printer-outline" tooltip="Print" placement="bottom"></nb-action>
+            <nb-action icon="close-circle-outline" (click)="sgs.back()" nbPopover="Close" nbPopoverMode="hint" nbPopoverPlacement="right"></nb-action>
+          </nb-actions>
+        </div>
+      </nb-card-header>
+      <nb-card-body style="min-height: 250px">
+        <div class="row empty-container" *ngIf="!selectQuery">
+          <div class="col-sm-12 empty">Please select a contribution type above to continue.</div>
+        </div>
+        <div class="row" *ngIf="selectQuery == 'pHealth'">
+          <div class="col-sm-12">
+            <div class="clear"></div>
+            <table class="table table-striped" [mfData]="table | dataFilter: filterQuery:selectQuery" #mf="mfDataTable" [mfRowsOnPage]="10" [(mfSortBy)]="sortBy" [(mfSortOrder)]="sortOrder">
+              <thead>
+                <tr>
+                  <th colspan="5" class="acenter">{{ data?.title }}</th>
+                </tr>
+                <tr>
+                  <th scope="col">
+                    Monthly Basic Salary <ng-container *ngIf="!noData">X {{ data?.percentage }}% </ng-container>
+                  </th>
+                  <th scope="col">Monthly Premium</th>
+                  <th scope="col">Personal Share</th>
+                  <th scope="col">Employer Share</th>
+                  <th scope="col" width="8%" class="acenter"><nb-icon icon="more-horizontal-outline"></nb-icon></th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td colspan="5" *ngIf="noTableData" class="error acenter">{{ errMessage }}</td>
+                </tr>
+                <tr *ngFor="let data of mf.data">
+                  <td>
+                    &#8369; {{ data.mbsFrom | number: '.2-2' }}
+                    <ng-container *ngIf="data?.mbsTo < 999999999">to &#8369; {{ data.mbsTo | number: '.2-2' }} </ng-container>
+                    <ng-container *ngIf="data?.mbsTo >= 999999999">And Above</ng-container>
+                  </td>
+                  <td>
+                    &#8369; {{ data.mpFrom | number: '.2-2' }}
+                    <ng-container *ngIf="data.mpFrom != data.mpTo">to &#8369; {{ data.mpTo | number: '.2-2' }} </ng-container>
+                  </td>
+                  <td>
+                    &#8369; {{ data.psFrom | number: '.2-2' }}
+                    <ng-container *ngIf="data.psFrom != data.psTo">to &#8369; {{ data.psTo | number: '.2-2' }} </ng-container>
+                  </td>
+                  <td>
+                    &#8369; {{ data.esFrom | number: '.2-2' }}
+                    <ng-container *ngIf="data.esFrom != data.esTo">to &#8369; {{ data.esTo | number: '.2-2' }} </ng-container>
+                  </td>
+                  <td scope="col" class="acenter">
+                    <!-- <i class="fas fa-pencil-alt pointer" (click)="edit(data)" nbPopover="Edit" nbPopoverMode="hint" nbPopoverPlacement="top"></i> -->
+                    <nb-icon icon="edit-outline" (click)="edit(data)" nbPopover="Edit" nbPopoverMode="hint" nbPopoverPlacement="top"></nb-icon>
+                    &nbsp;
+                    <!-- <i class="fas fa-trash-alt pointer" (click)="remove(data)" nbPopover="Remove" nbPopoverMode="hint" nbPopoverPlacement="top"></i> -->
+                    <nb-icon icon="trash-2-outline" (click)="remove(data)" nbPopover="Remove" nbPopoverMode="hint" nbPopoverPlacement="top"></nb-icon>
+                  </td>
+                </tr>
+              </tbody>
+              <tfoot>
+                <tr>
+                  <td colspan="10">
+                    <mfBootstrapPaginator [rowsOnPageSet]="[10, 20, 50, 100]"></mfBootstrapPaginator>
+                  </td>
+                </tr>
+              </tfoot>
+            </table>
+          </div>
+        </div>
+
+        <div class="row" *ngIf="selectQuery == 'sss'">
+          <div class="col-sm-12">
+            <div class="clear"></div>
+            <table class="table table-striped" [mfData]="table | dataFilter: filterQuery:selectQuery" #mf="mfDataTable" [mfRowsOnPage]="10" [(mfSortBy)]="sortBy" [(mfSortOrder)]="sortOrder">
+              <thead>
+                <tr>
+                  <th colspan="12" class="acenter">{{ data?.title }}</th>
+                </tr>
+                <tr class="acenter">
+                  <td rowspan="2" class="talign">
+                    RANGE OF <br />
+                    COMPENSATION
+                  </td>
+                  <td colspan="3">SOCIAL SECURITY</td>
+                  <td>EC</td>
+                  <td colspan="3">TOTAL CONTRIBUTION</td>
+                  <td rowspan="2" class="talign">
+                    TOTAL <br />
+                    CONTRIBUTION
+                  </td>
+                  <th rowspan="2" class="talign" scope="col" width="8%" class="acenter"><nb-icon icon="more-horizontal-outline"></nb-icon></th>
+                  <!-- <th rowspan="2" class="talign" scope="col" width="8%" class="acenter"><i class="fas fa-ellipsis-h"></i></th> -->
+                </tr>
+                <tr class="acenter">
+                  <td>ER</td>
+                  <td>EE</td>
+                  <td>TOTAL</td>
+                  <td>ER</td>
+                  <td>ER</td>
+                  <td>EE</td>
+                  <td>TOTAL</td>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td colspan="12" *ngIf="noTableData" class="error acenter">{{ errMessage }}</td>
+                </tr>
+                <tr *ngFor="let data of mf.data">
+                  <td>
+                    {{ data?.rcFrom | number: '.2-2' }}
+                    <ng-container *ngIf="data?.rcTo < 999999999"> - {{ data?.rcTo | number: '.2-2' }} </ng-container>
+                    <ng-container *ngIf="data?.rcTo >= 999999999"> Over</ng-container>
+                  </td>
+                  <td class="aright">{{ data?.ssER | number: '.2-2' }}</td>
+                  <td class="aright">{{ data?.ssEE | number: '.2-2' }}</td>
+                  <td class="aright">{{ data?.ssER + data?.ssEE | number: '.2-2' }}</td>
+                  <td class="aright">{{ data?.ecER | number: '.2-2' }}</td>
+                  <td class="aright">{{ data?.ssER + data?.ecER | number: '.2-2' }}</td>
+                  <td class="aright">{{ data?.ssER | number: '.2-2' }}</td>
+                  <td class="aright">{{ data?.ssER + data?.ssEE + data?.ecER | number: '.2-2' }}</td>
+                  <td class="aright">{{ data?.ssER + data?.ssEE | number: '.2-2' }}</td>
+                  <td class="aright">
+                    <!-- <i class="fas fa-pencil-alt pointer" (click)="edit(data)" nbPopover="Edit" nbPopoverMode="hint" nbPopoverPlacement="top"></i> -->
+                    <nb-icon icon="edit-outline" (click)="edit(data)" nbPopover="Edit" nbPopoverMode="hint" nbPopoverPlacement="top"></nb-icon>
+                    &nbsp;
+                    <!-- <i class="fas fa-trash-alt pointer" (click)="remove(data)" nbPopover="Remove" nbPopoverMode="hint" nbPopoverPlacement="top"></i> -->
+                    <nb-icon icon="trash-2-outline" (click)="remove(data)" nbPopover="Remove" nbPopoverMode="hint" nbPopoverPlacement="top"></nb-icon>
+                  </td>
+                </tr>
+              </tbody>
+              <tfoot>
+                <tr>
+                  <td colspan="12">
+                    <mfBootstrapPaginator [rowsOnPageSet]="[10, 20, 50, 100]"></mfBootstrapPaginator>
+                  </td>
+                </tr>
+              </tfoot>
+            </table>
+          </div>
+        </div>
+
+        <div class="row" *ngIf="selectQuery == 'pagIbig'">
+          <div class="col-sm-12">
+            <table class="table table-striped" [mfData]="table | dataFilter: filterQuery:selectQuery" #mf="mfDataTable" [mfRowsOnPage]="10" [(mfSortBy)]="sortBy" [(mfSortOrder)]="sortOrder">
+              <thead>
+                <tr>
+                  <th colspan="4" class="acenter">{{ data?.title }}</th>
+                </tr>
+                <tr class="acenter">
+                  <th rowspan="2" class="talign">Montlhy Compensation</th>
+                  <th colspan="2">Percentage of Monthly Compensation</th>
+                  <th rowspan="2" class="talign" scope="col" width="8%"><i class="fas fa-ellipsis-h"></i></th>
+                </tr>
+                <tr class="acenter">
+                  <th>Employee Share</th>
+                  <th>Employer Share</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td colspan="12" *ngIf="noTableData" class="error acenter">{{ errMessage }}</td>
+                </tr>
+                <tr *ngFor="let data of mf.data">
+                  <td>
+                    &#8369; {{ data?.mcFrom | number: '.2-2' }}
+                    <ng-container *ngIf="data?.mcTo < 999999999"> - &#8369; {{ data?.mcTo | number: '.2-2' }} </ng-container>
+                    <ng-container *ngIf="data?.mcTo >= 999999999"> and Over</ng-container>
+                  </td>
+                  <td>{{ data?.ees }} %</td>
+                  <td>{{ data?.ers }} %</td>
+                  <td class="aright">
+                    <!-- <i class="fas fa-pencil-alt pointer" (click)="edit(data)" nbPopover="Edit" nbPopoverMode="hint" nbPopoverPlacement="top"></i> -->
+                    <nb-icon icon="edit-outline" (click)="edit(data)" nbPopover="Edit" nbPopoverMode="hint" nbPopoverPlacement="top"></nb-icon>
+
+                    &nbsp;
+                    <!-- <i class="fas fa-trash-alt pointer" (click)="remove(data)" nbPopover="Remove" nbPopoverMode="hint" nbPopoverPlacement="top"></i> -->
+                    <nb-icon icon="trash-2-outline" (click)="remove(data)" nbPopover="Remove" nbPopoverMode="hint" nbPopoverPlacement="top"></nb-icon>
+                  </td>
+                </tr>
+              </tbody>
+              <tfoot>
+                <tr>
+                  <td colspan="12">
+                    <mfBootstrapPaginator [rowsOnPageSet]="[10, 20, 50, 100]"></mfBootstrapPaginator>
+                  </td>
+                </tr>
+              </tfoot>
+            </table>
+          </div>
+        </div>
+
+        <!-- <div class="row" *ngIf="selectQuery == 'tax'">
+          <div class="col-sm-12">
+            <table class="table custom" [mfData]="table | dataFilter : filterQuery: selectQuery" #mf="mfDataTable" [mfRowsOnPage]="10" [(mfSortBy)]="sortBy" [(mfSortOrder)]="sortOrder">
+              <thead>
+                <tr>
+                  <th colspan="8" class="acenter">{{ data?.title }}</th>
+                </tr>
+              </thead>
+              <tbody>
+                <ng-container *ngFor="let data of mf.data; let i = index">
+                  <tr class="acenter" style="background-color: #f5f5f5; font-weight: bold">
+                    <td>{{ data.type }}</td>
+                    <td>1</td>
+                    <td>2</td>
+                    <td>3</td>
+                    <td>4</td>
+                    <td>5</td>
+                    <td>6</td>
+                  </tr>
+                  <tr>
+                    <td>Compensation Range</td>
+                    <td *ngFor="let a of data.data">
+                      &#8369; {{ a.compFrom }}
+                      <ng-container *ngIf="data?.compTo < 999999999"> - &#8369; {{ data?.compTo | number:'.2-2'}} </ng-container>
+                      <ng-container *ngIf="data?.compTo >= 999999999"> and Over</ng-container>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>Prescribed Withholding Tax</td>
+                    <td *ngFor="let a of data.data">
+                      {{ a.presWT }} {{ a.presExc }}% <br /> + over  &#8369; {{ a.compFrom }}
+                    </td>
+                  </tr>
+                </ng-container>
+              </tbody>
+              <tfoot>
+                <tr>
+                  <td colspan="12">
+                    <mfBootstrapPaginator [rowsOnPageSet]="[10,20,50,100]"></mfBootstrapPaginator>
+                  </td>
+                </tr>
+              </tfoot>
+            </table>
+          </div>
+        </div> -->
+        <div class="row" *ngIf="selectQuery == 'tax'">
+          <div class="col-sm-12">
+            <table class="table custom">
+              <thead>
+                <tr>
+                  <th colspan="8" class="acenter">{{ data?.title }}</th>
+                </tr>
+                <tr class="acenter">
+                  <th>Lower Limit</th>
+                  <th>Upper Limit</th>
+                  <th>Tax on lower limit</th>
+                  <th>Tax on excess over lower limit</th>
+                  <th><i class="fas fa-ellipsis-h"></i></th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let data of table; let i = index">
+                  <td>{{ data?.lowerLimit | number: '.2-2' }}</td>
+                  <td>
+                    <ng-container *ngIf="data?.upperLimit < 999999999"> {{ data?.upperLimit | number: '.2-2' }} </ng-container>
+                    <ng-container *ngIf="data?.upperLimit >= 999999999"> and Over</ng-container>
+                  </td>
+                  <td>{{ data?.taxOnLower | number: '.2-2' }}</td>
+                  <td>{{ data?.taxOnExcess }} %</td>
+                  <td class="aright">
+                    <!-- <i class="fas fa-pencil-alt pointer" (click)="edit(data)" nbPopover="Edit" nbPopoverMode="hint" nbPopoverPlacement="top"></i> -->
+                    <nb-icon icon="edit-outline" (click)="edit(data)" nbPopover="Edit" nbPopoverMode="hint" nbPopoverPlacement="top"></nb-icon>
+                    &nbsp;
+                    <!-- <i class="fas fa-trash-alt pointer" (click)="remove(data)" nbPopover="Remove" nbPopoverMode="hint" nbPopoverPlacement="top"></i> -->
+                    <nb-icon icon="trash-2-outline" (click)="remove(data)" nbPopover="Remove" nbPopoverMode="hint" nbPopoverPlacement="top"></nb-icon>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </nb-card-body>
+    </nb-card>
+  </div>
+</div>

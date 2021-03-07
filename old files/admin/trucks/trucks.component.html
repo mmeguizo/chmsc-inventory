@@ -1,0 +1,103 @@
+<div class="row">
+	<div class="col-sm-12">
+		<nb-card [nbSpinner]="loading" nbSpinnerStatus="success">
+			<nb-card-header>
+				<div class="action-groups-header" style="float: left; clear: both">Truck Database</div>
+				<nb-actions size="medium" style="float: right; font-size: 10px">
+					<nb-action>
+						<div class="input-group">
+							<input type="search" #search class="form-control" [placeholder]="selectQueryString" [(ngModel)]="filterQuery" />
+							<div class="input-group-append">
+								<span class="input-group-text pointer" [nbPopover]="filter" nbPopoverPlacement="bottom">
+									<i class="fas fa-filter"></i>
+								</span>
+							</div>
+						</div>
+					</nb-action>
+					<nb-action *ngIf="hasSelected" tooltip="Remove all selected data" class="pointer" placement="bottom" (click)="deleteAll()"
+						><div class="small-text">Delete All <i class="fas fa-trash error"></i></div
+					></nb-action>
+					<nb-action tooltip="Add Truck Model" class="pointer" (click)="addCategories()" placement="bottom"
+						><div class="small-text">Truck Model <i class="fa fa-shuttle-van circle-active"></i></div
+					></nb-action>
+					<nb-action tooltip="Add Truck Model" class="pointer" (click)="addTruckType()" placement="bottom"
+						><div class="small-text">Truck Type <i class="fa fa-truck-monster circle-active"></i></div
+					></nb-action>
+					<nb-action tooltip="Add New Truck" class="pointer" (click)="addVehicle()" placement="bottom"
+						><div class="small-text">New Vehicle <i class="fas fa-truck circle-active"></i></div
+					></nb-action>
+					<nb-action (click)="sgs.back()" tooltip="Click to go back" placement="bottom" class="apear_behind pointer"
+						><div class="small-text">Back <i class="fas fa-backspace color-dark"></i></div
+					></nb-action>
+				</nb-actions>
+			</nb-card-header>
+			<nb-card-body>
+				<div class="row table-responsive-xl">
+					<div class="col-sm-12">
+						<div class="clear"></div>
+						<table class="table" [mfData]="data | dataFilter: filterQuery:selectQuery" #mf="mfDataTable" [mfRowsOnPage]="10" [(mfSortBy)]="sortBy" [(mfSortOrder)]="sortOrder">
+							<thead>
+								<tr>
+									<th width="1%"></th>
+									<th scope="col">#</th>
+									<th scope="col">Name</th>
+									<th scope="col">Model</th>
+									<th scope="col">Type</th>
+									<th scope="col">Plate Number</th>
+									<th scope="col" width="5%">Options</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr *ngIf="mf.data.length < 1">
+									<td colspan="7" class="acenter error">No data found</td>
+								</tr>
+								<tr *ngFor="let data of mf.data; let idx = index">
+									<td>
+										<mat-checkbox class="example-margin" (click)="choose(data)"></mat-checkbox>
+									</td>
+									<td scope="col">{{ (mf.activePage - 1) * mf.rowsOnPage + idx + 1 }}</td>
+									<td scope="col">{{ data.truckModel | titlecase }}</td>
+									<td scope="col">{{ data.category | titlecase }}</td>
+									<td scope="col">{{ data.truckType | titlecase }}</td>
+									<td scope="col">{{ data.plate | uppercase }}</td>
+									<td scope="col">
+										<div class="btn-group" dropdown placement="bottom right">
+											<i id="button-alignment" dropdownToggle class="fas fa-chevron-circle-down" aria-controls="dropdown-alignment"></i>
+											<ul id="dropdown-alignment" *dropdownMenu class="dropdown-menu dropdown-menu-right" role="menu" aria-labelledby="button-alignment">
+												<li role="menuitem" class="dropdown-item pointer" (click)="deleteTruck(data.id)"><nb-icon icon="trash-outline" style="color: #ff5e00"></nb-icon>Delete Truck</li>
+												<li role="menuitem" class="dropdown-item pointer" (click)="viewTrim(data)"><nb-icon icon="eye-outline" style="color: rgb(0, 132, 255)"></nb-icon> Truck File</li>
+												<li role="menuitem" class="dropdown-item pointer" [routerLink]="['/admin/view-maintenance', data?.id]">
+													<nb-icon icon="edit-2" style="color: rgb(0, 132, 255)"></nb-icon> Truck Maintenance
+												</li>
+											</ul>
+										</div>
+									</td>
+								</tr>
+							</tbody>
+							<tfoot>
+								<tr>
+									<td colspan="10">
+										<mfBootstrapPaginator [rowsOnPageSet]="[10, 20, 50, 100]"></mfBootstrapPaginator>
+									</td>
+								</tr>
+							</tfoot>
+						</table>
+					</div>
+				</div>
+			</nb-card-body>
+		</nb-card>
+	</div>
+</div>
+
+<ng-template #filter nbPopoverTrigger="noop">
+	<nb-card style="margin-bottom: 0">
+		<nb-card-header> Search Filter: </nb-card-header>
+		<nb-list>
+			<nb-list-item class="pointer" (click)="selectFilter('id', 'Truck ID')">Truck ID</nb-list-item>
+			<nb-list-item class="pointer" (click)="selectFilter('category', 'Category')">Category</nb-list-item>
+			<nb-list-item class="pointer" (click)="selectFilter('vehicleDescription', 'Truck Description')">Truck Description</nb-list-item>
+			<nb-list-item class="pointer" (click)="selectFilter('truckType', 'Vehicle Type')">Vehicle Type</nb-list-item>
+			<nb-list-item class="pointer" (click)="selectFilter('plate', 'Plate Number')">Plate Number</nb-list-item>
+		</nb-list>
+	</nb-card>
+</ng-template>

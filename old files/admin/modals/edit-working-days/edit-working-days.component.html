@@ -1,0 +1,98 @@
+<div class="modal-header">
+	Edit Working Days
+	<button class="close" aria-label="Close" (click)="closeModal()">
+		<span aria-hidden="true">&times;</span>
+	</button>
+</div>
+<form [formGroup]="form" (ngSubmit)="editWorkingDays(form)">
+	<div class="modal-body">
+		<div class="divider"><span></span><span class="mainText">Time 🛠️</span><span></span></div>
+		<div class="row">
+			<div class="col-sm-6">
+				<div class="form-group">
+					<label class="acenter font-italic">Start</label>
+					<timepicker [showSpinners]="false" formControlName="start"></timepicker>
+				</div>
+			</div>
+			<div class="col-sm-6">
+				<div class="form-group">
+					<label class="acenter font-italic">Out</label>
+					<timepicker [showSpinners]="false" formControlName="end"></timepicker>
+				</div>
+			</div>
+		</div>
+		<div class="divider"><span></span><span class="mainText">Grace Period 🛠️</span><span></span></div>
+		<div class="row">
+			<div class="col-sm-6">
+				<div class="form-group">
+					<label class="font-italic">Grace Period</label>
+					<timepicker [showSpinners]="false" formControlName="grace"></timepicker>
+				</div>
+			</div>
+			<div class="col-sm-6">
+				<div class="form-group">
+					<label class="font-italic">Grace Time</label>
+					<timepicker [showSpinners]="false" formControlName="graceTime"></timepicker>
+				</div>
+			</div>
+		</div>
+		<div class="divider"><span></span><span class="mainText">Lunch / Break / OFF-label 🛠️</span><span></span></div>
+		<div class="row">
+			<div class="col-sm-4">
+				<div class="form-group">
+					<label class="acenter font-italic">Lunch Hour</label>
+					<input type="number" min="0" class="form-control" [ngClass]="{ fieldError: form.get('lunch').touched && form.controls['lunch'].errors?.required }" formControlName="lunch" />
+				</div>
+			</div>
+			<div class="col-sm-4">
+				<div class="form-group">
+					<label class="acenter font-italic">Break Minutes</label>
+					<input type="number" min="0" class="form-control" [ngClass]="{ fieldError: form.get('break').touched && form.controls['break'].errors?.required }" formControlName="break" />
+				</div>
+			</div>
+			<div class="col-sm-4">
+				<div class="form-group">
+					<label class="acenter font-italic">Off-label</label>
+					<input type="text" class="form-control" [ngClass]="{ fieldError: form.get('dayOffLabel').touched && form.controls['dayOffLabel'].errors?.required }" formControlName="dayOffLabel" />
+				</div>
+			</div>
+		</div>
+		<div class="divider"><span></span><span class="mainText">Working / Off Days 🛠️ </span><span></span></div>
+		<div class="row">
+			<div class="col-sm-6">
+				<mat-form-field>
+					<mat-label>Working Days</mat-label>
+					<mat-select [compareWith]="compareById" formControlName="workingDays" #type id="workingDays" multiple>
+						<mat-option [value]="{ name: 'monday' }">Monday</mat-option>
+						<mat-option [value]="{ name: 'tuesday' }">Tuesday</mat-option>
+						<mat-option [value]="{ name: 'wednesday' }">Wednesday</mat-option>
+						<mat-option [value]="{ name: 'thursday' }">Thursday</mat-option>
+						<mat-option [value]="{ name: 'friday' }">Friday</mat-option>
+						<mat-option [value]="{ name: 'saturday' }">Saturday</mat-option>
+						<mat-option [value]="{ name: 'sunday' }">Sunday</mat-option>
+					</mat-select>
+					<mat-error *ngIf="form?.get('workingDays').touched && form.controls['workingDays'].errors?.required">Working Days<strong>required </strong> </mat-error>
+				</mat-form-field>
+			</div>
+			<div class="col-sm-6">
+				<mat-form-field>
+					<mat-label>Off Days</mat-label>
+					<mat-select [compareWith]="compareById" formControlName="dayOff" #type id="dayOff" multiple>
+						<mat-option [value]="{ name: 'saturday' }">Saturday</mat-option>
+						<mat-option [value]="{ name: 'sunday' }">Sunday</mat-option>
+						<mat-option [value]="{ name: 'monday' }">Monday</mat-option>
+						<mat-option [value]="{ name: 'tuesday' }">Tuesday</mat-option>
+						<mat-option [value]="{ name: 'wednesday' }">Wednesday</mat-option>
+						<mat-option [value]="{ name: 'thursday' }">Thursday</mat-option>
+						<mat-option [value]="{ name: 'friday' }">Friday</mat-option>
+					</mat-select>
+					<mat-error *ngIf="form?.get('dayOff').touched && form.controls['dayOff'].errors?.required">OFF is <strong>required </strong> </mat-error>
+				</mat-form-field>
+			</div>
+		</div>
+	</div>
+	<div class="modal-footer">
+		<button class="btn btn-danger" (click)="closeModal()">Close</button>
+		<button type="submit" class="btn btn-success confirm-btn" [disabled]="form?.invalid">Submit</button>
+	</div>
+</form>

@@ -1,0 +1,42 @@
+<nb-card>
+	<nb-card-header>
+		Add Model
+		<button class="close" aria-label="Close" (click)="closeModal()">
+			<span aria-hidden="true">&times;</span>
+		</button>
+	</nb-card-header>
+	<nb-card-body [nbSpinner]="loading" nbSpinnerStatus="success" [formGroup]="form">
+		<div class="row">
+			<div class="col-md-12">
+				<mat-form-field class="input-example">
+					<mat-label>Create Model:</mat-label>
+					<input matInput autocomplete="off" formControlName="categories" required />
+					<mat-error *ngIf="form.get('categories').touched && form.controls['categories'].errors?.required">Category is required</mat-error>
+				</mat-form-field>
+			</div>
+			<div class="col-md-12" *ngIf="categoryData.length > 0">
+				<hr />
+				<table class="table table-bordered">
+					<thead>
+						<tr>
+							<th>Model</th>
+							<th>Option</th>
+						</tr>
+					</thead>
+					<tbody *ngFor="let cat of categoryData; let i = index">
+						<td>{{ cat?.categories | titlecase }}</td>
+						<td>
+							<i class="fas fa-pencil-alt pointer" (click)="edit(cat)"></i>&nbsp;
+							<i class="far fa-trash-alt pointer" (click)="delete(i)"></i>
+						</td>
+					</tbody>
+				</table>
+			</div>
+		</div>
+	</nb-card-body>
+	<nb-card-footer class="aright">
+		<button nbButton matRipple hero status="danger" (click)="closeModal()">Close</button>
+		&nbsp;
+		<button nbButton matRipple hero status="primary" [disabled]="form?.invalid || sgs.submitting" (click)="sgs.submitting = true; save()">Save</button>
+	</nb-card-footer>
+</nb-card>

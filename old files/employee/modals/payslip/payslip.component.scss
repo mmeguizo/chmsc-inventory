@@ -1,0 +1,200 @@
+.fieldError{
+    border: 2px solid #ff6b83;
+}
+.profile-card{
+    margin-top: 5px;
+}
+.position{
+    font-size: 10px;
+}
+.title{
+    font-size: 11px;
+}
+.noProfile{
+  min-height: 100px;
+}
+
+
+
+.main-container{
+    width: 100%;
+    height: 100%;
+    padding: 5px;
+}
+.employee-info-container{
+    height: 100%;
+    width: 95%;
+    margin: auto;
+    padding-bottom: 20px;
+    .emp-no{
+        width: 20%;
+        height: 50px;
+        border: 1px solid #74D6E7;
+        float: left;
+    }
+    .emp-name{
+        width: 49%;
+        height: 50px;
+        border: 1px solid #74D6E7;
+        margin-left: 10px;
+        float: left;
+    }
+    .process-date{
+        width: 28%;
+        height: 50px;
+        border: 1px solid #74D6E7;
+        margin-left: 10px;
+        float: left;
+    }
+    .header{
+        width: 100%;
+        height: 20px;
+        background-color: #74D6E7;;
+        color: #fff;
+        text-align: center;
+    }
+    .content{
+        height: 28px;
+        width: 100%;
+        line-height: 25px;
+        font-size: 13pt;
+        text-align: center;
+        margin-left: 5px;
+    }
+}
+
+.payments-container{
+    width: 100%;
+    height: 100%;
+    margin-top: 10px;
+    float: left;
+    .payments-info{
+        width: 54%;
+        height: 100%;
+        float:left;
+        .top{
+            width: 100%;
+            float: left;
+            border: 1px solid #74D6E7;
+        }
+        .bottom{
+            width: 100%;
+            float: left;
+            margin-top: 10px;
+            border: 1px solid #74D6E7;
+        }
+    }
+    .deductions-info{
+        width: 45%;
+        height: 100%;
+        border: 1px solid #74D6E7;
+        float:left;
+        margin-left: 5px;
+    }
+    .header{
+        width: 100%;
+        height: 20px;
+        background-color: #74D6E7;
+        color: #fff;
+    }
+    .secA{
+        width:50%;
+        text-align: left;
+        margin-left: 10px;
+        float:left;
+        line-height: 20px;
+    }
+    .secB{
+        width:41%;
+        text-align: right;
+        margin-right: 10px;
+        float:left;
+        line-height: 20px;
+    }   
+    .secC{
+        width:50%;
+        text-align: left;
+        margin-left: 10px;
+        float:left;
+        line-height: 20px;
+        font-weight: bold;
+        margin-top: 20px;
+    }
+    .secD{
+        width:41%;
+        text-align: right;
+        margin-right: 10px;
+        float:left;
+        line-height: 20px;
+        font-weight: bold;
+        margin-top: 20px;
+    }   
+    .content.bordered-top{
+        border-top: 1px solid black;
+    }
+    .deduction-total{
+        height: 28px;
+        width: 100%;
+        line-height: 25px;
+        font-size: 13pt;
+    }
+    .payments-total{
+        height: 28px;
+        width: 100%;
+        line-height: 25px;
+        font-size: 13pt; 
+    }
+}
+
+.others-container{
+    width: 100%;
+    height: 100%;
+    margin-top: 10px;
+    float: left;
+    .lates-container{
+        width: 70%;
+        height: 100%;
+        float:left;
+        border: 1px solid #74D6E7;
+    }   
+    .net-container{
+        width: 28%;
+        height: 100%;
+        border: 1px solid #74D6E7;
+        float: right;
+        margin-left: 1%;
+        border-radius: 8px;
+        .net-header{
+            width: 100%;
+            height: 35px;
+            font-size: 22px;
+            padding-left: 10px;
+            padding-top: 5px;
+        }
+        .net-content{
+            text-align: right;
+            font-size: 26px;
+            padding-right: 10px;
+        }
+    }   
+    .header{
+        width: 100%;
+        height: 20px;
+        background-color: #74D6E7;
+        color: #fff;
+    }
+    .secA{
+        width:50%;
+        text-align: left;
+        margin-left: 10px;
+        float:left;
+        line-height: 20px;
+    }
+    .secB{
+        width:41%;
+        text-align: right;
+        margin-right: 10px;
+        float:left;
+        line-height: 20px;
+    }
+}

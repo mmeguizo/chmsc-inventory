@@ -1,0 +1,45 @@
+<nb-card>
+	<nb-card-header>
+		Add New Materials
+		<button class="close" aria-label="Close" (click)="closeModal()">
+			<span aria-hidden="true">&times;</span>
+		</button>
+	</nb-card-header>
+	<nb-card-body [nbSpinner]="sgs.loading" nbSpinnerStatus="success" [formGroup]="form">
+		<div class="row">
+			<div class="col-md-4">
+				<div class="input-group mb-2">
+					<input type="text" class="form-control" readonly placeholder="Select Material" formControlName="material" required />
+					<div class="input-group-append">
+						<button class="btn btn-primary" (click)="selectMaterials()">Select</button>
+					</div>
+				</div>
+				<mat-error *ngIf="form.get('material').touched && form.controls['material'].errors?.required"><span class="matError">Material is required</span> </mat-error>
+			</div>
+			<div class="col-md-4" formGroupName="stock">
+				<mat-form-field class="input-example">
+					<mat-label>Lot</mat-label>
+					<input type="number" matInput autocomplete="off" (blur)="lotDuplicateChecker($event)" formControlName="lot" />
+				</mat-form-field>
+			</div>
+			<div class="col-md-4" formGroupName="stock">
+				<mat-form-field class="input-example">
+					<mat-label>Qty</mat-label>
+					<input matInput type="number" autocomplete="off" formControlName="qty" required min="0" />
+					<mat-error *ngIf="form.get('stock.qty').touched && form.get('stock.qty').invalid">Qty is required</mat-error>
+				</mat-form-field>
+			</div>
+			<div class="col-md-12" formGroupName="stock">
+				<mat-form-field>
+					<mat-label>NoteField</mat-label>
+					<textarea matInput cols="30" rows="10" class="form-control" formControlName="noteField"> </textarea>
+				</mat-form-field>
+			</div>
+		</div>
+	</nb-card-body>
+	<nb-card-footer class="aright">
+		<button nbButton matRipple hero status="danger" (click)="closeModal()">Close</button>
+		&nbsp;
+		<button nbButton matRipple hero status="primary" [disabled]="form?.invalid || sgs.submitting || duplicate" (click)="sgs.submitting = true; addStock()">Save</button>
+	</nb-card-footer>
+</nb-card>

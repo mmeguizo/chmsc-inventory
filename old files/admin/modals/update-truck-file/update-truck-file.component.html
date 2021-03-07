@@ -1,0 +1,185 @@
+<nb-card>
+	<nb-card-header>
+		Update Truck File
+		<button class="close" aria-label="Close" (click)="closeModal()">
+			<span aria-hidden="true">&times;</span>
+		</button>
+	</nb-card-header>
+	<nb-card-body [nbSpinner]="sgs.loading" nbSpinnerStatus="success" [formGroup]="form">
+		<br />
+		<div class="header acenter">
+			<h3>Name/Category/Model/Type</h3>
+		</div>
+		<mat-divider></mat-divider>
+		<br />
+		<div class="row">
+			<br />
+			<div class="col-md-6">
+				<mat-label>Category:</mat-label>
+				<mat-form-field class="input-example">
+					<mat-select [compareWith]="compareById" formControlName="category" required>
+						<mat-option *ngFor="let category of categoryData" [value]="category.categories">{{ category.categories }}</mat-option>
+					</mat-select>
+					<mat-error *ngIf="form.get('category').touched && form.controls['category'].errors?.required">Category is required</mat-error>
+				</mat-form-field>
+			</div>
+			<div class="col-md-6">
+				<mat-label>Select a Type:</mat-label>
+				<mat-form-field class="input-example">
+					<mat-select [compareWith]="compareById" formControlName="truckType" required>
+						<mat-option *ngFor="let types of typeData" [value]="types.type">{{ types.type | titlecase }}</mat-option>
+					</mat-select>
+					<mat-error *ngIf="form.get('truckType').touched && form.controls['truckType'].errors?.required">Type is required</mat-error>
+				</mat-form-field>
+			</div>
+		</div>
+		<br />
+		<div class="row">
+			<div class="col-md-6">
+				<mat-label>Name: </mat-label>
+				<mat-form-field class="input-example">
+					<input matInput autocomplete="off" formControlName="truckModel" />
+				</mat-form-field>
+			</div>
+			<div class="col-md-6">
+				<mat-label>Plate Number: </mat-label>
+				<mat-form-field class="input-example">
+					<input matInput autocomplete="off" formControlName="plate" />
+				</mat-form-field>
+			</div>
+		</div>
+		<br />
+		<div class="header acenter">
+			<h3>Engine/Chassis/Color/Weight</h3>
+		</div>
+		<mat-divider></mat-divider>
+		<br />
+		<div class="row">
+			<div class="col-md-6">
+				<mat-label>Engine number: </mat-label>
+				<mat-form-field class="input-example">
+					<input matInput autocomplete="off" formControlName="engine" />
+				</mat-form-field>
+			</div>
+			<div class="col-md-6">
+				<mat-label>Chassis number: </mat-label>
+				<mat-form-field class="input-example">
+					<input matInput autocomplete="off" formControlName="chassis" />
+				</mat-form-field>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-md-6">
+				<mat-label>Body Color: </mat-label>
+				<mat-form-field class="input-example">
+					<input matInput autocomplete="off" formControlName="color" />
+				</mat-form-field>
+			</div>
+			<div class="col-md-6">
+				<mat-label>Weight of truck: </mat-label>
+				<mat-form-field class="input-example">
+					<input matInput autocomplete="off" formControlName="weight" />
+				</mat-form-field>
+			</div>
+		</div>
+		<br />
+		<div class="header acenter">
+			<h3>Load/Tire/Lenght/Battery</h3>
+		</div>
+		<mat-divider></mat-divider>
+		<br />
+		<div class="row">
+			<div class="col-md-6">
+				<mat-label>Length of truck: </mat-label>
+				<mat-form-field class="input-example">
+					<input matInput autocomplete="off" formControlName="length" />
+				</mat-form-field>
+			</div>
+			<div class="col-md-6">
+				<mat-label>Load capacity: </mat-label>
+				<mat-form-field class="input-example">
+					<input matInput autocomplete="off" formControlName="capacity" />
+				</mat-form-field>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-md-6">
+				<mat-label>Tires size: </mat-label>
+				<mat-form-field class="input-example">
+					<input matInput autocomplete="off" formControlName="tireSize" />
+				</mat-form-field>
+			</div>
+			<div class="col-md-6">
+				<mat-label>Battery size: </mat-label>
+				<mat-form-field class="input-example">
+					<input matInput autocomplete="off" formControlName="batterySize" />
+				</mat-form-field>
+			</div>
+		</div>
+		<br />
+		<div class="header acenter">
+			<h3>Garage/OR/CR/Registration</h3>
+		</div>
+		<mat-divider></mat-divider>
+		<br />
+		<div class="row">
+			<div class="col-md-6">
+				<mat-label>Garage: </mat-label>
+				<mat-form-field class="input-example">
+					<input matInput autocomplete="off" formControlName="garage" />
+				</mat-form-field>
+			</div>
+			<div class="col-md-6">
+				<mat-label>OR #: </mat-label>
+				<mat-form-field class="input-example">
+					<input matInput autocomplete="off" formControlName="or" />
+				</mat-form-field>
+			</div>
+			<div class="col-md-6">
+				<mat-label>CR #: </mat-label>
+				<mat-form-field class="input-example">
+					<input matInput autocomplete="off" formControlName="cr" />
+				</mat-form-field>
+			</div>
+			<div class="col-md-6">
+				<mat-label>Date of registration: </mat-label>
+				<mat-form-field class="input-example">
+					<input matInput autocomplete="off" formControlName="dateRegister" bsDatepicker />
+				</mat-form-field>
+			</div>
+		</div>
+		<br />
+		<div class="header acenter">
+			<h3>Renewal/Insurance/Renewal</h3>
+		</div>
+		<mat-divider></mat-divider>
+		<br />
+		<div class="row">
+			<div class="col-md-6">
+				<mat-label>Truck renewal date: </mat-label>
+				<mat-form-field class="input-example">
+					<input matInput autocomplete="off" formControlName="renewal" placement="top" bsDatepicker />
+				</mat-form-field>
+			</div>
+			<div class="col-md-6">
+				<mat-label>Insurance: </mat-label>
+				<mat-form-field class="input-example">
+					<input matInput autocomplete="off" formControlName="insurance" />
+				</mat-form-field>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-md-12">
+				<mat-label>Insurance renewal date: </mat-label>
+				<mat-form-field class="input-example">
+					<input matInput autocomplete="off" formControlName="insuranceRenewal" bsDatepicker placement="top" />
+				</mat-form-field>
+			</div>
+		</div>
+	</nb-card-body>
+	<nb-card-footer class="aright">
+		<button nbButton matRipple hero status="danger" (click)="closeModal()">Close</button>
+		&nbsp;
+		<button nbButton matRipple hero status="primary" (click)="sgs.submitting = true; update()">Update</button>
+	</nb-card-footer>
+</nb-card>

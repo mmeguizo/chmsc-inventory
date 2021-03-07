@@ -1,0 +1,135 @@
+<nb-card>
+  <nb-card-header>
+    <div class="action-groups-header" style="float: left; clear: both">
+      Employee Payslip
+    </div>
+      <nb-actions size="medium" style="float: right; font-size: 10px;">
+          <nb-action (click)="customDeduction()" class="pointer" nbPopover="Custom Deduction" nbPopoverTrigger="hint" nbPopoverPlacement="top"><i class="fas fa-plus"> Add Custom Deduction</i></nb-action>
+           <nb-action nbPopover="Close"  nbPopoverTrigger="hint" nbPopoverPlacement="top"><button class="close" aria-label="Close" (click)="closeModal()"><span aria-hidden="true">&times;</span></button></nb-action>
+        </nb-actions>
+    
+  </nb-card-header>
+  <nb-card-body [nbSpinner]="loading" nbSpinnerStatus="success">
+    <div class="main-container">
+      <div class="employee-info-container">
+        <div class="emp-no">
+          <div class="header">Employee No</div>
+          <div class="content">{{data.id}}</div>
+          </div>
+          <div class="emp-name">
+            <div class="header">Employee Name</div>
+            <div class="content">{{data.fname | titlecase}} {{data.mname | titlecase}} {{data.lname | titlecase}}</div>
+            </div>
+            <div class="emp-cut-off">
+              <div class="header">Cut Off</div>
+              <div class="content">{{(cutOffFrom | reversedate)| date : "shortDate"}} - {{(cutOffTo |reversedate) | date : "shortDate"}}</div>
+              </div>
+          </div>
+
+          <div class="payments-container">
+                <div class="deductions-info1">
+                <div class="header">
+                  <div class="secA">Deductions</div>
+                  <div class="secB">Amount</div>
+                </div>
+                <ng-container *ngFor="let deduc of amount">
+                  <div class="content">
+                    <div class="secA">{{deduc.deductionName | titlecase}}</div>
+                    <div class="secB">{{deduc.deductiontotal | number: '1.2-2'}}</div>
+                  </div>
+                </ng-container>
+                <div class="deduction-total">
+                  <div class="secC">TOTAL</div>
+                  <div class="secD">{{totalAmount | number: '1.2-2'}}</div>
+                </div>
+              </div>
+              <div class="deductions-info">
+                <div class="header">
+                  <div class="secA">Deductions</div>
+                  <div class="secB">Percentage</div>
+                </div>
+
+                <ng-container *ngFor="let deduc of percent">
+                  <div class="content">
+                    <div class="secA">{{deduc.deductionName | titlecase}}</div>
+                    <div class="secB">{{deduc.deductiontotal / 100}}%</div>
+                  </div>
+                </ng-container>
+                <div class="deduction-total">
+                  <div class="secC">TOTAL</div>
+                  <div class="secD">{{totalPercent / 100}}%</div>
+                </div>
+              </div>
+          </div>
+          <br>
+           <div class="payment-sumary">
+              <div class="top">
+                <div class="header">
+                  <div class="secA">Summary</div>
+                  <div class="secB">Amount</div>
+                </div>
+                <div class="content">
+                  <div class="secA">Total Hours</div>
+                  <div class="secB" (click)="changeTotalHours(data.id,data.employmentDetails.totalHours)">
+                    <span class="secE pointer" nbTooltip="Click to Change Total hours"
+                    nbTooltipPlacement="top">
+                    {{data.employmentDetails.totalHours == undefined ? '0' : data.employmentDetails.totalHours }}
+                  </span>
+                  </div>
+                </div>
+                <div class="content">
+                  <div class="secA">Hourly Rate</div>
+                  <div class="secB">{{data?.employmentDetails.hourlyRate | number: '1.2-2'}}</div>
+                </div>
+                <div class="content">
+                  <div class="secA">Monthly Rate</div>
+                  <div class="secB">{{data?.employmentDetails.monthlySalary | number: '1.2-2'}}</div>
+                </div>
+              </div>
+              </div>
+           <div class="payment-sumary1">
+              <div class="top">
+                <div class="header">
+                  <div class="secA">Summary</div>
+                  <div class="secB">Amount</div>
+                </div>
+                <div class="content">
+                  <div class="secA">Net Worth</div>
+                  <div class="secB">
+                    {{netPay}}
+                  </div>
+                </div>
+                <div class="content">
+                  <div class="secA">Total Amount</div>
+                  <div class="secB">{{totalAmount}}</div>
+                </div>
+                <div class="content">
+                  <div class="secA">Total Percentage</div>
+                  <div class="secB">{{totalPercent /100 }}%</div>
+                </div>
+                <hr>
+                  <div class="content">
+                  <div class="secA">Net Pay</div>
+                  <div class="secB"> {{netPay === undefined ? '' :(netPay - (totalPercent / 100) * netPay) - totalAmount}}</div>
+                </div>
+              </div>
+              </div>
+        
+          <!-- <div class="net-container">
+            <div class="net-header">
+              Net Pay:
+            </div>
+            <div class="net-content">
+             
+            </div>
+          </div> -->
+          </div>
+
+
+  </nb-card-body>
+  <nb-card-footer class="aright">
+    <button nbButton matRipple hero status="primary" *ngIf="btnStatus== true" [disabled]="sgs.submitting" (click)="save()">Save</button>
+    &nbsp;
+    <button nbButton matRipple hero status="danger"  (click)="closeModal()">Close</button>
+  </nb-card-footer>
+</nb-card>

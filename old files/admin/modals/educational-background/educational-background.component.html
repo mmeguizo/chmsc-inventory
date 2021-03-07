@@ -1,0 +1,49 @@
+<div class="modal-header">
+  Update Educational Information
+  <button class="close" aria-label="Close" (click)="closeModal()">
+      <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+<form [formGroup]="form" (ngSubmit)="update(form)">
+  <div class="modal-body">
+    <div class="row">
+      <div class="col-md-12">
+        <label><span class="error">*</span> Education:</label>
+        <select class="form-control" formControlName="education" [ngClass]="{'fieldError': form.get('education').touched && form.controls['education'].errors?.required}">
+          <option disabled></option>
+          <option>Elementary</option>
+          <option>High School</option>
+          <option>Vocational</option>
+          <option>Bachelor's Level</option>
+          <option>Masters Level</option>
+          <option>Doctoral Level</option>
+        </select>
+      </div>
+      <div class="col-md-12">
+        <label><span class="error">*</span> School Name:</label>
+        <input type="text" class="form-control" formControlName="school" [ngClass]="{'fieldError': form.get('school').touched && form.controls['school'].errors?.required}">
+      </div>
+      <div class="col-md-12">
+        <label>Location</label>
+        <input type="text" class="form-control" formControlName="location">
+      </div>
+      <div class="col-md-12">
+        <label><span class="error">*</span> School Year</label>
+        <input type="text" class="form-control" formControlName="schoolYear" [ngClass]="{'fieldError': form.get('schoolYear').touched && form.controls['schoolYear'].errors?.required}">
+      </div>
+      <div class="col-md-12">
+        <label>Course Of Study</label>
+        <input type="text" class="form-control" formControlName="courseOfStudy" [ngClass]="{'disabled': form.get('education').value == 'Elementary' || form.get('education').value == 'High School'}">
+      </div>
+      <div class="col-md-12">
+        <label>degree</label>
+        <input type="text" class="form-control" formControlName="degree" [ngClass]="{'disabled': form.get('education').value == 'Elementary' || form.get('education').value == 'High School'}">
+      </div>
+    </div>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-default" (click)="closeModal()">Close</button>
+    <button type="submit" class="btn btn-success confirm-btn" [disabled]="form?.invalid">Submit</button>
+  </div>
+</form>
+  

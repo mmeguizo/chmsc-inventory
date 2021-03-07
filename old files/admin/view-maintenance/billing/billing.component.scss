@@ -1,0 +1,38 @@
+@import '../../../@theme/styles/themes';
+
+.example-radio-group {
+  display: inline-block;
+
+}
+.mat-radio-button ~ .mat-radio-button {
+  margin-left: 2rem;
+}
+
+
+ .truck{
+    margin-left: 10rem;
+    margin-top: -1.25rem;
+ }
+
+ .truckModel{
+    //  background-color: blue;
+     font-size: 1rem;
+     font-weight: bolder ;
+ }
+
+
+.input-example{
+margin-bottom:-2rem;
+}
+.mat-form-field{
+  width: 100% !important;
+}
+.scope{
+    text-align: center;
+}
+
+@include nb-install-component() {
+  .accordion-container:first-child {
+    margin-bottom: nb-theme(card-margin-bottom);
+  }
+}

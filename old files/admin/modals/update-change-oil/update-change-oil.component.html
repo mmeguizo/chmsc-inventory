@@ -1,0 +1,63 @@
+<nb-card>
+  <nb-card-header>
+    Update Change Oil
+    <button class="close" aria-label="Close" (click)="closeModal()">
+        <span aria-hidden="true">&times;</span>
+    </button>
+  </nb-card-header>
+  <nb-card-body >
+    <div class="row">
+      <div class="col-sm-4">
+        <label>Truck ID: &nbsp; <b>{{truck.id}}</b></label>
+      </div>
+    </div>
+    <div class="row clear">
+      <div class="col-sm-6">
+        <label>Name: &nbsp; <b>{{truck.truckModel | uppercase}}</b></label>
+      </div>
+      <div class="col-sm-6">
+        <label>Plate No.: &nbsp; <b>{{truck.plate | uppercase}}</b></label>
+      </div>
+    </div>
+    <br>
+     <div class="row">
+      <div class="col-sm-6">
+        <mat-form-field class="input-example">
+          <mat-label>Last Change Oil:</mat-label>
+            <input matInput autocomplete="off" [(ngModel)]="changeOil" bsDatepicker>
+          </mat-form-field>
+      </div>
+      <div class="col-sm-6">
+        <mat-form-field class="input-example">
+          <mat-label>Last Gear Oil Change:</mat-label>
+            <input matInput autocomplete="off" [(ngModel)]="gearOil" bsDatepicker>
+          </mat-form-field>
+      </div>
+    </div>
+    <hr>
+    <div class="row col-sm-6">
+      <label>SELECT DATE</label>
+    </div>
+    <div class="row">
+      <div class="col-sm-6">
+        <mat-form-field class="input-example">
+          <mat-label>Next Change Oil:</mat-label>
+            <input matInput autocomplete="off" [(ngModel)]="needChangeOil" bsDatepicker>
+          </mat-form-field>
+      </div>
+
+      <div class="col-sm-6">
+        <mat-form-field class="input-example">
+          <mat-label>Next Gear Oil Change:</mat-label>
+            <input matInput autocomplete="off" [(ngModel)]="needGearOil" bsDatepicker>
+          </mat-form-field>
+      </div>
+    </div>
+    </nb-card-body>
+    <nb-card-footer class="aright">
+      <button  nbButton matRipple hero status="danger" (click)="closeModal()">Close</button>
+      &nbsp;
+      <button  nbButton matRipple hero status="primary" (click)="update()">Update</button>
+
+    </nb-card-footer>
+    </nb-card>

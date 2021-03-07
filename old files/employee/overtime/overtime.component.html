@@ -1,0 +1,128 @@
+<div class="row">
+	<div class="col-sm-12">
+		<nb-card [nbSpinner]="loading" nbSpinnerStatus="success">
+			<nb-card-header>
+				<div class="action-groups-header" style="float: left; clear: both">Overtime Requests</div>
+				<nb-actions size="medium" style="float: right; font-size: 10px">
+					<nb-action>
+						<div class="input-group">
+							<input type="search" #search class="form-control" [placeholder]="selectQueryString" [(ngModel)]="filterQuery" />
+							<div class="input-group-append">
+								<span class="input-group-text pointer" [nbPopover]="filter" nbPopoverPlacement="bottom">
+									<i class="fas fa-filter"></i>
+								</span>
+							</div>
+						</div>
+					</nb-action>
+					<nb-action icon="plus-square-outline" nbPopover="Add New Materials" nbPopoverTrigger="hint" nbPopoverPlacement="top" (click)="newRequest()"></nb-action>
+					<nb-action icon="close-square-outline" (click)="sgs.back()" nbPopover="Close" nbPopoverMode="hint" nbPopoverPlacement="bottom"></nb-action>
+				</nb-actions>
+			</nb-card-header>
+			<nb-card-body>
+				<div class="row">
+					<div class="col-sm-12">
+						<div class="clear"></div>
+						<table class="table" [mfData]="data | dataFilter: filterQuery:selectQuery" #mf="mfDataTable" [mfRowsOnPage]="10" [(mfSortBy)]="sortBy" [(mfSortOrder)]="sortOrder">
+							<thead>
+								<tr>
+									<th scope="col">Req ID#</th>
+									<th scope="col">Employee Name</th>
+									<th scope="col">Start OT</th>
+									<th scope="col">End OT</th>
+									<th scope="col">Cut Off Period</th>
+									<th scope="col">OT</th>
+									<th scope="col">Status</th>
+									<th scope="col">Reason</th>
+									<th scope="col">Payslip</th>
+									<th scope="col">Date Requested</th>
+									<th scope="col" width="5%">Options</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr *ngIf="mf.data.length < 1">
+									<td colspan="7" class="acenter error">No OT found</td>
+								</tr>
+								<tr *ngFor="let info of mf.data; let i = index">
+									<td scope="col">{{ info.id }}</td>
+									<td scope="col">{{ info.fullName | titlecase }}</td>
+									<td scope="col">{{ info.start | reversedate | date: 'shortTime' }}</td>
+									<td scope="col">{{ info.end | reversedate | date: 'shortTime' }}</td>
+									<td scope="col">{{ info.cutOffFrom | date: 'MMM dd' }} - {{ info.cutOffTo | date: 'MMM dd' }}</td>
+									<td scope="col">{{ info.minTotal / 60 || '...' }}</td>
+									<td scope="col">
+										<span
+											nbPopoverTrigger="hint"
+											nbPopoverPlacement="top"
+											[nbPopover]="info.paid === 'unpaid' ? 'Approve OT' : '💰 payment done '"
+											[ngClass]="{
+												pending: info.approved == 'pending',
+												rejected: info.approved == 'rejected',
+												approved: info.approved == 'approved' && info.paid === 'unpaid',
+												pointer: info.approved,
+												paid: info.approved && info.paid === 'paid'
+											}"
+										>
+											{{ info.approved }}</span
+										>
+									</td>
+									<td scope="col">
+										<span nbPopover="View Reason" (click)="reason(info.reason)" class="approved pointer">{{ info.reason_substring | titlecase }}</span>
+									</td>
+									<td scope="col">
+										<ng-container *ngIf="info.paid === 'paid'">
+											<button mat-stroked-button color="accent">{{ info.paid | titlecase }}</button>
+										</ng-container>
+										<ng-container *ngIf="info.paid !== 'paid'">
+											<button mat-stroked-button color="primary">{{ info.paid | titlecase }}</button>
+										</ng-container>
+									</td>
+									<td scope="col">{{ info.date_requested | reversedate | date: 'mediumDate' }}</td>
+									<td scope="col">
+										<a
+											class="pointer"
+											(click)="info.paid === 'unpaid' && deleteOT(info.id)"
+											[nbPopover]="info.paid === 'paid' ? ' ✋ can\'t do that!' : 'Delete OT'"
+											nbPopoverTrigger="hint"
+											nbPopoverPlacement="top"
+										>
+											<nb-icon icon="trash-outline" style="color: #ff5e00"></nb-icon>
+										</a>
+										&nbsp;
+										<a
+											class="pointer"
+											(click)="info.paid === 'unpaid' && update(info)"
+											[nbPopover]="info.paid === 'paid' ? '🤔 i dont think that\'s possible' : 'Update OT'"
+											nbPopoverTrigger="hint"
+											nbPopoverPlacement="top"
+										>
+											<nb-icon icon="edit-2" style="color: rgb(0, 132, 255)"></nb-icon>
+										</a>
+									</td>
+								</tr>
+							</tbody>
+							<tfoot>
+								<tr>
+									<td colspan="10">
+										<mfBootstrapPaginator [rowsOnPageSet]="[10, 20, 50, 100]"></mfBootstrapPaginator>
+									</td>
+								</tr>
+							</tfoot>
+						</table>
+					</div>
+				</div>
+			</nb-card-body>
+		</nb-card>
+	</div>
+</div>
+
+<ng-template #filter nbPopoverTrigger="noop">
+	<nb-card style="margin-bottom: 0">
+		<nb-card-header> Search Filter: </nb-card-header>
+		<nb-list>
+			<nb-list-item class="pointer" (click)="selectFilter('id', 'Req ID')">Req ID</nb-list-item>
+			<nb-list-item class="pointer" (click)="selectFilter('fullName', 'Name')"> Name</nb-list-item>
+			<nb-list-item class="pointer" (click)="selectFilter('approved', 'Status')">Status</nb-list-item>
+			<nb-list-item class="pointer" (click)="selectFilter('date_requested', 'Date Requested')">Date Requested</nb-list-item>
+		</nb-list>
+	</nb-card>
+</ng-template>

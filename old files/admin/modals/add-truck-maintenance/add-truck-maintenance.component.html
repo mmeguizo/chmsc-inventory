@@ -1,0 +1,137 @@
+<nb-card>
+	<nb-card-header>
+		Add Truck Maintenance
+		<button class="close" aria-label="Close" (click)="closeModal()">
+			<span aria-hidden="true">&times;</span>
+		</button>
+	</nb-card-header>
+	<nb-card-body>
+		<div class="row clear">
+			<div class="col-sm-4">
+				<label
+					>Truck ID: &nbsp; <b>{{ truck.id }}</b></label
+				>
+			</div>
+			<div class="col-sm-4">
+				<label
+					>Name : &nbsp; <b>{{ truck.truckModel | uppercase }}</b></label
+				>
+			</div>
+			<div class="col-sm-4">
+				<label
+					>Plate No.: &nbsp; <b>{{ truck.plate | uppercase }}</b></label
+				>
+			</div>
+		</div>
+		<hr />
+		<br />
+		<div class="row">
+			<div class="col-sm-6">
+				<mat-form-field class="input-example">
+					<mat-label>Date:</mat-label>
+					<input matInput autocomplete="off" [disabled]="lockTimeAndDateInput" [(ngModel)]="date" bsDatepicker />
+				</mat-form-field>
+			</div>
+			<div class="col-sm-6">
+				<!-- <mat-form-field class="input-example">
+					<mat-label>Time:</mat-label>
+					<input matInput autocomplete="off" [disabled]="lockTimeAndDateInput" [(ngModel)]="time" type="time" />
+        </mat-form-field> -->
+				<div class="input-example">
+					<mat-label>Time:</mat-label>
+					<timepicker autocomplete="off" [disabled]="lockTimeAndDateInput" [(ngModel)]="time"></timepicker>
+				</div>
+			</div>
+		</div>
+		<br />
+		<div class="row">
+			<div class="col-sm-6">
+				<mat-form-field class="input-example">
+					<mat-label>Inspected By:</mat-label>
+					<mat-select [(ngModel)]="inspected">
+						<mat-option [disabled]="true">Select One</mat-option>
+						<mat-option *ngFor="let data of inspector" [value]="data.id">{{ data.lname }}, {{ data.fname }}, {{ data.mname }}</mat-option>
+					</mat-select>
+				</mat-form-field>
+			</div>
+			<div class="col-sm-6">
+				<mat-form-field class="input-example">
+					<mat-label>Acknowledge by Driver:</mat-label>
+					<mat-select [(ngModel)]="acknowledge">
+						<mat-option [disabled]="true">Select One</mat-option>
+						<mat-option *ngFor="let driv of driver" [value]="driv.id">{{ driv.lname }}, {{ driv.fname }}, {{ driv.mname }}</mat-option>
+					</mat-select>
+				</mat-form-field>
+			</div>
+		</div>
+		<br />
+		<div class="row">
+			<div class="col-sm-12">
+				<mat-form-field class="input-example">
+					<mat-label>Mechanic notes:</mat-label>
+					<textarea matInput [(ngModel)]="mechanic" rows="6" cols="40"></textarea>
+				</mat-form-field>
+			</div>
+		</div>
+		<br />
+		<div class="panel panel-default">
+			<div class="panel-heading" cardTitle="Stocks Information">ITEMS LIST</div>
+			<table class="table sticky">
+				<thead>
+					<tr>
+						<th>
+							<button class="btn btn-primary" (click)="selectMaterials()">Select</button>
+						</th>
+						<th colspan="2">Item</th>
+						<th>Status</th>
+						<th>Comment</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr *ngIf="materialData.length < 1">
+						<td colspan="7" class="acenter error">No material selected</td>
+					</tr>
+					<tr *ngFor="let item of materialData; let i = index">
+						<td>
+							<mat-radio-group
+								class="example-radio-group"
+								aria-label="Select an option"
+								(change)="addItem($event, item, item.id)"
+								[disabled]="item.status === undefined || item.status === '' || item.comment === undefined || item.comment === ''"
+							>
+								<mat-radio-button value="working" color="primary">Working</mat-radio-button>
+								<mat-radio-button value="replacement" color="warn">Needs replacement</mat-radio-button>
+								<mat-radio-button value="broken" color="accent">Broken</mat-radio-button>
+							</mat-radio-group>
+						</td>
+						<td colspan="2">
+							<div class="status">
+								{{ item.name | titlecase }}
+							</div>
+						</td>
+						<td>
+							<div class="status">
+								<mat-form-field>
+									<textarea matInput rows="1" [(ngModel)]="item.status"></textarea>
+								</mat-form-field>
+							</div>
+						</td>
+						<td>
+							<div class="status">
+								<mat-form-field>
+									<textarea matInput rows="1" [(ngModel)]="item.comment"></textarea>
+								</mat-form-field>
+							</div>
+						</td>
+					</tr>
+				</tbody>
+				<tfoot></tfoot>
+			</table>
+		</div>
+	</nb-card-body>
+	<nb-card-footer class="aright">
+		<button nbButton matRipple hero status="danger" (click)="closeModal()">Close</button>
+		&nbsp;
+		<button nbButton matRipple hero status="success" (click)="add()" [disabled]="inspected == undefined || acknowledge == undefined">Add</button>
+	</nb-card-footer>
+</nb-card>

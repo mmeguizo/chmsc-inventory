@@ -1,0 +1,116 @@
+<div class="row">
+	<div class="col-sm-12">
+		<nb-card [nbSpinner]="loading" nbSpinnerStatus="success">
+			<nb-card-header>
+				<div>
+					<div class="action-groups-header" style="float: left; clear: both">
+						Time Tracking
+						<!-- - {{ toDate | date: 'fullDate' }} -->
+					</div>
+					<nb-actions size="medium" style="float: right; font-size: 10px">
+						<nb-action class="input-group-sm">
+							<input type="text" class="form-control" [(ngModel)]="toDate" [maxDate]="maxDate" bsDatepicker (onHidden)="handler($event)" />
+						</nb-action>
+						<nb-action>
+							<div class="input-group input-group-sm">
+								<div class="dropdown input-group-prepend input-group-btn" ngbDropdown>
+									<button type="button" class="btn btn-success dropdown-toggle" ngbDropdownToggle style="min-width: 108px">
+										{{ selectQueryString }}
+									</button>
+									<ul class="dropdown-menu" ngbDropdownMenu>
+										<li class="dropdown-item" (click)="selectFilter('lname', 'Last Name')">Last Name</li>
+										<li class="dropdown-item" (click)="selectFilter('fname', 'First Name')">First Name</li>
+										<li class="dropdown-item" (click)="selectFilter('mname', 'Middle Name')">First Name</li>
+										<li class="dropdown-item" (click)="selectFilter('uid', 'Employee ID')">Employee ID</li>
+									</ul>
+								</div>
+								<input type="search" class="form-control" placeholder="Search.." [(ngModel)]="filterQuery" />
+							</div>
+						</nb-action>
+						<nb-action icon="printer-outline" tooltip="Print" placement="bottom"></nb-action>
+						<nb-action icon="close-circle-outline" (click)="sgs.back()" nbPopover="Close" nbPopoverMode="hint" nbPopoverPlacement="right"></nb-action>
+					</nb-actions>
+				</div>
+			</nb-card-header>
+			<nb-card-body>
+				<div class="row">
+					<div class="col-sm-12">
+						<div class="clear"></div>
+						<table class="table" [mfData]="data | dataFilter: filterQuery:selectQuery" #mf="mfDataTable" [mfRowsOnPage]="10" [(mfSortBy)]="sortBy" [(mfSortOrder)]="sortOrder">
+							<thead>
+								<tr>
+									<th scope="col">
+										<mfDefaultSorter by="uid"><i class="fas fa-sort"></i> Employee ID</mfDefaultSorter>
+									</th>
+									<th scope="col">
+										<mfDefaultSorter by="lname"><i class="fas fa-sort"></i> Name</mfDefaultSorter>
+									</th>
+									<th scope="col">Time In</th>
+									<th scope="col">Time Out</th>
+									<th scope="col">Lunch Total</th>
+									<th scope="col">Break Total</th>
+									<th scope="col">Late Login Total</th>
+									<th scope="col">Total Hours</th>
+									<th scope="col">Over Time</th>
+									<!-- <th scope="col">Time</th> -->
+									<th scope="col" width="10%" class="acenter"><i class="fas fa-ellipsis-h"></i></th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr>
+									<td colspan="7" *ngIf="noData" class="error acenter">{{ noData }}</td>
+								</tr>
+								<tr *ngFor="let data of mf.data">
+									<td scope="col">{{ data?.uid }}</td>
+									<td scope="col">{{ data?.name }}</td>
+									<td sccpe="col">
+										<ng-container *ngIf="data?.attendance[0].in != 0">{{ data?.attendance[0].in | reversedate | date: 'mediumTime' }}</ng-container>
+										<ng-container *ngIf="data?.attendance[0].in == 0">-</ng-container>
+									</td>
+									<td scope="col">
+										<ng-container *ngIf="data?.out && data?.out != 0">{{ data?.out | reversedate | date: 'mediumTime' }}</ng-container>
+										<ng-container class="acenter" *ngIf="data?.out == '' || data?.out == null || data?.out == 0">-</ng-container>
+									</td>
+									<td scope="col">
+										<ng-container *ngIf="data.lunchTotal === 60">{{ '1 hr' }}</ng-container>
+										<ng-container *ngIf="data.lunchTotal < 60">{{ data.lunchTotal }} mins</ng-container>
+										<ng-container *ngIf="data.lunchTotal > 60">{{ data.lunchTotal / 60 }} hrs</ng-container>
+									</td>
+
+									<td scope="col">
+										<ng-container *ngIf="data.break === 60">{{ '1 hr' }}</ng-container>
+										<ng-container *ngIf="data.break < 60">{{ data.break }} mins</ng-container>
+										<ng-container *ngIf="data.break > 60">{{ data.break / 60 }} hrs</ng-container>
+									</td>
+
+									<td scope="col">
+										<ng-container *ngIf="data?.late">{{ data?.late | number: '.2-2' }}</ng-container>
+										<ng-container *ngIf="!data?.late">-</ng-container>
+									</td>
+									<td scope="col">{{ data?.total / 60 | number: '.2-2' }}</td>
+									<td scope="col">{{ data.overtime / 60 || '...' }}</td>
+									<td scope="col" class="acenter">
+										<a [ngClass]="{ disabled: data?.status == '0' }" class="pointer" (click)="data?.status == '1' ? showTimeLogs(data?.name, data?.uid, data.attendance) : false" nbPopover="View Time Logs" nbPopoverMode="hint" nbPopoverPlacement="right"><i class="fas fa-business-time"></i></a>
+										&nbsp;
+										<a class="pointer" (click)="addAttendanceToEmployee(data?.uid)" nbPopover="Add attendance to employee" nbPopoverMode="hint" nbPopoverPlacement="right"><i class="far fa-calendar-plus"></i></a>
+										&nbsp;
+										<a class="pointer" [routerLink]="['/hr/timeSheet', data?.uid]" nbPopover="Employee Time Sheet" nbPopoverMode="hint" nbPopoverPlacement="right"><i class="fas fa-table linkUncolored"></i></a>
+										&nbsp;
+										<a [ngClass]="{ disabled: data?.status == '0' }" class="pointer" (click)="data?.status == '1' ? timeProof(data.attendance, data?.uid) : false"><i class="fas fa-camera-retro" nbPopover="Employee Time Proof" nbPopoverMode="hint" nbPopoverPlacement="right"></i></a>
+									</td>
+								</tr>
+							</tbody>
+							<tfoot>
+								<tr>
+									<td colspan="10">
+										<mfBootstrapPaginator [rowsOnPageSet]="[10, 20, 50, 100]"></mfBootstrapPaginator>
+									</td>
+								</tr>
+							</tfoot>
+						</table>
+					</div>
+				</div>
+			</nb-card-body>
+		</nb-card>
+	</div>
+</div>

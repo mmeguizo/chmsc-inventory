@@ -1,0 +1,92 @@
+<div class="modal-header">
+  Phil Health Contribution Table:
+  <button class="close" aria-label="Close" (click)="closeModal()">
+      <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+<div class="modal-body">
+  <form [formGroup]="form">
+    <div class="row" *ngIf="!isActive">
+      <div class="col-sm-6">
+        <label><span class="error">*</span> Contribution Name:</label>
+        <input type="text" class="form-control" formControlName="title" [ngClass]="{'fieldError': form.get('title').touched && form.controls['title'].errors?.required}">
+      </div>
+      <div class="col-sm-6">
+        <label>Desctiption:</label>
+        <input type="text" class="form-control" formControlName="description">
+      </div>
+      <div class="col-sm-6">
+        <label><span class="error">*</span> Percentage Rate:</label>
+        <input type="number" class="form-control" formControlName="percentage" [ngClass]="{'fieldError': form.get('percentage').touched && form.controls['percentage'].errors?.required}">
+      </div>
+      <div class="col-sm-6">
+        <label>Note:</label>
+        <input type="text" class="form-control" formControlName="note">
+      </div>
+    </div>
+  </form>
+  
+  <form [formGroup]="table">
+    <ng-container *ngIf="isActive">
+      <div class="row">
+        <div class="col-sm-3">
+          <label>Montly Basic Salary Range</label>
+        </div>
+        <div class='col-sm-4 input-group input-group-sm'>
+          <input type="number" class="form-control" formControlName="mbsFrom" min="0" max="999999999" [ngClass]="{'fieldError': table.get('mbsFrom').touched && 
+            table.controls['mbsFrom'].errors?.required || table.controls['mbsFrom'].errors?.min || table.controls['mbsFrom'].errors?.max }">
+        </div>
+        <div class='col-sm-4 input-group input-group-sm'>
+          <input type="number" class="form-control" formControlName="mbsTo" min="0" max="999999999" [ngClass]="{'fieldError': table.get('mbsTo').touched && 
+            table.controls['mbsTo'].errors?.required || table.controls['mbsTo'].errors?.min || table.controls['mbsTo'].errors?.max }">
+        </div>
+        <div class="col-sm-1">
+          <i class="fas fa-exclamation-triangle errorMessage" nbPopover="Field value must be at least 0 - 999999999" nbPopoverMode="hint" nbPopoverPlacement="top" 
+            *ngIf="table.controls['mbsFrom'].errors?.min || table.controls['mbsFrom'].errors?.max || table.controls['mbsTo'].errors?.min || table.controls['mbsTo'].errors?.max"></i>
+        </div>
+      </div>
+      <div class="clear"></div>
+      <div class="row">
+        <div class="col-sm-3">
+          <label>Montly Premium</label>
+        </div>
+        <div class='col-sm-4 input-group input-group-sm'>
+          <input type="number" class="form-control" formControlName="mpFrom" [ngClass]="{'fieldError': table.get('mpFrom').touched && table.controls['mpFrom'].errors?.required}">
+        </div>
+        <div class='col-sm-4 input-group input-group-sm'>
+          <input type="number" class="form-control" formControlName="mpTo" [ngClass]="{'fieldError': table.get('mpTo').touched && table.controls['mpTo'].errors?.required}">
+        </div>
+      </div>
+      <div class="clear"></div>
+      <div class="row">
+        <div class="col-sm-3">
+          <label>Personal Share</label>
+        </div>
+        <div class='col-sm-4 input-group input-group-sm'>
+          <input type="number" class="form-control" formControlName="psFrom" [ngClass]="{'fieldError': table.get('psFrom').touched && table.controls['psFrom'].errors?.required}">
+        </div>
+        <div class='col-sm-4 input-group input-group-sm'>
+          <input type="number" class="form-control" formControlName="psTo" [ngClass]="{'fieldError': table.get('psTo').touched && table.controls['psTo'].errors?.required}">
+        </div>
+      </div>
+      <div class="clear"></div>
+      <div class="row">
+        <div class="col-sm-3">
+          <label>Employer Share</label>
+        </div>
+        <div class='col-sm-4 input-group input-group-sm'>
+          <input type="number" class="form-control" formControlName="esFrom" [ngClass]="{'fieldError': table.get('esFrom').touched && table.controls['esFrom'].errors?.required}">
+        </div>
+        <div class='col-sm-4 input-group input-group-sm'>
+          <input type="number" class="form-control" formControlName="esTo" [ngClass]="{'fieldError': table.get('esTo').touched && table.controls['esTo'].errors?.required}">
+        </div>
+      </div>
+    </ng-container>
+  </form>
+</div>
+<div class="modal-footer">
+  <button class="btn btn-default" (click)="closeModal()">Close</button>
+  <button type="submit" *ngIf="!isActive" class="btn btn-success confirm-btn" (click)="proceed()" [disabled]="form?.invalid">Proceed</button>
+  <button type="submit" *ngIf="isActive" class="btn btn-success confirm-btn" (click)="save()" [disabled]="table?.invalid">Save</button>
+</div>
+    

@@ -1,0 +1,77 @@
+<div class="row">
+  <div class="col-sm-12">
+    <nb-card [nbSpinner]="loading" nbSpinnerStatus="success">
+      <nb-card-header>
+        <div class="action-groups-header" style="float: left; clear: both">
+         Approve Request
+        </div>
+        <nb-actions size="medium" style="float: right; font-size: 10px;">
+          <nb-action>
+            <div class="input-group">
+              <input type="search" #search class="form-control" [placeholder]="selectQueryString" [(ngModel)]="filterQuery">
+              <div class="input-group-append">
+                <span class="input-group-text pointer" [nbPopover]="filter" nbPopoverPlacement="bottom">
+                  <i class="fas fa-filter"></i>
+                </span>
+              </div>
+            </div>
+          </nb-action>
+          <nb-action icon="close-square-outline" (click)="sgs.back()" nbPopover="Close" nbPopoverMode="hint" nbPopoverPlacement="bottom"></nb-action>
+        </nb-actions>
+      </nb-card-header>
+      <nb-card-body>
+        <div class="row">
+          <div class="col-sm-12">
+            <div class="clear"></div>
+            <table class="table" [mfData]="data | dataFilter : filterQuery: selectQuery" #mf="mfDataTable" [mfRowsOnPage]="10" [(mfSortBy)]="sortBy" [(mfSortOrder)]="sortOrder">
+              <thead>
+                <tr>
+                  <th scope="col">#</th>
+                  <th scope="col">Request ID</th>
+                  <th scope="col">Truck Model</th>
+                  <th scope="col">Request By</th>
+                  <th scope="col">Date Requested</th>
+                  <!-- <th scope="col" >Options</th> -->
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngIf="mf.data.length < 1">
+                  <td colspan="7" class="acenter error">No data found</td>
+                </tr>
+                <tr *ngFor="let data of mf.data; let i = index">
+                  <td scope="col">{{ i+1 }}</td>
+                  <td scope="col">{{ data.id }}</td>
+                  <td scope="col">{{ data.truckModel | titlecase}}</td>
+                  <td scope="col">{{ data.added_by | titlecase }}</td>
+                  <td scope="col">{{ (data.date_added | reversedate) | date}}</td>
+                </tr>
+              </tbody>
+              <tfoot>
+                <tr>
+                  <td colspan="10">
+                    <mfBootstrapPaginator [rowsOnPageSet]="[10,20,50,100]"></mfBootstrapPaginator>
+                  </td>
+                </tr>
+              </tfoot>
+            </table>
+          </div>
+        </div>
+      </nb-card-body>
+    </nb-card>
+  </div>
+</div>
+
+
+<ng-template #filter nbPopoverTrigger="noop">
+  <nb-card style="margin-bottom: 0">
+    <nb-card-header>
+      Search Filter:
+    </nb-card-header>
+    <nb-list>
+      <nb-list-item class="pointer" (click)="selectFilter('id', 'Request ID')">Request ID</nb-list-item>
+      <nb-list-item class="pointer" (click)="selectFilter('truckModel', 'Truck Model')">Truck Model</nb-list-item>
+      <nb-list-item class="pointer" (click)="selectFilter('added_by', 'Requested By')">Requested By</nb-list-item>
+
+    </nb-list>
+  </nb-card>
+</ng-template>

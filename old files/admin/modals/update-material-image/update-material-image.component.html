@@ -1,0 +1,31 @@
+<nb-card>
+  <nb-card-header>
+    Update Image
+    <button class="close" aria-label="Close" (click)="closeModal()">
+        <span aria-hidden="true">&times;</span>
+    </button>
+  </nb-card-header>
+  <nb-card-body [nbSpinner]="sgs.loading" nbSpinnerStatus="success" >
+      <div class="row">
+        <div class="col-md-4">
+          <mat-label>Update Upload</mat-label>
+          <div class="example-button-row">
+            <button mat-raised-button color="primary" title="Upload document."  (click)="openFile($event, 'file')">
+              <i class="fas fa-file-upload"></i>
+              &nbsp;
+              Upload</button>
+              <input type="file" name="file" class="d-none" id="file" accept="image/x-png,image/gif,image/jpeg">
+          </div>
+        </div>
+        <div class="col-md-6 image"  *ngIf="imageInfo != undefined">
+          <img id='image-source' [src]="imageInfo.link | assets: 'empDocuments':'html'">&nbsp;
+        </div>
+      </div>
+  </nb-card-body>
+  <nb-card-footer class="aright">
+    <button nbButton matRipple hero status="danger" (click)="closeModal()">Close</button>
+    &nbsp;
+    <button nbButton matRipple hero status="primary" (click)="sgs.submitting = true; update()">Save</button>
+
+  </nb-card-footer>
+</nb-card>

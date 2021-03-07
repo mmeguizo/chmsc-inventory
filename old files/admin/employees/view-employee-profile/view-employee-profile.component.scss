@@ -1,0 +1,39 @@
+@import '../../../@theme/styles/themes';
+// @import '~@nebular/theme/styles/global/bootstrap/hero-buttons';
+// @import '~bootstrap/scss/mixins/breakpoints';
+// @import '~@nebular/theme/styles/global/bootstrap/breakpoints';
+
+/deep/ .nb-theme-corporate nb-actions.medium nb-action i.control-icon {
+    font-size: 20px;
+    color: #494949;
+}
+
+i.clear {
+    clear: both;
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+.header-icons{
+    color: #5DCFE3;
+}
+
+
+span.title{
+    font-size: 9pt;
+    color: #8e8e8e;
+}
+span.data {
+    font-size: 10pt;
+    color: #4b4b4b;
+    margin-left: 5px;
+}
+.disableForm{
+    opacity: 0.3;
+}
+.disableMessage{
+    margin-top: 50px;
+    margin-left: 20%;
+    position: absolute;
+    z-index: 99999999999;
+}

@@ -1,0 +1,186 @@
+.mat-form-field {
+  width: 100% !important;
+}
+
+
+$base-color: #0a68ff;
+
+.main-container{
+  width: 100%;
+  height: 100%;
+  padding: 5px;
+}
+.employee-info-container{
+  height: 100%;
+  width: 100%;
+  margin: auto;
+  padding-bottom: 20px;
+
+}
+.emp-no{
+  width: 20%;
+  height: 50px;
+  border: 1px solid $base-color;
+  box-shadow: 5px 5px;
+  float: left;
+}
+.header{
+width: 100%;
+height: 20px;
+background-color: $base-color;
+color: #fff;
+text-align: center;
+}
+.content{
+height: 28px;
+width: 100%;
+line-height: 25px;
+font-size: 13pt;
+text-align: center;
+margin-left: 5px;
+}
+.emp-name{
+  width: 49%;
+  height: 50px;
+  border: 1px solid $base-color;
+  margin-left: 10px;
+  float: left;
+  box-shadow: 5px 5px;
+
+}
+
+.emp-cut-off{
+  width: 28%;
+  height: 50px;
+  border: 1px solid $base-color;
+  margin-left: 10px;
+  float: left;
+  box-shadow: 5px 5px;
+}
+.payments-container{
+  width: 100%;
+  height: 100%;
+  margin-top: 10px;
+  float: left;
+}
+.payment-sumary{
+  box-shadow: 5px 5px;
+  width: 48%;
+  height: 100%;
+  float:left;
+  margin-top: 15px;
+}
+.payment-sumary1{
+  box-shadow: 5px 5px;
+  width: 48%;
+  height: 100%;
+  float:right;
+  margin-top: 15px;
+}
+
+.top{
+  width: 100%;
+  float: left;
+  border: 1px solid $base-color;
+}
+
+.secA{
+  width:50%;
+  text-align: left;
+  margin-left: 10px;
+  float:left;
+  line-height: 20px;
+}
+.secB{
+  width:41%;
+  text-align: right;
+  margin-right: 10px;
+  float:left;
+  line-height: 20px;
+}
+.secE{
+  width:41%;
+  text-align: right;
+  float:right;
+  line-height: 20px;
+  color:$base-color;
+}
+
+.deductions-info1{
+  width: 45%;
+  height: 100%;
+  min-height: 190px;
+  border: 1px solid $base-color;
+  float: left;
+//   margin-left: 15px;
+  box-shadow: 5px 5px;
+
+}
+
+.deductions-info{
+  width: 45%;
+  height: 100%;
+  min-height: 190px;
+  border: 1px solid $base-color;
+  float: left;
+  margin-left: 51px;
+  box-shadow: 5px 5px;
+
+}
+
+ .deduction-total{
+  height: 28px;
+  width: 100%;
+  line-height: 25px;
+  font-size: 13pt;
+}
+.secC{
+  width:50%;
+  text-align: left;
+  margin-left: 10px;
+  float:left;
+  line-height: 20px;
+  font-weight: bold;
+  margin-top: 20px;
+  margin-bottom: 29px;
+}
+.secD{
+  width:41%;
+  text-align: right;
+  margin-right: 10px;
+  float:left;
+  line-height: 20px;
+  font-weight: bold;
+  margin-top: -51px;
+  margin-left: 186px;
+}
+.net-container{
+  margin-top: 20px;
+  width: 28%;
+  height: 100%;
+  border: 1px solid $base-color;
+  float: right;
+  margin-left: 1%;
+  border-radius: 8px;
+  box-shadow: 5px 5px;
+
+  .net-header{
+      width: 100%;
+      height: 35px;
+      font-size: 22px;
+      padding-left: 10px;
+      padding-top: 20px;
+  }
+  .net-content{
+      text-align: right;
+      font-size: 26px;
+      padding-right: 10px;
+      margin-top: -1rem;
+  }
+}
+.deduction-total{
+  height: 28px;
+  width: 100%;
+  line-height: 25px;
+  font-size: 13pt;
+}

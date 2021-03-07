@@ -1,0 +1,84 @@
+<div class="modal-header">
+  SSS Contribution Table:
+  <button class="close" aria-label="Close" (click)="closeModal()">
+      <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+<div class="modal-body">
+  <form [formGroup]="form">
+    <div class="row" *ngIf="!isActive">
+      <div class="col-sm-12">
+        <label><span class="error">*</span> Contribution Name:</label>
+        <input type="text" class="form-control" formControlName="title" [ngClass]="{'fieldError': form.get('title').touched && form.controls['title'].errors?.required}">
+      </div>
+      <div class="col-sm-12">
+        <label>Desctiption:</label>
+        <input type="text" class="form-control" formControlName="description">
+      </div>
+      <div class="col-sm-12">
+        <label>Note:</label>
+        <textarea class="form-control" formControlName="note"></textarea>
+      </div>
+    </div>
+  </form>
+  
+  <form [formGroup]="table">
+    <ng-container *ngIf="isActive">
+      <div class="row">
+        <div class="col-sm-12">
+          <label>Range of Compensation:</label>
+        </div>
+        <div class="clear"></div>
+        <div class='col-sm-12 input-group-sm'>
+          <label>From: <i class="fas fa-exclamation-triangle error" nbPopover="Field value must be at least 0 - 999999999" nbPopoverMode="hint" nbPopoverPlacement="top" 
+            *ngIf="table.controls['rcFrom'].errors?.min || table.controls['rcFrom'].errors?.max"></i>
+          </label>
+          <input type="number" class="form-control" formControlName="rcFrom" min="0" max="999999999" [ngClass]="{'fieldError': table.get('rcFrom').touched && 
+            table.controls['rcFrom'].errors?.required || table.controls['rcFrom'].errors?.min || table.controls['rcFrom'].errors?.max }">
+        </div>
+        <div class="clear"></div>
+        <div class='col-sm-12 input-group-sm'>
+          <label>To: <i class="fas fa-exclamation-triangle error" nbPopover="Field value must be at least 0 - 999999999" nbPopoverMode="hint" nbPopoverPlacement="top" 
+            *ngIf="table.controls['rcTo'].errors?.min || table.controls['rcTo'].errors?.max"></i>
+          </label>
+          <input type="number" class="form-control" formControlName="rcTo" min="0" max="999999999" [ngClass]="{'fieldError': table.get('rcTo').touched && 
+            table.controls['rcTo'].errors?.required || table.controls['rcTo'].errors?.min || table.controls['rcTo'].errors?.max }">
+        </div>
+        <div class="clear"></div>
+        <div class="col-sm-12">
+          <label>Social Security:</label>
+        </div>
+        <div class="clear"></div>
+        <div class='col-sm-12 input-group-sm'>
+          <label>Employeer Contribution: <i class="fas fa-exclamation-triangle error" nbPopover="Field value must be at least 0 - 999999999" nbPopoverMode="hint" nbPopoverPlacement="top" 
+            *ngIf="table.controls['ssER'].errors?.min || table.controls['ssER'].errors?.max"></i>
+          </label>
+          <input type="number" class="form-control" formControlName="ssER" min="0" max="999999999" [ngClass]="{'fieldError': table.get('ssER').touched && 
+            table.controls['ssER'].errors?.required || table.controls['ssER'].errors?.min || table.controls['ssER'].errors?.max }">
+        </div>
+        <div class="clear"></div>
+        <div class='col-sm-12 input-group-sm'>
+          <label>Employee Contribution: <i class="fas fa-exclamation-triangle error" nbPopover="Field value must be at least 0 - 999999999" nbPopoverMode="hint" nbPopoverPlacement="top" 
+            *ngIf="table.controls['ssEE'].errors?.min || table.controls['ssEE'].errors?.max"></i>
+          </label>
+          <input type="number" class="form-control" formControlName="ssEE" min="0" max="999999999" [ngClass]="{'fieldError': table.get('ssEE').touched && 
+            table.controls['ssEE'].errors?.required || table.controls['ssEE'].errors?.min || table.controls['ssEE'].errors?.max }">
+        </div>
+        <div class="clear"></div>
+        <div class='col-sm-12 input-group-sm'>
+          <label>Employee Compensation: <i class="fas fa-exclamation-triangle error" nbPopover="Field value must be at least 0 - 999999999" nbPopoverMode="hint" nbPopoverPlacement="top" 
+            *ngIf="table.controls['ecER'].errors?.min || table.controls['ecER'].errors?.max"></i>
+          </label>
+          <input type="number" class="form-control" formControlName="ecER" min="0" max="999999999" [ngClass]="{'fieldError': table.get('ecER').touched && 
+            table.controls['ecER'].errors?.required || table.controls['ecER'].errors?.min || table.controls['ecER'].errors?.max }">
+        </div>
+      </div>
+    </ng-container>
+  </form>
+</div>
+<div class="modal-footer">
+  <button class="btn btn-default" (click)="closeModal()">Close</button>
+  <button type="submit" *ngIf="!isActive" class="btn btn-success confirm-btn" (click)="proceed()" [disabled]="form?.invalid">Proceed</button>
+  <button type="submit" *ngIf="isActive" class="btn btn-success confirm-btn" (click)="save()" [disabled]="table?.invalid">Save</button>
+</div>
+    

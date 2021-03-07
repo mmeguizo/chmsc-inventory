@@ -1,0 +1,39 @@
+<nb-card *ngIf="data.length">
+  <nb-card-header class="head">Truck Renewals</nb-card-header>
+  <nb-card-body>
+    <table class="table" [mfData]="data | dataFilter: filterQuery:selectQuery" #mf="mfDataTable" [mfRowsOnPage]="10"
+      [(mfSortBy)]="sortBy" [(mfSortOrder)]="sortOrder">
+      <thead>
+        <tr>
+          <th scope="col">#</th>
+          <th scope="col">Truck Model</th>
+          <th scope="col">Date Register</th>
+          <th scope="col">Truck Renewal</th>
+          <th scope="col">Status</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngIf="mf.data.length < 1">
+          <td colspan="7" class="acenter error">No data found</td>
+        </tr>
+        <tr *ngFor="let data of mf.data; let idx = index">
+          <td scope="col">{{ (mf.activePage - 1) * mf.rowsOnPage + idx + 1 }}</td>
+          <td scope="col">{{ data.truckModel | titlecase }}</td>
+          <td scope="col">{{ data.dateRegister | reversedate | date }}</td>
+          <td scope="col">{{ data.renewal | date }}</td>
+          <th scope="col" class="pointer" (click)="renewals(data)">
+            <a *ngIf="data.ex > now && data.ex !== 'NaNaNaN'"><i class="fas fa-circle circle-active"></i> Expiring</a>
+            <a *ngIf="data.ex == now"><i class="fas fa-exclamation-circle circle-break"></i> Last Day</a>
+            <a *ngIf="data.ex < now"><i class="fas fa-exclamation-circle circle-inacvtive"></i> Overdue</a>
+            <a *ngIf="data.ex == 'NaNaNaN'"><i class="fas fa-exclamation-circle error"></i> Not Set</a>
+          </th>
+        </tr>
+      </tbody>
+      <tfoot>
+        <td colspan="10">
+          <mfBootstrapPaginator [rowsOnPageSet]="[10, 20, 50, 100]"></mfBootstrapPaginator>
+        </td>
+      </tfoot>
+    </table>
+  </nb-card-body>
+</nb-card>

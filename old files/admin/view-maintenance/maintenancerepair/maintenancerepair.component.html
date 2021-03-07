@@ -1,0 +1,47 @@
+<nb-card class="mainDiv" [nbSpinner]="loading" nbSpinnerStatus="success">
+  <nb-card-body>
+    <div class="row">
+      <div class="col-sm-12 scroll">
+        <nb-tabset>
+          <nb-tab tabTitle="MAINTENANCE AND REPAIR HISTORY">
+            <nb-card-body>
+              <table class="table table-striped" [mfData]="data | dataFilter: filterQuery:selectQuery" #mf="mfDataTable"
+                [mfRowsOnPage]="10" [(mfSortBy)]="sortBy" [(mfSortOrder)]="sortOrder">
+                <thead>
+                  <tr>
+                    <th scope="col">Date of Maintenance / Repair Time</th>
+                    <th scope="col">Job Performance</th>
+                    <th scope="col">Vehicle Odometer</th>
+                    <th scope="col">Date Next Maintenance</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngIf="mf.data.length < 1">
+                    <td colspan="7" class="acenter error">No Maintenance found</td>
+                  </tr>
+                  <tr *ngFor="let data of mf.data; let i = index">
+                    <td scope="col">{{ data.dateAdded | reversedate | date: 'shortDate' }}</td>
+                    <td scope="col">{{ data.mechanicNote }}</td>
+                    <td scope="col">
+                      {{ 12 | number: '1.2-2'}}
+                    </td>
+                    <td scope="col">
+                      {{  dates }}
+                    </td>
+                  </tr>
+                </tbody>
+                <tfoot>
+                  <tr>
+                    <td colspan="10">
+                      <mfBootstrapPaginator [rowsOnPageSet]="[10, 20, 50, 100, 200, 500]"></mfBootstrapPaginator>
+                    </td>
+                  </tr>
+                </tfoot>
+              </table>
+            </nb-card-body>
+          </nb-tab>
+        </nb-tabset>
+      </div>
+    </div>
+  </nb-card-body>
+</nb-card>

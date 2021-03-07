@@ -1,0 +1,56 @@
+<div class="row">
+  <div class="col-sm-12">
+    <nb-card [nbSpinner]="loading" nbSpinnerStatus="success">
+      <nb-card-header>
+        <div class="action-groups-header" style="float: left; clear: both">Employee Payroll11</div>
+        <nb-actions size="medium" style="float: right; font-size: 10px">
+          <nb-action>
+            <!-- <nb-action nbPopover="Create New Cut-Off" class="pointer" nbPopoverPlacement="top" nbPopoverTrigger="hint" (click)="createNewPayroll()"><i class="fas fa-calendar-plus"></i>&nbsp; New Cut-Off</nb-action> -->
+            <!-- <nb-action nbPopover="Deductions" class="pointer" nbPopoverPlacement="top" nbPopoverTrigger="hint" (click)="deductions()"><i class="fas fa-credit-card"></i>&nbsp; Deductions</nb-action> -->
+          </nb-action>
+          <nb-action icon="close-square-outline" (click)="sgs.back()" nbPopover="Close" nbPopoverTrigger="hint" nbPopoverPlacement="top"></nb-action>
+        </nb-actions>
+      </nb-card-header>
+      <nb-card-body>
+        <div class="row">
+          <div class="col-sm-12">
+            <div class="clear"></div>
+            <table class="table table-bordered">
+              <thead>
+                <tr>
+                  <th class="acenter">#</th>
+                  <!-- <th class="acenter">Payroll Description</th> -->
+                  <th class="acenter">Cut Off</th>
+                  <!-- <th class="acenter">Created By</th> -->
+                  <th class="acenter">Status</th>
+                  <th class="acenter"><i class="fas fa-bars"></i></th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngIf="data?.length == 0">
+                  <td colspan="6" class="error acenter">No Cut-off available</td>
+                </tr>
+                <tr *ngFor="let pay of data; let i = index">
+                  <td>{{ i + 1 }}</td>
+                  <!-- <td>{{ pay?.payrollDescription }}</td> -->
+                  <td>{{ pay?.cutOffFrom | reversedate | date: 'longDate' }} - {{ pay?.cutOffTo | reversedate | date: 'longDate' }}</td>
+                  <!-- <td>{{ pay?.createdBy }}</td> -->
+                  <td class="acenter">
+                    <a class="badge badge-success pointer">Generated</a>
+                  </td>
+                  <td class="acenter">
+                    <i class="fas fa-eye pointer" [routerLink]="['../payrolls', pay?.id]" nbPopover="Click to view employees payroll" nbPopoverTrigger="hint" nbPopoverPlacement="bottom"></i>
+                    <!-- <i class="fas fa-eye pointer" (click)="viewMyPay(pay)" nbPopover="Click to view all employees payroll" nbPopoverTrigger="hint" nbPopoverPlacement="bottom"></i> &nbsp; -->
+                    <!-- <ng-container *ngFor="let pp of pay.summary; let i = index">
+                      <i class="fa fa-print pointer" [ngClass]="{ isPrinted: pp.isPrinted }" [nbPopover]="pp.isPrinted ? 'Printed!!' : 'Print Me'" nbPopoverTrigger="hint" nbPopoverPlacement="bottom" (click)="print(pay)"></i>
+                    </ng-container> -->
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </nb-card-body>
+    </nb-card>
+  </div>
+</div>

@@ -1,0 +1,89 @@
+<div class="row">
+  <div class="col-sm-12">
+    <nb-card [nbSpinner]="loading" nbSpinnerStatus="success">
+      <nb-card-header>
+        <div class="action-groups-header" style="float: left; clear: both">
+       Broken Request Database
+        </div>
+        <nb-actions size="medium" style="float: right; font-size: 10px;">
+          <nb-action>
+            <div class="input-group">
+              <input type="search" #search class="form-control" [placeholder]="selectQueryString" [(ngModel)]="filterQuery">
+              <div class="input-group-append">
+                <span class="input-group-text pointer" [nbPopover]="filter" nbPopoverPlacement="bottom">
+                  <i class="fas fa-filter"></i>
+                </span>
+              </div>
+            </div>
+          </nb-action>
+          <nb-action icon="close-square-outline" (click)="sgs.back()" nbPopover="Close" nbPopoverMode="hint" nbPopoverPlacement="bottom"></nb-action>
+        </nb-actions>
+      </nb-card-header>
+      <nb-card-body>
+          
+        <div class="row">
+          <div class="col-sm-12">
+            <div class="clear"></div>
+            <table class="table" [mfData]="data | dataFilter : filterQuery: selectQuery" #mf="mfDataTable" [mfRowsOnPage]="10" [(mfSortBy)]="sortBy" [(mfSortOrder)]="sortOrder">
+              <thead>
+                <tr>
+                  <th scope="col">#</th>
+                  <th scope="col">Truck Category</th>
+                  <th scope="col">Truck Plate</th>
+                  <th scope="col">Date Added</th>
+                  <th scope="col">Status</th>
+                  <th scope="col" >Options</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngIf="mf.data.length < 1">
+                  <td colspan="7" class="acenter error">No data found</td>
+                </tr>
+                <tr *ngFor="let data of mf.data; let i = index">
+                    <td scope="col">{{ (mf.activePage - 1) * mf.rowsOnPage + i + 1 }}</td>
+                  <td scope="col">{{ data.category | titlecase}}</td>
+                  <td scope="col">{{ data.plate | titlecase }}</td>
+                  <td scope="col">{{ (data.date_added | reversedate) | date}}</td>
+                  <td scope="col"><i class="fas fa-exclamation-circle circle-inacvtive"></i> Broken</td>
+
+                  <td scope="col">
+                    <div class="btn-group " dropdown placement="bottom right">
+                      <i id="button-alignment" dropdownToggle class="fas fa-chevron-circle-down" aria-controls="dropdown-alignment"></i>
+                      <ul id="dropdown-alignment" *dropdownMenu class="dropdown-menu dropdown-menu-right" role="menu" aria-labelledby="button-alignment">
+                        <!-- <li role="menuitem" class="dropdown-item pointer" (click)="approve(data.id)"><nb-icon icon="checkmark-circle-outline" style="color: #ff5e00"></nb-icon> Approve Request</li> -->
+                        <li role="menuitem" class="dropdown-item pointer" (click)="delete(data.id, (mf.activePage - 1) * mf.rowsOnPage + i + 1)"> <nb-icon icon="trash-outline" style="color: #ff5e00"></nb-icon> Delete Request</li>
+                        <!-- <li role="menuitem" class="dropdown-item pointer" (click)="update(data.id)"><nb-icon icon="edit-2" style="color: rgb(0, 132, 255)"></nb-icon> Update Request</li> -->
+
+                      </ul>
+                    </div>
+                  </td> 
+
+                </tr>
+              </tbody>
+              <tfoot>
+                <tr>
+                  <td colspan="10">
+                    <mfBootstrapPaginator [rowsOnPageSet]="[10,20,50,100]"></mfBootstrapPaginator>
+                  </td>
+                </tr>
+              </tfoot>
+            </table>
+          </div>
+        </div>
+      </nb-card-body>
+    </nb-card>
+  </div>
+</div>
+
+
+<ng-template #filter nbPopoverTrigger="noop">
+  <nb-card style="margin-bottom: 0">
+    <nb-card-header>
+      Search Filter:
+    </nb-card-header>
+    <nb-list>
+      <nb-list-item class="pointer" (click)="selectFilter('category', 'Truck Category')">Truck Category</nb-list-item>
+      <nb-list-item class="pointer" (click)="selectFilter('plate', 'Truck Plate')">Truck Plate</nb-list-item>
+    </nb-list>
+  </nb-card>
+</ng-template>

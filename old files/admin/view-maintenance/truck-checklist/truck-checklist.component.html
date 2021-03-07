@@ -1,0 +1,86 @@
+<nb-card>
+	<nb-card-header>
+		<div class="row">
+			<div class="col-md-9"></div>
+			<div class="col-md-3" style="float: right">
+				<mat-form-field>
+					<mat-label>DATE:</mat-label>
+					<input matInput autocomplete="off" bsDatepicker [(ngModel)]="date" />
+				</mat-form-field>
+			</div>
+		</div>
+	</nb-card-header>
+	<nb-card-body>
+		<table class="table">
+			<tbody>
+				<tr>
+					<td scope="col"><strong>TRUCKMODEL</strong></td>
+					<td scope="col">
+						<mat-radio-group aria-labelledby="example-radio-group-label" class="example-radio-group" [(ngModel)]="truckmodel">
+							<mat-radio-button class="example-radio-button" *ngFor="let model of model" [value]="model">
+								<strong>{{ model }}</strong>
+							</mat-radio-button>
+						</mat-radio-group>
+					</td>
+				</tr>
+				<tr>
+					<td scope="col"><strong>TRUCKTYPE</strong></td>
+					<td scope="col">
+						<mat-radio-group aria-labelledby="example-radio-group-label" class="example-radio-group" [(ngModel)]="trucktype">
+							<mat-radio-button class="example-radio-button" *ngFor="let type of type" [value]="type">
+								<strong>{{ type }}</strong>
+							</mat-radio-button>
+						</mat-radio-group>
+					</td>
+				</tr>
+			</tbody>
+		</table>
+	</nb-card-body>
+</nb-card>
+<br />
+<nb-card>
+	<nb-card-header>
+		<strong> ACTUAL INSPECTION REPORT: pls mark check if OK if not (INDICATE) </strong>
+	</nb-card-header>
+	<nb-card-body>
+		<table class="table">
+			<tbody>
+				<tr *ngFor="let report of report; let i = index">
+					<td>
+						<nb-accordion>
+							<nb-accordion-item #item>
+								<nb-accordion-item-header>
+									{{ report.name | titlecase }}
+								</nb-accordion-item-header>
+								<nb-accordion-item-body>
+									<mat-checkbox [disabled]="report.reason != ''" class="example-margin" [(ngModel)]="report.ok" (change)="check($event, i)"> IF OK </mat-checkbox>
+									<mat-form-field>
+										<mat-label>Scope of work</mat-label>
+										<input matInput autocomplete="off" [disabled]="report.ok == true" [(ngModel)]="report.reason" />
+									</mat-form-field>
+								</nb-accordion-item-body>
+							</nb-accordion-item>
+						</nb-accordion>
+					</td>
+				</tr>
+			</tbody>
+		</table>
+	</nb-card-body>
+</nb-card>
+<br />
+<nb-card>
+	<nb-card-body>
+		<div class="col-md-5">
+			<mat-form-field>
+				<mat-label>INSPECTED AND ASSESSED BY: </mat-label>
+				<input matInput autocomplete="off" [(ngModel)]="inspectedBy" name="inspect" #inspect="ngModel" />
+				<!-- <mat-error *ngIf="inspect.invalid && inspect.errors.required && (inspect.dirty || inspect.touched)">
+                INSPECTED AND ASSESSED BY <strong>required</strong>
+                </mat-error> -->
+			</mat-form-field>
+		</div>
+	</nb-card-body>
+	<nb-card-footer class="aright">
+		<button nbButton matRipple hero status="primary" (click)="save()">Save</button>
+	</nb-card-footer>
+</nb-card>

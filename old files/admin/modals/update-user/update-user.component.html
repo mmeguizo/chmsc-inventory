@@ -1,0 +1,69 @@
+<nb-card>
+	<nb-card-header>
+		Update User
+		<button class="close" aria-label="Close" (click)="closeModal()">
+			<span aria-hidden="true">&times;</span>
+		</button>
+	</nb-card-header>
+	<nb-card-body [nbSpinner]="sgs.loading" nbSpinnerStatus="success" [formGroup]="form">
+		<div class="row">
+			<div class="col-sm-6">
+				<mat-form-field>
+					<mat-label>Role</mat-label>
+					<mat-select formControlName="role" #type id="role" (selectionChange)="getPosition(type.value)">
+						<mat-option *ngFor="let type of allPosition" [value]="type?.position">{{ type?.position | titlecase }} </mat-option>
+						<mat-option style="color: #0095ff" value="AddNewType">-Add New Role-</mat-option>
+					</mat-select>
+					<mat-error *ngIf="form?.get('role').touched && form.controls['role'].errors?.required">Type is <strong>required </strong> </mat-error>
+				</mat-form-field>
+			</div>
+			<div class="col-sm-6">
+				<mat-form-field class="input-example">
+					<mat-label>Username</mat-label>
+					<input matInput autocomplete="off" formControlName="username" required />
+					<mat-error *ngIf="form.get('username').touched && form.controls['username'].errors?.required">Username is required</mat-error>
+				</mat-form-field>
+			</div>
+		</div>
+		<div class="clear"></div>
+		<div class="row">
+			<div class="col-md-6">
+				<div class="input-group-prepend input-group-btn">
+					<mat-form-field class="input-example">
+						<mat-label>Password</mat-label>
+						<input type="{{ showpassword ? 'text' : 'password' }}" matInput autocomplete="off" formControlName="password" />
+					</mat-form-field>
+					<i [ngClass]="eyeIcon" (click)="showPassword()" class="showPassIcon"></i>
+				</div>
+			</div>
+			<div class="col-md-6">
+				<mat-form-field class="input-example">
+					<mat-label>Last Name</mat-label>
+					<input matInput autocomplete="off" formControlName="lname" required />
+					<mat-error *ngIf="form.get('lname').touched && form.controls['lname'].errors?.required">Last name is required</mat-error>
+				</mat-form-field>
+			</div>
+		</div>
+		<div class="clear"></div>
+		<div class="row">
+			<div class="col-md-6">
+				<mat-form-field class="input-example">
+					<mat-label>First Name</mat-label>
+					<input matInput autocomplete="off" formControlName="fname" required />
+					<mat-error *ngIf="form.get('fname').touched && form.controls['fname'].errors?.required">First name is required</mat-error>
+				</mat-form-field>
+			</div>
+			<div class="col-md-6">
+				<mat-form-field class="input-example">
+					<mat-label>Middle Name</mat-label>
+					<input matInput autocomplete="off" formControlName="mname" />
+				</mat-form-field>
+			</div>
+		</div>
+	</nb-card-body>
+	<nb-card-footer class="aright">
+		<button nbButton matRipple hero status="danger" (click)="closeModal()">Close</button>
+		&nbsp;
+		<button nbButton matRipple hero status="primary" [disabled]="form?.invalid || sgs.submitting" (click)="sgs.submitting = true; updateUser(form)">Update</button>
+	</nb-card-footer>
+</nb-card>

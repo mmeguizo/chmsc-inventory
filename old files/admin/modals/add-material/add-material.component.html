@@ -1,0 +1,94 @@
+<nb-card>
+	<nb-card-header>
+		Add New Materials
+		<button class="close" aria-label="Close" (click)="closeModal()">
+			<span aria-hidden="true">&times;</span>
+		</button>
+	</nb-card-header>
+	<nb-card-body [nbSpinner]="sgs.loading" nbSpinnerStatus="success" [formGroup]="form">
+		<div class="row">
+			<div class="col-md-3">
+				<mat-form-field class="input-example">
+					<mat-label>Name</mat-label>
+					<input matInput autocomplete="off" formControlName="name" required />
+					<mat-error *ngIf="form.get('name').touched && form.controls['name'].errors?.required">Name is required</mat-error>
+				</mat-form-field>
+			</div>
+			<div class="col-md-3">
+				<mat-form-field class="input-example">
+					<mat-label>Brand</mat-label>
+					<input matInput autocomplete="off" formControlName="brand" required />
+					<mat-error *ngIf="form.get('brand').touched && form.controls['brand'].errors?.required">Brand is required</mat-error>
+				</mat-form-field>
+			</div>
+			<div class="col-md-3">
+				<mat-form-field class="input-example">
+					<mat-label>Description</mat-label>
+					<input matInput autocomplete="off" formControlName="description" required />
+					<mat-error *ngIf="form.get('description').touched && form.controls['description'].errors?.required">Description is required</mat-error>
+				</mat-form-field>
+			</div>
+		</div>
+		<br />
+		<div class="row">
+			<div class="col-md-2">
+				<mat-label>Add image</mat-label>
+				<div class="example-button-row">
+					<button mat-raised-button color="primary" title="Upload document." (click)="openFile($event, 'file')">
+						<i class="fas fa-file-upload"></i>
+						&nbsp; Upload
+					</button>
+					<input multiple type="file" name="file" class="d-none" id="file" accept="image/x-png,image/gif,image/jpeg,.xlsx,.xls,image/*,.doc, .docx,.ppt, .pptx,.txt,.pdf" />
+				</div>
+			</div>
+			<div class="col-md-4 image" [nbSpinner]="imageLoader" nbSpinnerStatus="success" *ngIf="images != undefined">
+				<ng-container *ngFor="let image of images; let x = index">
+					<img id="image-source" [src]="image.file.link | assets: 'empDocuments':'html'" />&nbsp;
+					<button title="Remove this image." nbButton size="tiny" status="danger" (click)="removeImage(image.file.link, x)"><a class="far fa-trash-alt pointer">&nbsp;Remove</a></button>
+					<br />
+				</ng-container>
+			</div>
+			<div class="col-md-1">
+				<button type="button" title="Add this document." class="btn btn-primary btn-educational" (click)="addDocBackground(form)" [disabled]="form?.invalid || images == undefined || imageLoader">
+					<i class="fas fa-plus-square"></i>
+				</button>
+			</div>
+		</div>
+		<div class="clear"></div>
+		<div class="row">
+			<table class="table table-borderd">
+				<thead>
+					<tr style="font-weight: 600">
+						<td scope="col">Image</td>
+						<td scope="col">File Name</td>
+
+						<td class="acenter">Options</td>
+					</tr>
+				</thead>
+
+				<tbody>
+					<tr *ngIf="documents.length == 0">
+						<td colspan="3" class="acenter error">No data found</td>
+					</tr>
+					<tr *ngFor="let img of documents; let i = index">
+						<td scope="col">
+							<img id="image-source" [src]="img.file.link | assets: 'empDocuments':'html'" />&nbsp;
+							<!-- <img id='image-source' (click)="viewImg(img.files.link)" [src]="img.files.link | assets: 'empDocuments':'html'">&nbsp; -->
+						</td>
+						<!-- <td>{{img.files.fileName}}</td> -->
+						<td scope="col">{{ img.file.name }}</td>
+						<td class="acenter">
+							<a class="fas fa-trash-alt pointer" title="Remove this Image." (click)="removeImg(img.file.link)"></a>
+							&nbsp;
+						</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+	</nb-card-body>
+	<nb-card-footer class="aright">
+		<button nbButton matRipple hero status="danger" (click)="closeModal()">Close</button>
+		&nbsp;
+		<button nbButton matRipple hero status="primary" [disabled]="form?.invalid || documents.length < 1 || sgs.submitting" (click)="sgs.submitting = true; save()">Save</button>
+	</nb-card-footer>
+</nb-card>

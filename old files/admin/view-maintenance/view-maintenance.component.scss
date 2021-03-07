@@ -1,0 +1,20 @@
+:host nb-tab {
+      padding: 1.25rem;
+    }
+
+
+    nb-card-footer  {
+
+      float : right;
+
+    }
+
+    .mainDiv {
+
+      height:1280px;
+      widows: 720px;
+      overflow: auto;
+    }
+    ::-webkit-scrollbar {
+      width: 20px;
+    }
