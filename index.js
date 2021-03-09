@@ -7,12 +7,12 @@ const config = require('./config/database');
 const mongoose = require('mongoose');
 const PORT = process.env.PORT || 3000;
 const path = require('path');
-const globalconnetion = require('./serverconnetion/connections')['socketconnect']();
 //there is order here if you put blogs above authentication it will not require a token
 const authentication = require('./routes/authentication')(router);
 const users = require('./routes/users')(router);
 const blogs = require('./routes/blogs')(router);
 const http = require('http').Server(app);
+const globalconnetion = require('./serverconnetion/connections')['socketconnect']();
 
 
 mongoose.Promise = global.Promise;
@@ -28,6 +28,7 @@ mongoose.connect(config.uri, config.options, (err) => {
     }
 });
 
+// Add Access Control Allow Origin headers
 
 //once live change it to the server side ip
 app.use(cors())
@@ -38,7 +39,7 @@ app.use(cors())
 //body-parser built in express middleware
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
-
+globalconnetion.socket(http, PORT).start();
 
 // will allow all link || not good
 //app.use(cors())
@@ -58,9 +59,11 @@ app.get('*', (req, res) => {
 });
 
 
-app.listen(PORT, () => {
+const servers = app.listen(PORT, () => {
     console.log('Connected on port ' + PORT);
 });
 
 
 globalconnetion.socket(http, PORT).start();
+
+
