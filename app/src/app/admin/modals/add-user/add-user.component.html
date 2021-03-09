@@ -1,0 +1,102 @@
+  <div class="modal-header">
+    Add New User
+    <button class="close" aria-label="Close" (click)="closeModal()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <form [formGroup]="form">
+    <div class="modal-body">
+      <div class="row">
+        <div class="col-md-4">
+          <mat-form-field>
+            <mat-label>User Role:</mat-label>
+            <mat-select formControlName="role" #maritalStatus id="role">
+              <mat-option value="admin">Admin</mat-option>
+              <mat-option value="user">User</mat-option>
+              <mat-option value="general">General User</mat-option>
+            </mat-select>
+            <mat-error *ngIf="form?.get('role').touched && form.controls['role'].errors?.required">Role is
+              <strong>required </strong> </mat-error>
+          </mat-form-field>
+        </div>
+        <div class="col-md-4">
+          <mat-form-field class="input-example">
+            <mat-label>Username: </mat-label>
+            <input matInput type="text" autocomplete="off" formControlName="username">
+            <mat-error *ngIf="form?.get('username').touched && form.controls['username'].errors?.required">Username is
+              <strong>required </strong> </mat-error>
+          </mat-form-field>
+        </div>
+        <div class="col-md-4">
+          <mat-form-field class="input-example">
+            <mat-label>Email: </mat-label>
+            <input matInput type="text" autocomplete="off" formControlName="email">
+            <mat-error *ngIf="form?.get('email').touched && form.controls['email'].errors?.required">Email is
+              <strong>required </strong> </mat-error>
+          </mat-form-field>
+        </div>
+      </div>
+      <div class="clear"></div>
+      <div class="row">
+        <div class="col-md-6">
+          <div class="dropdown input-group-prepend input-group-btn wide" ngbDropdown>
+            <mat-form-field class="input-example">
+              <mat-label>Password: </mat-label>
+              <input matInput type="{{showpassword ? 'text' : 'password'}}" autocomplete="off"
+                formControlName="password">
+              <mat-error *ngIf="form?.get('password').touched && form.controls['password'].errors?.required">Password is
+                <strong>required </strong> </mat-error>
+            </mat-form-field>
+            <button type="button" class="btn btn-success" style="height: 44px;" (click)="showPassword()">
+              <i style="color:lightblue;" [ngClass]="eyeIcon"></i>
+            </button>
+          </div>
+        </div>
+        <div class="col-md-6">
+          <div class="dropdown input-group-prepend input-group-btn wide" ngbDropdown>
+            <mat-form-field class="input-example">
+              <mat-label>Confirm Password: </mat-label>
+              <input matInput type="{{showpassword ? 'text' : 'password'}}" autocomplete="off"
+                formControlName="confirm">
+              <mat-error *ngIf="form?.get('confirm').touched && form.controls['confirm'].errors?.required">Password is
+                <strong>required </strong> </mat-error>
+            </mat-form-field>
+            <button type="button" class="btn btn-success" style="height: 44px;" (click)="showPassword()">
+              <i style="color:lightblue;" [ngClass]="eyeIcon"></i>
+            </button>
+          </div>
+        </div>
+        <!-- <div class="col-md-6">
+        <mat-form-field class="input-example">
+          <mat-label>Last Name: </mat-label>
+          <input matInput type="text" autocomplete="off" formControlName="lname">
+          <mat-error *ngIf="form?.get('lname').touched && form.controls['lname'].errors?.required">Last Name is
+            <strong>required </strong> </mat-error>
+        </mat-form-field>
+      </div> -->
+      </div>
+      <div class="clear"></div>
+      <!-- <div class="row">
+      <div class="col-md-6">
+        <mat-form-field class="input-example">
+          <mat-label>First Name: </mat-label>
+          <input matInput type="text" autocomplete="off" formControlName="fname">
+          <mat-error *ngIf="form?.get('fname').touched && form.controls['fname'].errors?.required">First Name is
+            <strong>required </strong> </mat-error>
+        </mat-form-field>
+      </div>
+      <div class="col-md-6">
+        <mat-form-field class="input-example">
+          <mat-label>Middle Name: </mat-label>
+          <input matInput type="text" autocomplete="off" formControlName="mname">
+        </mat-form-field>
+      </div>
+    </div> -->
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-danger" (click)="closeModal()">Close</button>
+      <button type="submit" class="btn btn-primary" [disabled]="form?.invalid" (click)="addUser(form)">
+        <i class="far fa-address-card"></i> ADD
+      </button>
+    </div>
+  </form>

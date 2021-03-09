@@ -5,6 +5,7 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { NbPopoverDirective } from '@nebular/theme';
 import { AuthService } from '../../../services/auth.service';
 import { UserService } from '../../../services/users.service';
+import { AddUserComponent } from '../../modals/add-user/add-user.component';
 
 
 
@@ -23,6 +24,9 @@ export class UsersComponent implements OnInit {
   public selectQuery = 'username';
   loading = true;
   public data = [];
+  public socketInstance;
+
+
 
   @ViewChild(NbPopoverDirective, { static: false }) popover: NbPopoverDirective;
   @ViewChild("search", { static: false }) nameField: ElementRef;
@@ -39,6 +43,13 @@ export class UsersComponent implements OnInit {
 
     this.getAllUsers();
 
+
+    this.socketInstance = this.auth.replySocket('user').subscribe(emmet => {
+
+      console.log('emmet');
+      console.log(emmet);
+      this.getAllUsers();
+    });
 
   }
 
@@ -86,12 +97,12 @@ export class UsersComponent implements OnInit {
   }
 
   addUser() {
-
-    console.log('this.add user');
-
+    const activeModal = this.ngbModal.open(AddUserComponent, { size: 'lg', container: 'nb-layout', windowClass: 'min_height', backdrop: 'static' });
   }
 
-
+  ngOnDestroy() {
+    this.socketInstance.unsubscribe();
+  }
 
 
 }

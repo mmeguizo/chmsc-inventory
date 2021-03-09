@@ -43,7 +43,7 @@
                   <td scope="col">{{ i + 1 }}</td>
                   <td scope="col">{{ user.username | titlecase }}</td>
                   <td scope="col">{{ user.role}}</td>
-                  <td scope="col">{{ user.status ? 'Active' : 'Inactive' | titlecase}}</td>
+                  <td scope="col">{{ user.status | titlecase}}</td>
                   <!-- <td scope="col" [ngClass]="{'disabled': me?.username == data.username}">
                     <a class="pointer" (click)="disableAccount(data._id)" *ngIf="data.status == 1"><i
                         class="fas fa-circle circle-active"></i> Active</a>

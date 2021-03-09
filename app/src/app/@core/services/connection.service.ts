@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 
 @Injectable()
 export class ConnectionService {
-  public connection: String = "http://localhost:8080";
+  // public domain: String = "http://localhost:3000";
+  public domain: String = "";
 }
 

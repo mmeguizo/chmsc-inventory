@@ -8,7 +8,9 @@ import { map } from "rxjs/operators";
 import { Router } from '@angular/router';
 import * as io from 'socket.io-client';
 import { Location } from '@angular/common';
+import { ConnectionService } from '../@core/services/connection.service';
 
+import { NbToastrService, NbComponentStatus } from '@nebular/theme';
 
 
 @Injectable({
@@ -16,8 +18,9 @@ import { Location } from '@angular/common';
 })
 export class AuthService {
 
-  public domain = "http://localhost:3000";
+  //public domain = "http://localhost:3000";
   //public domain = "cryptic-anchorage-20422.herokuapp.com:3000";
+  public domain
   authToken;
   user;
   options;
@@ -29,11 +32,22 @@ export class AuthService {
   constructor(
 
     private router: Router,
+    public connection: ConnectionService,
     public location: Location,
     private http: HttpClient,
-    public jwtHelper: JwtHelperService
+    public jwtHelper: JwtHelperService,
+    public toasted: NbToastrService
 
-  ) { }
+  ) {
+
+    this.domain = this.connection.domain
+
+  }
+
+  public Notifytoast(status: NbComponentStatus, body, title, duration, position) {
+    this.toasted.show(body, title, { status, duration, position });
+  }
+
 
   handleError(error: HttpErrorResponse) {
     let errorMessage = 'Unknown error!';
@@ -50,45 +64,28 @@ export class AuthService {
 
 
 
-  ResponseSocket(name?) {
+  replySocket(name?) {
     const socket = io.connect(this.domain);
     return new Observable(observer => {
       socket.on(name, (data) => {
+
+        console.log(name, data);
+
+
         this.socketserver.status = true;
         this.socketserver.message = "online";
         observer.next(data);
       });
-
       socket.on('reconnect_error', () => {
         // console.clear();
         this.socketserver.status = false;
         this.socketserver.message = "offline";
       });
-
       socket.on('reconnect', () => {
         // console.clear();
         this.socketserver.status = true;
         this.socketserver.message = "online";
       });
-
-      return () => {
-        socket.disconnect();
-      };
-    }) as any;
-  }
-
-  initSocketLobby(name) {
-    const socket = io.connect(this.domain);
-    return new Observable(observer => {
-      socket.on('connect', () => {
-        observer.next({ initsocketid: socket.id });
-      });
-
-      socket.on(name, (data) => {
-        // this.lobbyEmitter.emit(socket.id);
-        observer.next(data);
-      });
-
       return () => {
         socket.disconnect();
       };
@@ -103,7 +100,6 @@ export class AuthService {
       'Content-Type': 'application/json',
       'authorization': this.authToken
     })
-
 
   }
 
@@ -126,27 +122,27 @@ export class AuthService {
 
 
   registerUser(user) {
-    return this.http.post('/authentication/register', user)
-    // return this.http.post(this.domain + '/authentication/register', user)
+    // return this.http.post('/authentication/register', user)
+    return this.http.post(this.domain + '/authentication/register', user)
   }
 
 
   checkUsername(username) {
-    return this.http.get('/authentication/checkUsername/' + username);
-    // return this.http.get(this.domain + '/authentication/checkUsername/' + username);
+    // return this.http.get('/authentication/checkUsername/' + username);
+    return this.http.get(this.domain + '/authentication/checkUsername/' + username);
   }
 
 
 
   checkEmail(email) {
-    return this.http.get('/authentication/checkEmail/' + email)
-    // return this.http.get(this.domain + '/authentication/checkEmail/' + email)
+    // return this.http.get('/authentication/checkEmail/' + email)
+    return this.http.get(this.domain + '/authentication/checkEmail/' + email)
   }
 
   // Function to login user
   login(user) {
-    return this.http.post('/authentication/login', user)
-    //return this.http.post(this.domain + '/authentication/login', user)
+    // return this.http.post('/authentication/login', user)
+    return this.http.post(this.domain + '/authentication/login', user)
 
   }
 
@@ -192,16 +188,16 @@ export class AuthService {
     //this.options => is not working but with {headers : this.options} is working i read it i guess in angular docs
     //'@auth0/angular-jwt'; is adding 'Bearer ' in token so i removed it manually
     this.createAuthenticationHeaders()
-    return this.http.get('/authentication/profile', { headers: this.options })
-    // return this.http.get(this.domain + '/authentication/profile', { headers: this.options })
+    //return this.http.get('/authentication/profile', { headers: this.options })
+    return this.http.get(this.domain + '/authentication/profile', { headers: this.options })
 
 
   }
 
   getPublicProfile(username) {
     this.createAuthenticationHeaders(); // Create headers before sending to API
-    return this.http.get('/authentication/publicProfile/' + username, { headers: this.options });
-    //return this.http.get(this.domain + 'authentication/publicProfile/' + username, { headers: this.options });
+    // return this.http.get('/authentication/publicProfile/' + username, { headers: this.options });
+    return this.http.get(this.domain + 'authentication/publicProfile/' + username, { headers: this.options });
 
   }
 

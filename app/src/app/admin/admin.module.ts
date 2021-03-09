@@ -24,13 +24,6 @@ import {
   NbTreeGridModule,
   NbDatepickerModule,
   NbAccordionModule,
-  // NbAccordionItemBodyComponent,
-  // NbAccordionComponent,
-  // NbAccordionItemComponent,
-  // NbAccordionItemHeaderComponent,
-  // NbListModule,
-  // NbRouteTabsetModule,
-  // NbStepperModule,
 } from '@nebular/theme';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatTabsModule } from '@angular/material/tabs';
@@ -64,13 +57,6 @@ const NB_MODULES = [
   NbCalendarModule,
   NbTreeGridModule,
   NbAccordionModule,
-  // NbAccordionItemBodyComponent,
-  // NbAccordionComponent,
-  // NbAccordionItemComponent,
-  // NbAccordionItemHeaderComponent,
-  // NbListModule,
-  // NbRouteTabsetModule,
-  // NbStepperModule,
 ];
 
 import { DashboardComponent } from './dashboard/dashboard.component';
@@ -80,6 +66,7 @@ import { RouterModule } from '@angular/router';
 import { UsersComponent } from './users/users/users.component';
 import { LogoutComponent } from './modals/logout/logout.component';
 import { UserService } from '../services/users.service';
+import { AddUserComponent } from './modals/add-user/add-user.component';
 
 @NgModule({
   imports: [
@@ -99,18 +86,13 @@ import { UserService } from '../services/users.service';
   ],
   declarations: [
     AdminComponent,
-    // NbAccordionItemBodyComponent,
-    // NbAccordionComponent,
-    // NbAccordionItemComponent,
-    // NbAccordionItemHeaderComponent,
-    // NbListModule,
-    // NbRouteTabsetModule,
-    // NbStepperModule,
     DashboardComponent,
     UsersComponent,
-    LogoutComponent],
+    LogoutComponent,
+    AddUserComponent],
   entryComponents: [
-    LogoutComponent
+    LogoutComponent,
+    AddUserComponent
   ],
   providers: [UserService],
   exports: [RouterModule]
