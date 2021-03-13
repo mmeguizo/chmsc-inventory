@@ -67,6 +67,8 @@ import { UsersComponent } from './users/users/users.component';
 import { LogoutComponent } from './modals/logout/logout.component';
 import { UserService } from '../services/users.service';
 import { AddUserComponent } from './modals/add-user/add-user.component';
+import { ConfimationComponent } from './modals/confimation/confimation.component';
+import { UpdateUserComponent } from './modals/update-user/update-user.component';
 
 @NgModule({
   imports: [
@@ -89,10 +91,14 @@ import { AddUserComponent } from './modals/add-user/add-user.component';
     DashboardComponent,
     UsersComponent,
     LogoutComponent,
-    AddUserComponent],
+    AddUserComponent,
+    ConfimationComponent,
+    UpdateUserComponent],
   entryComponents: [
     LogoutComponent,
-    AddUserComponent
+    AddUserComponent,
+    UpdateUserComponent,
+    ConfimationComponent,
   ],
   providers: [UserService],
   exports: [RouterModule]

@@ -135,6 +135,7 @@ const userSchema = new Schema({
   username: { type: String, required: true, unique: true, lowercase: true, validate: usernameValidators },
   role: { type: String, required: true },
   status: { type: String, default: 'active' },
+  deleted: { type: Boolean, default: false },
   password: { type: String, required: true, validate: passwordValidator }
 
 });
@@ -173,6 +174,22 @@ userSchema.methods.comparePassword = function (password) {
   //     console.log({ res: res });
   // });
 }
+// userSchema.methods.encryptPassword = function (password) {
+
+//   bcrypt.genSalt(10, (err, salt) => {
+//     bcrypt.hash(this.password, salt, (err, hash) => {
+//       if (err) return next(err); // Ensure no errors
+//       this.password = hash; // Apply encryption to password
+//       next(err); // Exit middleware
+//     });
+//   });
+//   // return bcrypt.compare(password, this.password); // this return a promise
+//   //async 
+//   //  bcrypt.compare(password, this.password, (err, res) => {
+//   //     console.log({ err: err });
+//   //     console.log({ res: res });
+//   // });
+// }
 
 // globalconnetion.makeSocket((client, io) => {
 //     return client.on('user', (data) => {

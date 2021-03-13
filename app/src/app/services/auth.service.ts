@@ -64,34 +64,6 @@ export class AuthService {
 
 
 
-  replySocket(name?) {
-    const socket = io.connect(this.domain);
-    return new Observable(observer => {
-      socket.on(name, (data) => {
-
-        console.log(name, data);
-
-
-        this.socketserver.status = true;
-        this.socketserver.message = "online";
-        observer.next(data);
-      });
-      socket.on('reconnect_error', () => {
-        // console.clear();
-        this.socketserver.status = false;
-        this.socketserver.message = "offline";
-      });
-      socket.on('reconnect', () => {
-        // console.clear();
-        this.socketserver.status = true;
-        this.socketserver.message = "online";
-      });
-      return () => {
-        socket.disconnect();
-      };
-    }) as any;
-  }
-
 
   createAuthenticationHeaders() {
 
@@ -165,12 +137,12 @@ export class AuthService {
 
 
   // Function to store user's data in client local storage
-  storeUserData(token, user, tokenUsername, data) {
+  storeUserData(token, user, tokenUsername) {
     localStorage.setItem('token', token); // Set token in local storage
     localStorage.setItem('tokenUsername', user.username); // Set token in local storage
     localStorage.setItem('user', JSON.stringify(user)); // Set user in local storage as string
     localStorage.setItem('user', JSON.stringify(user)); // Set user in local storage as string
-    localStorage.setItem('fulluserloggedData', JSON.stringify(data)); // Set user in local storage as string
+    // localStorage.setItem('fulluserloggedData', JSON.stringify(data)); // Set user in local storage as string
     this.authToken = token; // Assign token to be used elsewhere
     this.user = user; // Set user to be used elsewhere
 
@@ -208,6 +180,35 @@ export class AuthService {
   }
 
 
+
+  // replySocket(name?) {
+  //   const socket = io.connect(this.domain, {
+  //     cors: {
+  //       origin: '*',
+  //     }
+  //   });
+  //   return new Observable(observer => {
+  //     socket.on(name, (data) => {
+  //       console.log(name, data);
+  //       this.socketserver.status = true;
+  //       this.socketserver.message = "online";
+  //       observer.next(data);
+  //     });
+  //     socket.on('reconnect_error', () => {
+  //       // console.clear();
+  //       this.socketserver.status = false;
+  //       this.socketserver.message = "offline";
+  //     });
+  //     socket.on('reconnect', () => {
+  //       // console.clear();
+  //       this.socketserver.status = true;
+  //       this.socketserver.message = "online";
+  //     });
+  //     return () => {
+  //       socket.disconnect();
+  //     };
+  //   }) as any;
+  // }
 
 
 

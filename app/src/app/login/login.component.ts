@@ -6,6 +6,7 @@ import { Router } from '@angular/router';
 // import { SharedGlobalService } from '../@core/services/shared.global.service';
 import { NbDialogService } from '@nebular/theme';
 import { ToasterService, ToasterConfig } from 'angular2-toaster';
+import { ConnectionService } from '../@core/services/connection.service';
 import { AuthService } from '../services/auth.service';
 import { TestComponent } from './modals/test/test.component';
 // import { ToastrService } from 'ngx-toastr';
@@ -43,7 +44,7 @@ export class LoginComponent implements OnInit {
     // public sgs: SharedGlobalService,
     // public authService: AuthService,
     private dialogService: NbDialogService,
-
+    public cs: ConnectionService,
     private formBuilder: FormBuilder,
     private authService: AuthService,
     private router: Router,
@@ -124,11 +125,8 @@ export class LoginComponent implements OnInit {
         //  this.toastr.success('Success', data.message);
         this.toastr.pop('success', 'Success', data.message);
 
-        console.log({ login: data.data });
-
-
         // Function to store user's token in client local storage
-        this.authService.storeUserData(data.token, data.user, data.userToken, data.data);
+        this.authService.storeUserData(data.token, data.user, data.userToken);
 
 
         if (this.authService.CurrentlyloggedIn()) {

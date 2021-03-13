@@ -489,7 +489,7 @@ bs-daterangepicker-container {
 }
 .linkUncolored {
   color: #424242 ;
-} 
+}
 
 .clear{
   margin-top: 10px;
@@ -535,6 +535,21 @@ bs-daterangepicker-container {
 //for modal card footer margin error
 .nb-theme-material-light nb-card {
   margin-bottom: 0 !important;
+}
+
+
+.modal-content {
+  background-color: #424242 !important;
+}
+.modal-header {
+  color: white !important;
+}
+
+.mat-input-element {
+  color: white !important;
+}
+nb-card-body {
+  color: white !important;
 }
 
 // to streatch the material field, need to overide the width

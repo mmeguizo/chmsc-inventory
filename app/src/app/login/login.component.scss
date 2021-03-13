@@ -6,7 +6,7 @@ h2{
 	margin-right:auto;
 	font-style: italic;
 	font-weight: bold;
-	margin-top: 2px; 
+	margin-top: 2px;
 }
 .error{
 	text-align: center;
@@ -21,16 +21,22 @@ h2{
 	margin: 0 auto;
 	// filter: drop-shadow(10px 1px 19px rgba(76, 128, 134, 0.5));
 }
+.chmsc-logo{
+	padding-top: 30px;
+	width: 39%;
+	margin: 0 auto;
+	// filter: drop-shadow(10px 1px 19px rgba(76, 128, 134, 0.5));
+}
 
 @import url(https://fonts.googleapis.com/css?family=Source+Sans+Pro:200,300);
 
 //test
 .wrapper {
-	background: #6200EE;
-	background: -webkit-linear-gradient(top left, #6200EE 0%, rgb(122, 27, 255) 100%);
-	background: -moz-linear-gradient(top left, #6200EE 0%, rgb(122, 27, 255) 100%);
-	background: -o-linear-gradient(top left, #6200EE 0%, rgb(122, 27, 255) 100%);
-	background: linear-gradient(to bottom right, #6200EE 0%, rgb(122, 27, 255) 100%);
+	background: #ffaa00;
+	background: -webkit-linear-gradient(top left, #ffaa00 0%, rgb(122, 27, 255) 100%);
+	background: -moz-linear-gradient(top left, #ffaa00 0%, rgb(122, 27, 255) 100%);
+	background: -o-linear-gradient(top left, #ffaa00 0%, rgb(122, 27, 255) 100%);
+	background: linear-gradient(to bottom right, #ffaa00 0%, rgb(122, 27, 255) 100%);
 
 	position: absolute;
 	top: 40%;
@@ -76,7 +82,7 @@ form {
 		// border: 1px solid fade(white, 40%);
 		// background-color: fade(white, 20%);
 		border: 1px solid #d2b3ff;
-		background-color: #7212f9;
+		background-color: #222b45;
 
 		width: 250px;
 
@@ -100,7 +106,7 @@ form {
 			background-color: white;
 			width: 300px;
 
-			color:  #7212f9;
+			color:  #222b45;
 		}
 	}
 
@@ -110,7 +116,7 @@ form {
 		background-color: white;
 		border: 0;
 		padding: 10px 15px;
-		color:  #7212f9;
+		color:  #222b45;
 		border-radius: 3px;
 		width: 250px;
 		cursor: pointer;

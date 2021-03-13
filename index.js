@@ -12,7 +12,7 @@ const authentication = require('./routes/authentication')(router);
 const users = require('./routes/users')(router);
 const blogs = require('./routes/blogs')(router);
 const http = require('http').Server(app);
-const globalconnetion = require('./serverconnetion/connections')['socketconnect']();
+// const globalconnetion = require('./serverconnetion/connections')['socketconnect']();
 
 
 mongoose.Promise = global.Promise;
@@ -32,6 +32,8 @@ mongoose.connect(config.uri, config.options, (err) => {
 
 //once live change it to the server side ip
 app.use(cors())
+
+
 // app.use(cors({
 //     origin: 'http://localhost:4200'
 // }))
@@ -39,7 +41,6 @@ app.use(cors())
 //body-parser built in express middleware
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
-globalconnetion.socket(http, PORT).start();
 
 // will allow all link || not good
 //app.use(cors())
@@ -64,6 +65,6 @@ const servers = app.listen(PORT, () => {
 });
 
 
-globalconnetion.socket(http, PORT).start();
+// globalconnetion.socket(http, PORT).start();
 
 

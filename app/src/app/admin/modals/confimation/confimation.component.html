@@ -1,0 +1,20 @@
+<div class="modal-header">
+  Performing {{ message }}?
+  <button class="close" aria-label="Close" (click)="closeModal()">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+<div class="modal-body">
+  <nb-card-body>
+    <strong class="align-center"> {{message1 | titlecase }} {{ name | titlecase}}...</strong>
+  </nb-card-body>
+  <nb-card-footer class="d-block">
+    <button mat-flat-button color="warn" class="float-left" (click)="no()">No</button>
+    <button mat-flat-button color="primary" class="float-right" (click)="yes()">Yes</button>
+    <div class="clearfix"></div>
+  </nb-card-footer>
+</div>
+<!-- <div class="modal-footer">
+    <button type="botton" class="btn btn-danger" (click)="closeModal()">Close</button>
+    <button type="botton" class="btn btn-danger" (click)="logout()">Close</button>
+  </div> -->

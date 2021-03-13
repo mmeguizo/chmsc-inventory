@@ -1,5 +1,6 @@
 const User = require('../models/user'); // Import User Model Schema
-const globalconnetion = require('../serverconnetion/connections');
+const hash = require('../serverconnetion/enrypter')
+// const globalconnetion = require('../serverconnetion/connections');
 
 module.exports = (router) => {
 
@@ -7,7 +8,7 @@ module.exports = (router) => {
     router.get('/getAllUser', (req, res) => {
 
         // Search database for all blog posts
-        User.find({}, (err, user) => {
+        User.find({ deleted: false }, { _id: 1, email: 1, username: 1, role: 1, status: 1 }, (err, user) => {
             // Check if error was found or not
             if (err) {
                 res.json({ success: false, message: err }); // Return error message
@@ -32,6 +33,8 @@ module.exports = (router) => {
 
     router.post('/addUser', (req, res) => {
 
+
+
         if (!req.body.email) {
             res.json({ success: false, message: 'You must provide an email' })
         } else {
@@ -41,6 +44,10 @@ module.exports = (router) => {
             } else {
                 if (!req.body.password) {
                     res.json({ success: false, message: 'You must provide an password' })
+
+                } else if (req.body.password !== req.body.confirm) {
+
+                    res.json({ success: false, message: 'Password dont match' })
 
                 } else {
                     let user = new User({
@@ -79,22 +86,175 @@ module.exports = (router) => {
                             }
                         } else {
                             res.json({ success: true, message: 'Account Registered successfully', data: { email: data.email, username: data.username } });
-                            globalconnetion.emitter('user')
+                            // globalconnetion.emitter('user')
                         }
                     })
 
                 }
             }
         }
-        // res.send('POST in authetication')
+
     });
 
 
-    globalconnetion.makeSocket((client, io) => {
-        return client.on('user', (data) => {
-            io.emit('user', { success: true, data: data })
-        });
+    router.put('/changeStatus', (req, res) => {
+
+
+
+        let data = req.body
+
+
+        if (data.status === 'active') {
+
+            User.updateOne({
+                _id: data._id
+            },
+                {
+                    $set: { status: 'inactive' }
+
+                }, (err, user) => {
+                    if (err) {
+                        res.json({ success: false, message: 'Could not Deactivate User' + err })
+                    } else {
+                        res.json({ success: true, message: data.username + ' successfully Deactivated', data: user });
+                        // globalconnetion.emitter('user')
+                    }
+                })
+
+        } else {
+
+            User.updateOne({
+                _id: data._id
+            },
+                {
+                    $set: { status: 'active' }
+
+                }, (err, user) => {
+                    if (err) {
+                        res.json({ success: false, message: 'Could not Activate User' + err })
+                    } else {
+                        res.json({ success: true, message: data.username + ' successfully Activate', data: user });
+                        // globalconnetion.emitter('user')
+                    }
+                })
+        }
+
     });
+
+
+
+    router.put('/deleteUser', (req, res) => {
+
+
+
+        let data = req.body
+
+
+        User.updateOne({
+            _id: data._id
+        },
+            {
+                $set: { deleted: true }
+
+            }, (err, user) => {
+                if (err) {
+                    res.json({ success: false, message: 'Could not Delete User' + err })
+                } else {
+                    res.json({ success: true, message: data.username + ' Successfully Deleted the User', data: user });
+                    // globalconnetion.emitter('user')
+                }
+            })
+
+
+    });
+
+
+
+
+    router.put('/updateUser', (req, res) => {
+
+        let data = req.body
+
+        let userData = {};
+        let changedPassword = false;
+        console.log(data);
+
+
+        if (data.password || data.confirm !== '') {
+
+            hash.encryptPassword(data.password).then(hash => {
+
+                console.log({ hash_resolve: hash });
+
+                userData.role = data.role;
+                userData.username = data.username;
+                userData.email = data.email;
+                userData.password = hash;
+                changedPassword = true;
+
+                User.findOneAndUpdate({ _id: data._id }, userData, { upsert: true }, (err, response) => {
+                    if (err) return res.json({ success: false, message: err.message });
+                    if (response) {
+                        res.json({ success: true, message: "User Information has been updated!", data: response, changedPassword: changedPassword });
+                    } else {
+                        res.json({ success: true, message: "No User has been modified!", data: response });
+                    }
+                });
+
+
+
+            }).catch(err => { console.log(err); })
+
+
+        } else {
+
+            userData.role = data.role;
+            userData.username = data.username;
+            userData.email = data.email;
+            changedPassword = false
+
+            User.findOneAndUpdate({ _id: data._id }, userData, { upsert: true }, (err, response) => {
+                if (err) return res.json({ success: false, message: err.message });
+                if (response) {
+                    res.json({ success: true, message: "User Information has been updated!", data: response, changedPassword: changedPassword });
+                } else {
+                    res.json({ success: true, message: "No User has been modified!", data: response });
+                }
+            });
+
+
+
+        }
+
+        console.log(userData);
+
+
+
+        // User.updateOne({
+        //     _id: data._id
+        // },
+        //     {
+        //         $set: { status: 'inactive' }
+
+        //     }, (err, user) => {
+        //         if (err) {
+        //             res.json({ success: false, message: 'Could not Deactivate User' + err })
+        //         } else {
+        //             res.json({ success: true, message: data.username + ' successfully Deactivated', data: user });
+        //             // globalconnetion.emitter('user')
+        //         }
+        //     })
+
+
+
+    });
+
+
+    // globalconnetion.makeSocket((client, io) => {
+    //     return client.on('user', (data) => {
+    //         io.emit('user', { success: true, data: data })
+    //     });
+    // });
 
 
 

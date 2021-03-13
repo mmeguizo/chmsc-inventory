@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef, EventEmitter, Output } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 // import { AddUserComponent } from '../modals/add-user/add-user.component';
 // import { UpdateUserComponent } from '../modals/update-user/update-user.component';
@@ -6,6 +6,8 @@ import { NbPopoverDirective } from '@nebular/theme';
 import { AuthService } from '../../../services/auth.service';
 import { UserService } from '../../../services/users.service';
 import { AddUserComponent } from '../../modals/add-user/add-user.component';
+import { ConfimationComponent } from '../../modals/confimation/confimation.component';
+import { UpdateUserComponent } from '../../modals/update-user/update-user.component';
 
 
 
@@ -16,6 +18,7 @@ import { AddUserComponent } from '../../modals/add-user/add-user.component';
 })
 export class UsersComponent implements OnInit {
 
+  @Output() passEntry: EventEmitter<string> = new EventEmitter<string>();
 
   public filterQuery = '';
   public sortBy = 'username';
@@ -44,12 +47,11 @@ export class UsersComponent implements OnInit {
     this.getAllUsers();
 
 
-    this.socketInstance = this.auth.replySocket('user').subscribe(emmet => {
-
-      console.log('emmet');
-      console.log(emmet);
-      this.getAllUsers();
-    });
+    // this.socketInstance = this.auth.replySocket('user').subscribe(emmet => {
+    //   console.log('emmet');
+    //   console.log(emmet);
+    //   this.getAllUsers();
+    // });
 
   }
 
@@ -90,18 +92,64 @@ export class UsersComponent implements OnInit {
   }
 
 
-  updateUser() {
+  updateUser(user) {
 
-    console.log(' this to update user');
+    console.log(user);
+
+
+    const activeModal = this.ngbModal.open(UpdateUserComponent, { size: 'lg', container: 'nb-layout', windowClass: 'min_height', backdrop: 'static' });
+    activeModal.componentInstance.userData = user;
+    activeModal.componentInstance.passEntry.subscribe((receivedEntry) => {
+      console.log('receivepassEntrydEntry recievd');
+      console.log(receivedEntry);
+      this.getAllUsers()
+      // this.units.push(receivedEntry);
+    });
+
 
   }
 
   addUser() {
     const activeModal = this.ngbModal.open(AddUserComponent, { size: 'lg', container: 'nb-layout', windowClass: 'min_height', backdrop: 'static' });
+    activeModal.componentInstance.passEntry.subscribe((receivedEntry) => {
+      console.log('receivepassEntrydEntry recievd');
+      console.log(receivedEntry);
+      this.getAllUsers()
+      // this.units.push(receivedEntry);
+    });
+
   }
 
   ngOnDestroy() {
-    this.socketInstance.unsubscribe();
+    // this.socketInstance.unsubscribe();
+  }
+
+
+  changeStatus(user) {
+
+    const activeModal = this.ngbModal.open(ConfimationComponent, { size: 'sm', container: 'nb-layout', windowClass: 'min_height', backdrop: 'static' });
+    activeModal.componentInstance.data = user;
+    activeModal.componentInstance.passEntry.subscribe((receivedEntry) => {
+      console.log('receivepassEntrydEntry recievd');
+      console.log(receivedEntry);
+      this.getAllUsers()
+      // this.units.push(receivedEntry);
+    });
+
+  }
+  deleteUser(user) {
+
+    user.delete = true;
+
+    const activeModal = this.ngbModal.open(ConfimationComponent, { size: 'sm', container: 'nb-layout', windowClass: 'min_height', backdrop: 'static' });
+    activeModal.componentInstance.data = user;
+    activeModal.componentInstance.passEntry.subscribe((receivedEntry) => {
+      console.log('receivepassEntrydEntry recievd');
+      console.log(receivedEntry);
+      this.getAllUsers()
+      // this.units.push(receivedEntry);
+    });
+
   }
 
 

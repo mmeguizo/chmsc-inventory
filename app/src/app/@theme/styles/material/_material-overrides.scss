@@ -6,10 +6,24 @@
           color: nb-theme(color-basic-100) !important;
         }
       }
-  
+
       .select-button {
         background-color: nb-theme(background-basic-color-3) !important;
       }
+
+
+      nav {
+
+        background-color: #424242 !important;
+
+      }
+
+    }
+
+
+    nb-layout-footer nav {
+
+      background-color: #424242 !important;
     }
 
     nb-sidebar {
@@ -28,6 +42,25 @@
         background-color: nb-theme(card-divider-color);
       }
     }
+
+    .nb-theme-material-dark, nb-menu,  .menu-icon, .menu-title, .menu-item a.active {
+      color : white !important;
+
+    }
+
+   nb-menu .menu-item > .menu-items > .menu-item a.active  {
+
+      color : white !important;
+
+    }
+
+
+    .nb-theme-material-dark li {
+
+      color : black !important;
+
+    }
+
 
     [nbinput] {
       font-weight: 400;

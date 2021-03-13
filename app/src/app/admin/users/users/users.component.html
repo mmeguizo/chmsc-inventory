@@ -42,24 +42,29 @@
                 <tr *ngFor="let user of mf.data; let i = index">
                   <td scope="col">{{ i + 1 }}</td>
                   <td scope="col">{{ user.username | titlecase }}</td>
-                  <td scope="col">{{ user.role}}</td>
-                  <td scope="col">{{ user.status | titlecase}}</td>
-                  <!-- <td scope="col" [ngClass]="{'disabled': me?.username == data.username}">
-                    <a class="pointer" (click)="disableAccount(data._id)" *ngIf="data.status == 1"><i
-                        class="fas fa-circle circle-active"></i> Active</a>
-                    <a class="pointer" (click)="enableAccount(data._id)" *ngIf="data.status == 2"><i
-                        class="fas fa-circle circle-inacvtive"></i> Deactivated</a>
-                  </td> -->
+                  <td scope="col">{{ user.role | titlecase}}</td>
+                  <!-- <td scope="col">{{ user.status | titlecase}}</td> -->
+
+                  <td scope="col">
+                    <span class="pointer" (click)="changeStatus(user)"
+                      [ngClass]="{'active': user.status == 'active',  'inactive': user.status == 'inactive' }">{{ user.status | titlecase}}</span>
+                  </td>
+
+
                   <td scope="col">
                     <div class="btn-group " dropdown placement="bottom right">
                       <i id="button-alignment" dropdownToggle class="fas fa-chevron-circle-down"
                         aria-controls="dropdown-alignment"></i>
                       <ul id="dropdown-alignment" *dropdownMenu class="dropdown-menu dropdown-menu-right" role="menu"
                         aria-labelledby="button-alignment">
-                        <li role="menuitem" class="dropdown-item pointer" (click)="updateUser(user.id)">
-                          <nb-icon icon="edit-2" style="color: rgb(0, 132, 255)"></nb-icon> Update User
+                        <li style="color:black" role="menuitem" class="dropdown-item pointer"
+                          (click)="updateUser(user)">
+                          <nb-icon icon="edit-2" style="color: blue"></nb-icon> Update User
                         </li>
-
+                        <li style="color:black" role="menuitem" class="dropdown-item pointer"
+                          (click)="deleteUser(user)">
+                          <nb-icon icon="trash-2-outline" style="color: red"></nb-icon> Delete User
+                        </li>
                       </ul>
                     </div>
                   </td>
@@ -95,3 +100,6 @@
     </nb-list>
   </nb-card>
 </ng-template>
+
+
+<!--   -->
