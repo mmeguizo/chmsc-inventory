@@ -1,32 +1,34 @@
+
+
 import { Component, OnInit, ViewChild, ElementRef, EventEmitter, Output } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 // import { AddUserComponent } from '../modals/add-user/add-user.component';
 // import { UpdateUserComponent } from '../modals/update-user/update-user.component';
 import { NbPopoverDirective } from '@nebular/theme';
-import { AuthService } from '../../../services/auth.service';
-import { UserService } from '../../../services/users.service';
-import { AddUserComponent } from '../../modals/add-user/add-user.component';
-import { ConfimationComponent } from '../../modals/confimation/confimation.component';
-import { UpdateUserComponent } from '../../modals/update-user/update-user.component';
-
+import { AuthService } from '../../services/auth.service';
+import { AddUserComponent } from '../modals/add-user/add-user.component';
+import { ConfimationComponent } from '../modals/confimation/confimation.component';
+import { RoomsService } from '../../services/rooms.service';
+import { AddRoomComponent } from '../modals/add-room/add-room.component';
+import { UpdateRoomComponent } from '../modals/update-room/update-room.component';
 
 
 @Component({
-  selector: 'ngx-users',
-  templateUrl: './users.component.html',
-  styleUrls: ['./users.component.scss']
+  selector: 'ngx-rooms',
+  templateUrl: './rooms.component.html',
+  styleUrls: ['./rooms.component.scss']
 })
-export class UsersComponent implements OnInit {
+export class RoomsComponent implements OnInit {
 
   @Output() passEntry: EventEmitter<string> = new EventEmitter<string>();
 
   public filterQuery = '';
-  public sortBy = 'username';
+  public sortBy = 'room';
   public sortOrder = 'asc';
-  public selectQueryString = 'Username';
-  public selectQuery = 'username';
+  public selectQueryString = 'Room';
+  public selectQuery = 'room';
   loading = true;
-  public data = [];
+  public room = [];
   public socketInstance;
 
 
@@ -37,24 +39,18 @@ export class UsersComponent implements OnInit {
   constructor(
     public ngbModal: NgbModal,
     public auth: AuthService,
-    public user_service: UserService
-
-
+    public room_service: RoomsService
 
   ) {
 
-
-    this.getAllUsers();
-
-    // this.socketInstance = this.auth.listen('get_user').subscribe(emmet => {
-    //   console.log('get_user');
-    //   console.log(emmet);
-    //   this.getAllUsers();
-    // });
+    this.getAllRoom();
 
   }
 
   ngOnInit(): void {
+
+    this.getAllRoom();
+
   }
 
 
@@ -69,15 +65,17 @@ export class UsersComponent implements OnInit {
 
 
 
-  getAllUsers() {
-    // Function to GET all blogs from database
-    this.user_service.getAllUser().subscribe((data: any) => {
 
+
+
+  getAllRoom() {
+    // Function to GET all blogs from database
+    this.room_service.getAllRoom().subscribe((data: any) => {
       if (data.success) {
-        this.data = data.user
+        this.room = data.room
         this.loading = false;
       } else {
-        this.data = [];
+        this.room = [];
         this.loading = false;
       }
     });
@@ -86,25 +84,22 @@ export class UsersComponent implements OnInit {
   }
 
 
-  updateUser(user) {
+  updateRoom(room) {
 
-
-
-    const activeModal = this.ngbModal.open(UpdateUserComponent, { size: 'lg', container: 'nb-layout', windowClass: 'min_height', backdrop: 'static' });
-    activeModal.componentInstance.userData = user;
+    const activeModal = this.ngbModal.open(UpdateRoomComponent, { size: 'sm', container: 'nb-layout', windowClass: 'min_height', backdrop: 'static' });
+    activeModal.componentInstance.roomData = room;
     activeModal.componentInstance.passEntry.subscribe((receivedEntry) => {
-      this.getAllUsers()
+      this.getAllRoom()
       // this.units.push(receivedEntry);
     });
 
 
   }
 
-  addUser() {
-    const activeModal = this.ngbModal.open(AddUserComponent, { size: 'lg', container: 'nb-layout', windowClass: 'min_height', backdrop: 'static' });
+  addRoom() {
+    const activeModal = this.ngbModal.open(AddRoomComponent, { size: 'sm', container: 'nb-layout', windowClass: 'min_height', backdrop: 'static' });
     activeModal.componentInstance.passEntry.subscribe((receivedEntry) => {
-
-      this.getAllUsers()
+      this.getAllRoom()
       // this.units.push(receivedEntry);
     });
 
@@ -115,24 +110,22 @@ export class UsersComponent implements OnInit {
   }
 
 
-  changeStatus(user) {
+  changeRoomStatus(room) {
 
     const activeModal = this.ngbModal.open(ConfimationComponent, { size: 'sm', container: 'nb-layout', windowClass: 'min_height', backdrop: 'static' });
-    activeModal.componentInstance.data = user;
+    activeModal.componentInstance.room = room;
     activeModal.componentInstance.passEntry.subscribe((receivedEntry) => {
-      this.getAllUsers()
+      this.getAllRoom()
       // this.units.push(receivedEntry);
     });
 
   }
-  deleteUser(user) {
-
-    user.delete = true;
-
+  deleteRoom(room) {
+    room.delete = true;
     const activeModal = this.ngbModal.open(ConfimationComponent, { size: 'sm', container: 'nb-layout', windowClass: 'min_height', backdrop: 'static' });
-    activeModal.componentInstance.data = user;
+    activeModal.componentInstance.room = room;
     activeModal.componentInstance.passEntry.subscribe((receivedEntry) => {
-      this.getAllUsers()
+      this.getAllRoom()
       // this.units.push(receivedEntry);
     });
 

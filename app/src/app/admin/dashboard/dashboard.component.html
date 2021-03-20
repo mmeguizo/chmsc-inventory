@@ -16,3 +16,52 @@
   </div>
 </div>
 <br />
+<div class="row">
+  <div class="col-md-2 card">
+    <div class="stats-container pointer" (click)="user()">
+      <div class="stats">
+        <i class="icon ion-person-stalker"></i>
+      </div>
+      <div class="description">
+        <div translate> {{userLength.length}}</div>
+        <div class="description-stats">Users</div>
+      </div>
+    </div>
+  </div>
+  <div class="col-md-1"></div>
+  <div class="col-md-2 card">
+    <div class="stats-container pointer" (click)="room()">
+      <div class="stats">
+        <i class="icon ion-filing"></i>
+      </div>
+      <div class="description">
+        <div translate> {{roomLength.length}}</div>
+        <div class="description-stats">Rooms</div>
+      </div>
+    </div>
+  </div>
+  <div class="col-md-1"></div>
+  <div class="col-md-2 card">
+    <div class="stats-container">
+      <div class="stats">
+        <i class="icon ion-person-stalker"></i>
+      </div>
+      <!-- <div class="description" (click)="employee()">
+        <div translate>Employee's</div>
+        <div class="description-stats">{{employeeLength.length}}</div>
+      </div> -->
+    </div>
+  </div>
+  <div class="col-md-1"></div>
+  <div class="col-md-2 card">
+    <div class="stats-container">
+      <div class="stats">
+        <i class="icon ion-person-stalker"></i>
+      </div>
+      <!-- <div class="description" (click)="user()">
+        <div translate>User's</div>
+        <div class="description-stats">{{userLength.length}}</div>
+      </div> -->
+    </div>
+  </div>
+</div>

@@ -21,11 +21,8 @@
 //         return {
 
 //             socket: (http, port) => {
-//                 const io = require('socket.io')(http, { 
-//                     cors: {
-//                         origin: '*',
-//                       }
-//                  });
+
+//                 const io = require('socket.io')(http, { cors: { origin: "*", methods: ["GET", "POST", "PUT"] } });
 //                 emitter = require('socket.io-client').connect(`http://localhost:${port}`);
 //                 return {
 //                     start: () => {
@@ -34,7 +31,6 @@
 //                             socketsData.forEach(sockets => {
 //                                 sockets(client, io);
 //                             });
-
 //                             client.on('disconnect', client => {
 //                                 console.log('client socket connections');
 //                                 console.log(client);
@@ -54,7 +50,9 @@
 //     }
 
 //     const EmitMaker = module.exports.emitter = (emitTo, data = null) => {
+//         console.log(emitTo);
 //         emitter.emit(emitTo, data);
+
 //     }
 
 // })();

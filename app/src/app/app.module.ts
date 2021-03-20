@@ -43,6 +43,10 @@ import {
   NbWindowModule,
 } from '@nebular/theme';
 import { UserService } from './services/users.service';
+import { RoomsService } from './services/rooms.service';
+
+
+
 // import { DashboardComponent } from './main/dashboard/dashboard/dashboard.component';
 
 // export class MyIntl extends TimeagoIntl {
@@ -113,6 +117,7 @@ export function tokenGetter() {
     AuthGuard,
     NotAuthGuard,
     UserService,
+    RoomsService,
     // AuthService,
     // UserGlobalService,
     // SharedGlobalService,

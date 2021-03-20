@@ -17,6 +17,8 @@ module.exports = (router) => {
                 if (!user) {
                     res.json({ success: false, message: 'No User found.' }); // Return error of no blogs found
                 } else {
+                    // globalconnetion.emitter('get_user')
+
                     res.json({ success: true, user: user }); // Return success and blogs array
                 }
             }
@@ -117,7 +119,7 @@ module.exports = (router) => {
                         res.json({ success: false, message: 'Could not Deactivate User' + err })
                     } else {
                         res.json({ success: true, message: data.username + ' successfully Deactivated', data: user });
-                        // globalconnetion.emitter('user')
+                        // globalconnetion.emitter('user_stats')
                     }
                 })
 
@@ -177,7 +179,6 @@ module.exports = (router) => {
 
         let userData = {};
         let changedPassword = false;
-        console.log(data);
 
 
         if (data.password || data.confirm !== '') {
@@ -195,12 +196,12 @@ module.exports = (router) => {
                 User.findOneAndUpdate({ _id: data._id }, userData, { upsert: true }, (err, response) => {
                     if (err) return res.json({ success: false, message: err.message });
                     if (response) {
+                        // globalconnetion.emitter('update_user', response)
                         res.json({ success: true, message: "User Information has been updated!", data: response, changedPassword: changedPassword });
                     } else {
                         res.json({ success: true, message: "No User has been modified!", data: response });
                     }
                 });
-
 
 
             }).catch(err => { console.log(err); })
@@ -226,9 +227,6 @@ module.exports = (router) => {
 
         }
 
-        console.log(userData);
-
-
 
         // User.updateOne({
         //     _id: data._id
@@ -251,13 +249,21 @@ module.exports = (router) => {
 
 
     // globalconnetion.makeSocket((client, io) => {
-    //     return client.on('user', (data) => {
-    //         io.emit('user', { success: true, data: data })
+    //     return client.on('get_user', (data) => {
+    //         io.emit('get_user', { success: true, data: data })
     //     });
     // });
 
-
-
+    // globalconnetion.makeSocket((client, io) => {
+    //     return client.on('update_user', (data) => {
+    //         io.emit('update_user', { success: true, data: data })
+    //     });
+    // });
+    // globalconnetion.makeSocket((client, io) => {
+    //     return client.on('user_stats', (data) => {
+    //         io.emit('user_stats', { success: true, data: data })
+    //     });
+    // });
 
     return router;
 };

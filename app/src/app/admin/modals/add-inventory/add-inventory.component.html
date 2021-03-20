@@ -1,0 +1,96 @@
+<div class="modal-header">
+  Add New Inventory
+  <button class="close" aria-label="Close" (click)="closeModal()">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+<form [formGroup]="form">
+  <div class="modal-body">
+    <div class="row">
+      <div class="col-md-4">
+        <mat-form-field>
+          <mat-label>Category</mat-label>
+          <mat-select formControlName="category" #category id="category">
+            <mat-option value="mouse">Mouse</mat-option>
+            <mat-option value="keyboard">Keyboard</mat-option>
+            <mat-option value="computer">Computer</mat-option>
+            <mat-option value="tv">TV</mat-option>
+            <mat-option value="avr">AVR</mat-option>
+          </mat-select>
+          <mat-error *ngIf="form?.get('category').touched && form.controls['category'].errors?.required">Category is
+            <strong>required </strong> </mat-error>
+        </mat-form-field>
+      </div>
+      <div class="col-md-4">
+        <mat-form-field>
+          <mat-label>Brand</mat-label>
+          <mat-select formControlName="brand" #brand id="brand">
+            <mat-option value="mouse">Mouse</mat-option>
+            <mat-option value="keyboard">Keyboard</mat-option>
+            <mat-option value="computer">Computer</mat-option>
+            <mat-option value="tv">TV</mat-option>
+            <mat-option value="avr">AVR</mat-option>
+          </mat-select>
+          <mat-error *ngIf="form?.get('brand').touched && form.controls['brand'].errors?.required">Brand is
+            <strong>required </strong> </mat-error>
+        </mat-form-field>
+      </div>
+      <div class="col-md-4">
+        <mat-form-field>
+          <mat-label>Model</mat-label>
+          <mat-select formControlName="model" #model id="model">
+            <mat-option value="mouse">Mouse</mat-option>
+            <mat-option value="keyboard">Keyboard</mat-option>
+            <mat-option value="computer">Computer</mat-option>
+            <mat-option value="tv">TV</mat-option>
+            <mat-option value="avr">AVR</mat-option>
+          </mat-select>
+          <mat-error *ngIf="form?.get('model').touched && form.controls['model'].errors?.required">Model is
+            <strong>required </strong> </mat-error>
+        </mat-form-field>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-4">
+        <mat-form-field class="input-example">
+          <mat-label>Quantity: </mat-label>
+          <input matInput type="number" autocomplete="off" formControlName="qty">
+          <mat-error *ngIf="form?.get('qty').touched && form.controls['qty'].errors?.required">Quantity is
+            <strong>required </strong> </mat-error>
+        </mat-form-field>
+      </div>
+      <div class="col-md-4">
+        <mat-form-field class="input-example">
+          <mat-label>Description</mat-label>
+          <input matInput type="text" autocomplete="off" formControlName="description">
+          <mat-error *ngIf="form?.get('description').touched && form.controls['description'].errors?.required">
+            Description is
+            <strong>required </strong> </mat-error>
+        </mat-form-field>
+      </div>
+      <div class="col-md-4">
+        <mat-form-field>
+          <mat-label>Room</mat-label>
+          <mat-select formControlName="room" #brand id="room">
+            <mat-option value="402">402</mat-option>
+            <mat-option value="403">403</mat-option>
+            <mat-option value="312">312</mat-option>
+            <mat-option value="311">311</mat-option>
+            <mat-option value="313">313</mat-option>
+          </mat-select>
+          <mat-error *ngIf="form?.get('room').touched && form.controls['room'].errors?.required">Room is
+            <strong>required </strong> </mat-error>
+        </mat-form-field>
+      </div>
+    </div>
+  </div>
+  <div class="clear"></div>
+  <div class="row">
+  </div>
+  <div class="modal-footer">
+    <button class="btn btn-danger" (click)="closeModal()">Close</button>
+    <button type="submit" class="btn btn-primary" [disabled]="form?.invalid" (click)="addInventory(form)">
+      <i class="far fa-address-card"></i> ADD
+    </button>
+  </div>
+</form>

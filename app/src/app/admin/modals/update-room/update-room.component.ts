@@ -3,14 +3,15 @@ import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { FormBuilder, Validators } from '@angular/forms';
 import { UserService } from '../../../services/users.service';
 import { AuthService } from '../../../services/auth.service';
+import { RoomsService } from '../../../services/rooms.service';
 
 
 @Component({
   selector: 'ngx-update-user',
-  templateUrl: './update-user.component.html',
-  styleUrls: ['./update-user.component.scss']
+  templateUrl: './update-room.component.html',
+  styleUrls: ['./update-room.component.scss']
 })
-export class UpdateUserComponent implements OnInit {
+export class UpdateRoomComponent implements OnInit {
 
   @Output() passEntry: EventEmitter<string> = new EventEmitter<string>();
 
@@ -19,13 +20,14 @@ export class UpdateUserComponent implements OnInit {
   data;
   showpassword = false;
   eyeIcon = "fas fa-eye";
-  userData
+  roomData
 
   constructor(
     public activeModal: NgbActiveModal,
     public formBuilder: FormBuilder,
-    public user: UserService,
     private auth: AuthService,
+    public room_service: RoomsService,
+
 
   ) {
 
@@ -41,27 +43,23 @@ export class UpdateUserComponent implements OnInit {
 
   createForm() {
     this.form = this.formBuilder.group({
-      role: [this.userData.role, [Validators.required]],
-      username: [this.userData.username, [Validators.required]],
-      email: [this.userData.email, [Validators.required]],
-      password: [''],
-      confirm: [''],
+      room: [this.roomData.room, [Validators.required]],
+
     })
   }
 
 
-  updateUser(data) {
+  updateRoom(data) {
 
-    data.value._id = this.userData._id
+    data.value._id = this.roomData._id
 
-    if (data.value.password === data.value.confirm) {
+    if (data.value.room) {
 
-
-      this.user.updateUser(data.value).subscribe((data: any) => {
+      this.room_service.updateRoom(data.value).subscribe((data: any) => {
 
         if (data.success) {
           this.auth.Notifytoast('success', data.message, 'Success', 3000, 'bottom-right')
-          this.passEntry.emit(data.data)
+          this.passEntry.emit(data.room)
           this.closeModal();
           //this.auth.logout()
         } else {
@@ -71,8 +69,8 @@ export class UpdateUserComponent implements OnInit {
       });
 
     } else {
+      this.auth.Notifytoast('danger', 'No Room Supplied', 'Error', 3000, 'bottom-right')
 
-      this.auth.Notifytoast('danger', 'Password dont match', 'Error', 3000, 'bottom-right')
 
     }
 

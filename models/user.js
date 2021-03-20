@@ -191,11 +191,6 @@ userSchema.methods.comparePassword = function (password) {
 //   // });
 // }
 
-// globalconnetion.makeSocket((client, io) => {
-//     return client.on('user', (data) => {
-//         io.emit('user', { success: true, data: data })
-//     });
-// });
 
 
 module.exports = mongoose.model('User', userSchema);

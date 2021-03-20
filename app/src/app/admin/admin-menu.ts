@@ -18,6 +18,26 @@ export const MENU_ITEMS: NbMenuItem[] = [
       },
     ]
   },
+  {
+    title: 'Rooms ',
+    icon: 'clipboard-outline',
+    children: [
+      {
+        title: 'Rooms List',
+        link: '/admin/rooms',
+      },
+    ]
+  },
+  {
+    title: 'Inventory ',
+    icon: 'checkmark-square-2-outline',
+    children: [
+      {
+        title: 'Inventory List',
+        link: '/admin/inventory',
+      },
+    ]
+  },
   // {
   //   title: 'Users',
   //   icon: 'people-outline',
