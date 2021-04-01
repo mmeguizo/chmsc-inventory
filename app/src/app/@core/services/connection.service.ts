@@ -5,7 +5,7 @@ export class ConnectionService {
 
   //localhost development
   public domain: String = "http://localhost:3000";
-  public tester = "this is test"
+  public tester = "this is tests"
 
   // if deployed online
   //public domain: String = "";
