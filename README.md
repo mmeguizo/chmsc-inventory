@@ -52,6 +52,7 @@ $ npm start
 
 ## Contributors
 Mark Oliver Meguizo
+Joshua Arnaiz
 
 
 ## License
