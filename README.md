@@ -51,7 +51,7 @@ $ npm start
 
 
 ## Contributors
-Mark Oliver Meguizo
+Mark Oliver Meguizo,
 Joshua Arnaiz
 
 
