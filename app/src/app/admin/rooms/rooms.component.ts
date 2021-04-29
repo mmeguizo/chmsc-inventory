@@ -79,8 +79,6 @@ export class RoomsComponent implements OnInit {
         this.loading = false;
       }
     });
-
-
   }
 
 

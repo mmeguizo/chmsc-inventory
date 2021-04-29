@@ -11,10 +11,10 @@ const { nanoid } = require('nanoid')
 
 /******************************************************************************************* */
 
-const roomSchema = new Schema({
+const categorySchema = new Schema({
 
-  room: { type: Number, required: true, unique: true, },
-  status: { type: String, default: 'active' },
+  category_name: { type: String, required: true, unique: true, },
+  category_status: { type: String, default: 'active' },
   deleted: { type: Boolean, default: false },
   id: { type: String, default: () => nanoid() },
 
@@ -27,7 +27,7 @@ const roomSchema = new Schema({
 //VALIDATORS SHOULD BE ABOVE THE SCHEMA
 
 
-module.exports = mongoose.model('Room', roomSchema);
+module.exports = mongoose.model('Category', categorySchema);
 
 
 

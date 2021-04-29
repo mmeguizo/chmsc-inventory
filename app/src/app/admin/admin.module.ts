@@ -75,6 +75,7 @@ import { UpdateRoomComponent } from './modals/update-room/update-room.component'
 import { RoomInventoryComponent } from './room-inventory/room-inventory.component';
 import { InventoryComponent } from './inventory/inventory.component';
 import { AddInventoryComponent } from './modals/add-inventory/add-inventory.component';
+import { AddCategoryComponent } from './modals/add-category/add-category.component';
 
 @NgModule({
   imports: [
@@ -106,6 +107,7 @@ import { AddInventoryComponent } from './modals/add-inventory/add-inventory.comp
     RoomInventoryComponent,
     InventoryComponent,
     AddInventoryComponent,
+    AddCategoryComponent,
 
 
 
@@ -119,6 +121,7 @@ import { AddInventoryComponent } from './modals/add-inventory/add-inventory.comp
     UpdateRoomComponent,
     ConfimationComponent,
     AddInventoryComponent,
+    AddCategoryComponent,
   ],
   providers: [UserService],
   exports: [RouterModule]

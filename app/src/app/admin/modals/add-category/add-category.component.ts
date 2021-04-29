@@ -3,13 +3,15 @@ import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { FormBuilder, Validators } from '@angular/forms';
 import { AuthService } from '../../../services/auth.service';
 import { RoomsService } from '../../../services/rooms.service';
+import { CategoryService } from '../../../services/categories.service';
 
 @Component({
-  selector: 'ngx-add-room',
-  templateUrl: './add-room.component.html',
-  styleUrls: ['./add-room.component.scss']
+  selector: 'ngx-add-category',
+  templateUrl: './add-category.component.html',
+  styleUrls: ['./add-category.component.scss']
 })
-export class AddRoomComponent implements OnInit {
+export class AddCategoryComponent implements OnInit {
+
 
   @Output() passEntry: EventEmitter<string> = new EventEmitter<string>();
 
@@ -21,7 +23,7 @@ export class AddRoomComponent implements OnInit {
   constructor(
     public activeModal: NgbActiveModal,
     public formBuilder: FormBuilder,
-    public room_service: RoomsService,
+    public CategoryService: CategoryService,
     private auth: AuthService,
 
   ) {
@@ -30,20 +32,20 @@ export class AddRoomComponent implements OnInit {
 
   createForm() {
     this.form = this.formBuilder.group({
-      room: ['', [Validators.required]],
+      category: ['', [Validators.required]],
     })
   }
 
   ngOnInit() {
   }
 
-  addRoom(data) {
+  addCategory(data) {
 
-    if (data.value.room) {
-      this.room_service.addRoom(data.value).subscribe((data: any) => {
+    if (data.value.category) {
+      this.CategoryService.addCategory(data.value).subscribe((data: any) => {
         if (data.success) {
           this.auth.Notifytoast('success', data.message, 'Success', 3000, 'bottom-right')
-          this.passEntry.emit(data.room)
+          this.passEntry.emit(data.category)
           this.closeModal();
         } else {
           this.auth.Notifytoast('danger', data.message, 'Error', 3000, 'bottom-right')

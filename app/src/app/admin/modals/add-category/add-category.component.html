@@ -1,0 +1,30 @@
+<div class="modal-header">
+  Add New Category
+  <button class="close" aria-label="Close" (click)="closeModal()">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+<form [formGroup]="form">
+  <div class="modal-body">
+    <div class="row">
+
+      <div class="col-md-4">
+        <mat-form-field class="input-example">
+          <mat-label>Category: </mat-label>
+          <input matInput type="text" autocomplete="off" formControlName="category">
+          <mat-error *ngIf="form?.get('category').touched && form.controls['category'].errors?.required">
+            categCategoryory is
+            <strong>required </strong> </mat-error>
+        </mat-form-field>
+      </div>
+    </div>
+    <div class="clear"></div>
+
+  </div>
+  <div class="modal-footer">
+    <button class="btn btn-danger" (click)="closeModal()">Close</button>
+    <button type="submit" class="btn btn-primary" [disabled]="form?.invalid" (click)="addCategory(form)">
+      <i class="far fa-address-card"></i> ADD
+    </button>
+  </div>
+</form>

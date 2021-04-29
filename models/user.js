@@ -3,7 +3,7 @@ mongoose.Promise = global.Promise;
 const { Schema } = mongoose;
 var bcrypt = require('bcryptjs');
 // const globalconnetion = require('../serverconnetion/connections');
-
+const { nanoid } = require('nanoid')
 
 
 /****************************************************************** */
@@ -136,8 +136,8 @@ const userSchema = new Schema({
   role: { type: String, required: true },
   status: { type: String, default: 'active' },
   deleted: { type: Boolean, default: false },
-  password: { type: String, required: true, validate: passwordValidator }
-
+  password: { type: String, required: true, validate: passwordValidator },
+  id: { type: String, default: () => nanoid() },
 });
 
 
