@@ -11,12 +11,17 @@ const { nanoid } = require('nanoid')
 
 /******************************************************************************************* */
 
-const categorySchema = new Schema({
+const inventorySchema = new Schema({
 
-  category_name: { type: String, required: true, unique: true, },
-  category_status: { type: String, default: 'active' },
-  deleted: { type: Boolean, default: false },
-  // id: { type: String, default: () => nanoid() },
+  brand: { type: String, },
+  description: { type: String, },
+  room_id: { type: Number, },
+  category_id: { type: Number, },
+  serial: { type: Number, },
+  borrowed: { type: String, default: 'no' },
+  brand: { type: String, },
+  model: { type: String, },
+  status: { type: String, default: 'active' },
   id: { type: Number, required: true, },
 
 });
@@ -28,10 +33,14 @@ const categorySchema = new Schema({
 //VALIDATORS SHOULD BE ABOVE THE SCHEMA
 
 
-module.exports = mongoose.model('Category', categorySchema);
+module.exports = mongoose.model('Inventory', inventorySchema);
 
 
 
 
 
 
+/*
+
+Name	Brand	Model	Description	Assigned Room	Serial No.	Borrowed	Status	Options
+*/

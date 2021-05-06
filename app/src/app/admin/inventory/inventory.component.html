@@ -31,6 +31,7 @@
               [mfRowsOnPage]="10" [(mfSortBy)]="sortBy" [(mfSortOrder)]="sortOrder">
               <thead>
                 <tr>
+                  <th scope="col">#</th>
                   <th scope="col">Name</th>
                   <th scope="col">Brand</th>
                   <th scope="col">Model</th>
@@ -39,35 +40,22 @@
                   <th scope="col">Serial No.</th>
                   <th scope="col">Borrowed</th>
                   <th scope="col">Status</th>
-                  <th scope="col" width="10%">Options</th>
+                  <!-- <th scope="col" width="10%">Options</th> -->
                 </tr>
               </thead>
               <tbody>
-                <!-- <tr *ngFor="let room of mf.data; let i = index">
+                <tr *ngFor="let invent of mf.data; let i = index">
                   <td scope="col">{{ i + 1 }}</td>
-                  <td scope="col">{{ room.room }}</td>
-                  <td scope="col">
-                    <span class="pointer" (click)="changeRoomStatus(room)"
-                      [ngClass]="{'active': room.status == 'active',  'inactive': room.status == 'inactive' }">{{ room.status | titlecase}}</span>
-                  </td>
-                  <td scope="col">
-                    <div class="btn-group " dropdown placement="bottom right">
-                      <i id="button-alignment" dropdownToggle class="fas fa-chevron-circle-down"
-                        aria-controls="dropdown-alignment"></i>
-                      <ul id="dropdown-alignment" *dropdownMenu class="dropdown-menu dropdown-menu-right" role="menu"
-                        aria-labelledby="button-alignment">
-                        <li style="color:black" role="menuitem" class="dropdown-item pointer"
-                          (click)="updateRoom(room)">
-                          <nb-icon icon="edit-2" style="color: blue"></nb-icon> Update Room
-                        </li>
-                        <li style="color:black" role="menuitem" class="dropdown-item pointer"
-                          (click)="deleteRoom(room)">
-                          <nb-icon icon="trash-2-outline" style="color: red"></nb-icon> Delete Room
-                        </li>
-                      </ul>
-                    </div>
-                  </td>
-                </tr> -->
+                  <td scope="col">{{ invent.category_id | titlecase  }}</td>
+                  <td scope="col">{{ invent.brand | titlecase  }}</td>
+                  <td scope="col">{{ invent.model  | titlecase  }}</td>
+                  <td scope="col">{{ invent.description  | titlecase  }}</td>
+                  <td scope="col">{{ invent.room_id }}</td>
+                  <td scope="col">{{ invent.serial }}</td>
+                  <td scope="col">{{ invent.borrowed | titlecase }}</td>
+                  <td scope="col">{{ invent.status | titlecase }}</td>
+
+                </tr>
               </tbody>
               <tfoot>
                 <tr>

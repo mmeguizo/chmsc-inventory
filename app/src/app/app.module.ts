@@ -37,6 +37,7 @@ import {
 import { UserService } from './services/users.service';
 import { RoomsService } from './services/rooms.service';
 import { CategoryService } from './services/categories.service';
+import { InventoryService } from './services/inventory.service';
 
 
 export function tokenGetter() {
@@ -98,6 +99,7 @@ export function tokenGetter() {
     RoomsService,
     CategoryService,
     ConnectionService,
+    InventoryService,
 
   ],
 })

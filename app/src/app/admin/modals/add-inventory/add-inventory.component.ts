@@ -1,11 +1,14 @@
 import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 import { NgbActiveModal, NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { FormBuilder, Validators } from '@angular/forms';
+import { FormBuilder, FormControl, Validators } from '@angular/forms';
 import { AuthService } from '../../../services/auth.service';
 import { RoomsService } from '../../../services/rooms.service';
 import { CategoryService } from '../../../services/categories.service';
 import { AddRoomComponent } from '../add-room/add-room.component';
 import { AddCategoryComponent } from '../add-category/add-category.component';
+import { CategoryrResponse } from '../../../services/catergoryResponse';
+import { ConfirmationModalComponent } from '../../../shared/confirmation-modal/confirmation-modal.component';
+import { InventoryService } from '../../../services/inventory.service';
 
 
 
@@ -30,6 +33,7 @@ export class AddInventoryComponent implements OnInit {
     public ngbModal: NgbModal,
     public formBuilder: FormBuilder,
     public room_service: RoomsService,
+    public inventory_service: InventoryService,
     private auth: AuthService,
     private category_service: CategoryService,
 
@@ -41,14 +45,13 @@ export class AddInventoryComponent implements OnInit {
   ngOnInit() {
     this.getAllCategory();
     this.getAllRoom();
-
-
   }
 
 
   createForm() {
     this.form = this.formBuilder.group({
-      category: ['', [Validators.required]],
+      category: new FormControl('', Validators.required),
+      // category: ['', [Validators.required]],
       brand: ['', [Validators.required]],
       model: ['', [Validators.required]],
       serial: ['', [Validators.required]],
@@ -65,7 +68,6 @@ export class AddInventoryComponent implements OnInit {
       if (data.success) {
         this.room = data.room
         this.loading = false;
-        console.log(this.room);
 
       } else {
         this.room = [];
@@ -74,19 +76,17 @@ export class AddInventoryComponent implements OnInit {
     });
   }
   getAllCategory() {
-    // Function to GET all blogs from database
     this.category_service.getAllCategory().subscribe((data: any) => {
 
       if (data.success) {
-        this.category = data.category;
+        this.category = data.data
         this.loading = false;
         console.log(this.category);
+        console.log(typeof this.category);
       } else {
         this.category = [];
         this.loading = false;
       }
-
-
     });
   }
 
@@ -102,7 +102,7 @@ export class AddInventoryComponent implements OnInit {
   addCategory() {
     const activeModal = this.ngbModal.open(AddCategoryComponent, { size: 'sm', container: 'nb-layout', windowClass: 'min_height', backdrop: 'static' });
     activeModal.componentInstance.passEntry.subscribe((receivedEntry) => {
-      this.getAllRoom()
+      this.getAllCategory()
       // this.units.push(receivedEntry);
     });
 
@@ -113,20 +113,20 @@ export class AddInventoryComponent implements OnInit {
     console.log(data.value);
 
 
-    // console.log(data.value);
-    // if (data.value.room) {
-    //   this.room_service.addRoom(data.value).subscribe((data: any) => {
-    //     if (data.success) {
-    //       this.auth.Notifytoast('success', data.message, 'Success', 3000, 'bottom-right')
-    //       this.passEntry.emit(data.room)
-    //       this.closeModal();
-    //     } else {
-    //       this.auth.Notifytoast('danger', data.message, 'Error', 3000, 'bottom-right')
-    //     }
-    //   });
-    // } else {
-    //   this.auth.Notifytoast('danger', 'No Room Supplied', 'Error', 3000, 'bottom-right')
-    // }
+    console.log(data.value);
+    if (data.value.brand) {
+      this.inventory_service.addInventory(data.value).subscribe((data: any) => {
+        if (data.success) {
+          this.auth.Notifytoast('success', data.message, 'Success', 3000, 'bottom-right')
+          this.passEntry.emit(data.room)
+          this.closeModal();
+        } else {
+          this.auth.Notifytoast('danger', data.message, 'Error', 3000, 'bottom-right')
+        }
+      });
+    } else {
+      this.auth.Notifytoast('danger', 'No Inventory Supplied', 'Error', 3000, 'bottom-right')
+    }
 
   }
 

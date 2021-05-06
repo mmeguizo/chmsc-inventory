@@ -76,6 +76,7 @@ import { RoomInventoryComponent } from './room-inventory/room-inventory.componen
 import { InventoryComponent } from './inventory/inventory.component';
 import { AddInventoryComponent } from './modals/add-inventory/add-inventory.component';
 import { AddCategoryComponent } from './modals/add-category/add-category.component';
+import { EditCategoryComponent } from './modals/edit-category/edit-category.component';
 
 @NgModule({
   imports: [
@@ -108,6 +109,7 @@ import { AddCategoryComponent } from './modals/add-category/add-category.compone
     InventoryComponent,
     AddInventoryComponent,
     AddCategoryComponent,
+    EditCategoryComponent,
 
 
 
@@ -122,6 +124,7 @@ import { AddCategoryComponent } from './modals/add-category/add-category.compone
     ConfimationComponent,
     AddInventoryComponent,
     AddCategoryComponent,
+    EditCategoryComponent,
   ],
   providers: [UserService],
   exports: [RouterModule]

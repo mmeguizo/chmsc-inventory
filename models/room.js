@@ -13,10 +13,11 @@ const { nanoid } = require('nanoid')
 
 const roomSchema = new Schema({
 
-  room: { type: Number, required: true, unique: true, },
+  room: { type: Number, required: true, },
   status: { type: String, default: 'active' },
   deleted: { type: Boolean, default: false },
-  id: { type: String, default: () => nanoid() },
+  // id: { type: String, default: () => nanoid() },
+  id: { type: Number, required: true, },
 
 });
 

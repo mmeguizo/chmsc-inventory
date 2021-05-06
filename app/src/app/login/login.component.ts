@@ -81,17 +81,6 @@ export class LoginComponent implements OnInit {
       password: this.password,
     };
 
-    // this.sgs.request('post', 'user/authenticate', user, async (response) => {
-    //     if( response.success ){
-    //         if( await this.authService.setToken(response.data) ){
-    //             this.authService.login();
-    //         }else{
-    //             this.msg = 'LocalStorage not supported. Token not set!';
-    //         }
-    //     }else{
-    //         this.msg = response.message;
-    //     }
-    // });
   }
   // Functiont to submit form and login user
   onLoginSubmit() {

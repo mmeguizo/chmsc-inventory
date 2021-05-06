@@ -10,8 +10,9 @@ import { RoomsService } from '../../services/rooms.service';
 import { AddRoomComponent } from '../modals/add-room/add-room.component';
 import { UpdateRoomComponent } from '../modals/update-room/update-room.component';
 import { AddInventoryComponent } from '../modals/add-inventory/add-inventory.component';
+import { InventoryService } from '../../services/inventory.service';
 
-
+InventoryService
 
 @Component({
   selector: 'ngx-inventory',
@@ -40,7 +41,8 @@ export class InventoryComponent implements OnInit {
   constructor(
     public ngbModal: NgbModal,
     public auth: AuthService,
-    public room_service: RoomsService
+    public room_service: RoomsService,
+    public inventory_service: InventoryService,
 
   ) {
 
@@ -51,6 +53,7 @@ export class InventoryComponent implements OnInit {
   ngOnInit(): void {
 
     this.getAllRoom();
+    this.getAllInventory();
 
   }
 
@@ -81,6 +84,26 @@ export class InventoryComponent implements OnInit {
       }
     });
   }
+
+  getAllInventory() {
+    // Function to GET all blogs from database
+    this.inventory_service.getAllInventory().subscribe((data: any) => {
+
+
+      console.log('getAllInventory');
+      console.log(data);
+
+
+      if (data.success) {
+        this.inventory = data.inventory
+        this.loading = false;
+      } else {
+        this.inventory = [];
+        this.loading = false;
+      }
+    });
+  }
+
 
 
 

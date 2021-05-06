@@ -10,13 +10,10 @@
       <div class="col-md-4">
         <mat-form-field>
           <mat-label>Category</mat-label>
-          <mat-select formControlName="category" (selectionChange)="addNewCategory($event.value)" #category
-            id="category">
-            <!-- <ng-container *ngIf="category">
-              <mat-option *ngFor="let item of category | keyvalue" [value]="">
-                {{item.key}} {{item.value}}
-              </mat-option>
-            </ng-container> -->
+          <mat-select formControlName="category" (selectionChange)="addNewCategory(type.value)" #type>
+            <mat-option *ngFor="let item of category; let i = index" [value]="item.id">
+              {{ item.category_name | titlecase}}
+            </mat-option>
             <mat-option value="addNewCategory">-Add New Category-</mat-option>
           </mat-select>
           <mat-error *ngIf="form?.get('category').touched && form.controls['category'].errors?.required">Category is
@@ -32,7 +29,6 @@
         </mat-form-field>
       </div>
       <div class="col-md-4">
-
         <mat-form-field class="input-example">
           <mat-label>Model: </mat-label>
           <input matInput type="text" autocomplete="off" formControlName="model">
@@ -63,7 +59,7 @@
         <mat-form-field>
           <mat-label>Room</mat-label>
           <mat-select formControlName="room" (selectionChange)="addNewRoom($event.value)" #brand id="room">
-            <mat-option *ngFor="let rooms of room; let i = index" [value]="rooms.room">{{ rooms.room}}</mat-option>
+            <mat-option *ngFor="let rooms of room; let i = index" [value]="rooms.id">{{ rooms.room}}</mat-option>
             <mat-option value="addNewRoom">-Add New Room-</mat-option>
           </mat-select>
           <mat-error *ngIf="form?.get('room').touched && form.controls['room'].errors?.required">Room is

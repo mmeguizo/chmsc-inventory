@@ -3,8 +3,8 @@ import { AuthService } from './auth.service';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { ConnectionService } from '../@core/services/connection.service';
 import { Observable } from 'rxjs';
-
-
+import { CategoryrResponse } from './catergoryResponse';
+import { map } from 'rxjs/operators';
 
 @Injectable()
 export class CategoryService {
@@ -31,14 +31,26 @@ export class CategoryService {
       'authorization': this.authService.authToken // Attach token
     });
   }
-
-
-
-  // Function to get all blogs from the database
   getAllCategory() {
     this.createAuthenticationHeaders(); // Create headers
     return this.http.get(this.domain + '/categories/getAllCategory', { headers: this.options });
   }
+
+
+  // Function to get all blogs from the database
+  // getAllCategory() {
+  //   this.createAuthenticationHeaders(); // Create headers
+  //   return this.http.get(this.domain + '/categories/getAllCategory', { headers: this.options }).pipe(map(res => res['data']));
+
+  //   /*
+  //       return this.http.get<CategoryrResponse[]>(this.domain + '/categories/getAllCategory', { headers: this.options }).map((res: any) => {
+  //     if (!res.success) {
+  //       throw new Error('Value expected!');
+  //     }
+  //     return res.data;
+  //   });
+  //   */
+  // }
 
   addCategory(data) {
     this.createAuthenticationHeaders(); // Create headers

@@ -13,6 +13,7 @@ const users = require('./routes/users')(router);
 const rooms = require('./routes/rooms')(router);
 const blogs = require('./routes/blogs')(router);
 const categorys = require('./routes/categories')(router);
+const inventory = require('./routes/inventory')(router);
 
 const PORT = process.env.PORT || 3000;
 
@@ -57,6 +58,8 @@ app.use('/users', users);
 app.use('/rooms', rooms);
 app.use('/blogs', blogs);
 app.use('/categories', categorys);
+app.use('/inventory', inventory);
+
 
 app.get('*', (req, res) => {
     //  res.send('<h1>Hello from the Server Side</h1>')

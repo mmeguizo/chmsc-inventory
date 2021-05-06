@@ -1,5 +1,7 @@
 const Room = require('../models/room'); // Import Room Model Schema
 const { nanoid } = require('nanoid')
+const Id = require('../models/id')
+
 // const globalconnetion = require('../serverconnetion/connections');
 module.exports = (router) => {
 
@@ -7,7 +9,7 @@ module.exports = (router) => {
     router.get('/getAllRoom', (req, res) => {
 
         // Search database for all blog posts
-        Room.find({ deleted: false }, { _id: 1, room: 1, status: 1, deleted: 1 }, (err, Room) => {
+        Room.find({ deleted: false }, { _id: 1, id: 1, room: 1, status: 1, deleted: 1 }, (err, Room) => {
             // Check if error was found or not
             if (err) {
                 res.json({ success: false, message: err }); // Return error message
@@ -38,26 +40,55 @@ module.exports = (router) => {
             res.json({ success: false, message: 'You must provide an room' })
         } else {
 
-
-            let room = new Room({
-                room: req.body.room
-            })
-
-            room.save((err, data) => {
-                if (err) {
-                    if (err.code === 11000) {
-
-                        res.json({ success: false, message: 'Room name already exists ', err: err.message })
-                    } else {
-
-                        res.json({ success: false, message: 'Could not save Room Error : ' })
+            Room.aggregate([
+                {
+                    $project: {
+                        "_id": 1,
+                        "room": "$room",
+                        "deleted": "$deleted",
+                        "status": "$status",
 
                     }
-                } else {
-                    res.json({ success: true, message: 'Room Registered successfully', rooms: { room: data.room } });
-                    // globalconnetion.emitter('Room')
-                }
-            })
+                },
+                {
+                    $match: { room: req.body.room, deleted: false, status: 'active' }
+                },
+            ], (err, response) => {
+
+
+                Id.generate('room', async (uniqueID) => {
+
+                    if (uniqueID) {
+                        let room = {
+                            room: req.body.room,
+                            status: "active",
+                            deleted: false,
+                            id: uniqueID.id,
+                        }
+                        Room.create(room, (err, data) => {
+                            if (err) {
+                                if (err.code === 11000) {
+
+                                    res.json({ success: false, message: 'Room name already exists ', err: err.message })
+                                } else {
+
+                                    res.json({ success: false, message: 'Could not save Room Error : ' })
+
+                                }
+                            } else {
+                                res.json({ success: true, message: 'Room Registered successfully', rooms: { room: data.room } });
+                                // globalconnetion.emitter('Room')
+                            }
+                        })
+
+                    } else {
+                        console.info('generate main id query failed');
+                    }
+
+                })
+
+            });
+
         }
 
     });
@@ -113,20 +144,16 @@ module.exports = (router) => {
 
         let data = req.body
 
-        Room.updateOne({
+        Room.deleteOne({
             _id: data._id
-        },
-            {
-                $set: { deleted: true }
-
-            }, (err, Room) => {
-                if (err) {
-                    res.json({ success: false, message: 'Could not Delete Room' + err })
-                } else {
-                    res.json({ success: true, message: data.Roomname + ' Successfully Deleted the Room', data: Room });
-                    // globalconnetion.emitter('Room')
-                }
-            })
+        }, (err, Room) => {
+            if (err) {
+                res.json({ success: false, message: 'Could not Delete Room' + err })
+            } else {
+                res.json({ success: true, message: data.Roomname + ' Successfully Deleted the Room', data: Room });
+                // globalconnetion.emitter('Room')
+            }
+        })
 
 
     });
