@@ -5,8 +5,6 @@ import { UserService } from '../../../services/users.service';
 import { AuthService } from '../../../services/auth.service';
 
 
-
-
 @Component({
   selector: 'ngx-update-user',
   templateUrl: './update-user.component.html',
@@ -55,8 +53,6 @@ export class UpdateUserComponent implements OnInit {
   updateUser(data) {
 
     data.value._id = this.userData._id
-    console.log(data.value);
-
 
     if (data.value.password === data.value.confirm) {
 

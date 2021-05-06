@@ -6,10 +6,8 @@ import { JwtHelperService } from '@auth0/angular-jwt';
 //map is not working if not imported
 import { map } from "rxjs/operators";
 import { Router } from '@angular/router';
-import * as io from 'socket.io-client';
 import { Location } from '@angular/common';
 import { ConnectionService } from '../@core/services/connection.service';
-
 import { NbToastrService, NbComponentStatus } from '@nebular/theme';
 
 
@@ -25,7 +23,6 @@ export class AuthService {
   user;
   options;
   fulluserloggedData: any[];
-  public socketserver: any = { status: true, message: "online" };
 
 
 
@@ -40,7 +37,7 @@ export class AuthService {
 
   ) {
 
-    this.domain = this.connection.domain
+    this.domain = this.connection.domain;
 
   }
 
@@ -70,7 +67,7 @@ export class AuthService {
     this.loadToken();
     this.options = new HttpHeaders({
       'Content-Type': 'application/json',
-      'authorization': this.authToken
+      'authorization': this.authToken,
     })
 
   }
@@ -178,38 +175,6 @@ export class AuthService {
   public back() {
     this.location.back();
   }
-
-
-
-  // replySocket(name?) {
-  //   const socket = io.connect(this.domain, {
-  //     cors: {
-  //       origin: '*',
-  //     }
-  //   });
-  //   return new Observable(observer => {
-  //     socket.on(name, (data) => {
-  //       console.log(name, data);
-  //       this.socketserver.status = true;
-  //       this.socketserver.message = "online";
-  //       observer.next(data);
-  //     });
-  //     socket.on('reconnect_error', () => {
-  //       // console.clear();
-  //       this.socketserver.status = false;
-  //       this.socketserver.message = "offline";
-  //     });
-  //     socket.on('reconnect', () => {
-  //       // console.clear();
-  //       this.socketserver.status = true;
-  //       this.socketserver.message = "online";
-  //     });
-  //     return () => {
-  //       socket.disconnect();
-  //     };
-  //   }) as any;
-  // }
-
 
 
 

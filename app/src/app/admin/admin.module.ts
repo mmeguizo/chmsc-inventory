@@ -69,6 +69,14 @@ import { UserService } from '../services/users.service';
 import { AddUserComponent } from './modals/add-user/add-user.component';
 import { ConfimationComponent } from './modals/confimation/confimation.component';
 import { UpdateUserComponent } from './modals/update-user/update-user.component';
+import { RoomsComponent } from './rooms/rooms.component';
+import { AddRoomComponent } from './modals/add-room/add-room.component';
+import { UpdateRoomComponent } from './modals/update-room/update-room.component';
+import { RoomInventoryComponent } from './room-inventory/room-inventory.component';
+import { InventoryComponent } from './inventory/inventory.component';
+import { AddInventoryComponent } from './modals/add-inventory/add-inventory.component';
+import { AddCategoryComponent } from './modals/add-category/add-category.component';
+import { EditCategoryComponent } from './modals/edit-category/edit-category.component';
 
 @NgModule({
   imports: [
@@ -92,13 +100,31 @@ import { UpdateUserComponent } from './modals/update-user/update-user.component'
     UsersComponent,
     LogoutComponent,
     AddUserComponent,
+    AddRoomComponent,
     ConfimationComponent,
-    UpdateUserComponent],
+    UpdateUserComponent,
+    UpdateRoomComponent,
+    RoomsComponent,
+    RoomInventoryComponent,
+    InventoryComponent,
+    AddInventoryComponent,
+    AddCategoryComponent,
+    EditCategoryComponent,
+
+
+
+  ],
+
   entryComponents: [
     LogoutComponent,
     AddUserComponent,
+    AddRoomComponent,
     UpdateUserComponent,
+    UpdateRoomComponent,
     ConfimationComponent,
+    AddInventoryComponent,
+    AddCategoryComponent,
+    EditCategoryComponent,
   ],
   providers: [UserService],
   exports: [RouterModule]

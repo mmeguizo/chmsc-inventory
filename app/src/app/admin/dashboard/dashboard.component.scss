@@ -4,3 +4,92 @@
   margin-right: -7px;
   width: 280px;
 }
+
+
+
+.stats-container{
+  .stats{
+      .ion-card,
+      .ion-ios-list-outline,
+      .fa,
+      .icon{
+          font-size: 50px;
+          float: left;
+          margin-right: 20px;
+          color: black
+
+      }
+  }
+
+
+
+  .description{
+      cursor: pointer;
+      font-size:16px;
+      .icon{
+        color: #f28080
+      }
+      .description-stats{
+          font-size:20px;
+          margin-top:10px;
+      }
+      .description-stats2{
+        font-size:12px;
+        margin-top:10px;
+        cursor: default;
+
+    }
+  }
+}
+.card{
+  padding: 10px 10px;
+  height: inherit;
+  color:  black;
+  box-shadow: 10px 10px 5px #9e9e9e;
+
+}
+.table > tbody > tr > td{
+  padding: 5px 5px;
+}
+.critical{
+  background: #ff0000c4;
+  color: white;
+  border-radius: 4px;
+  padding: 4px;
+  margin: 0px;
+}
+.low{
+  background: #ff8d00c4;
+  color: white;
+  border-radius: 4px;
+  padding: 4px;
+  margin: 0px;
+}
+.medium{
+  background: #0066ffc4;
+  color: white;
+  border-radius: 4px;
+  padding: 4px;
+  margin: 0px;
+}
+.good{
+  background: #007925c4;
+  color: white;
+  border-radius: 4px;
+  padding: 4px;
+  margin: 0px;
+}
+.overstocks{
+  background: #79004ec4;
+  color: white;
+  border-radius: 4px;
+  padding: 4px;
+  margin: 0px;
+}
+.tooMuchoverstocks{
+  background: #79004ec4;
+  color: white;
+  border-radius: 4px;
+  padding: 4px;
+  margin: 0px;
+}

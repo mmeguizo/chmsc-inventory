@@ -46,9 +46,8 @@ export class UsersComponent implements OnInit {
 
     this.getAllUsers();
 
-
-    // this.socketInstance = this.auth.replySocket('user').subscribe(emmet => {
-    //   console.log('emmet');
+    // this.socketInstance = this.auth.listen('get_user').subscribe(emmet => {
+    //   console.log('get_user');
     //   console.log(emmet);
     //   this.getAllUsers();
     // });
@@ -70,17 +69,12 @@ export class UsersComponent implements OnInit {
 
 
 
-
-
-
   getAllUsers() {
     // Function to GET all blogs from database
     this.user_service.getAllUser().subscribe((data: any) => {
 
       if (data.success) {
         this.data = data.user
-        console.log('this.add ============');
-        console.log(this.data);
         this.loading = false;
       } else {
         this.data = [];
@@ -94,14 +88,11 @@ export class UsersComponent implements OnInit {
 
   updateUser(user) {
 
-    console.log(user);
 
 
     const activeModal = this.ngbModal.open(UpdateUserComponent, { size: 'lg', container: 'nb-layout', windowClass: 'min_height', backdrop: 'static' });
     activeModal.componentInstance.userData = user;
     activeModal.componentInstance.passEntry.subscribe((receivedEntry) => {
-      console.log('receivepassEntrydEntry recievd');
-      console.log(receivedEntry);
       this.getAllUsers()
       // this.units.push(receivedEntry);
     });
@@ -112,8 +103,7 @@ export class UsersComponent implements OnInit {
   addUser() {
     const activeModal = this.ngbModal.open(AddUserComponent, { size: 'lg', container: 'nb-layout', windowClass: 'min_height', backdrop: 'static' });
     activeModal.componentInstance.passEntry.subscribe((receivedEntry) => {
-      console.log('receivepassEntrydEntry recievd');
-      console.log(receivedEntry);
+
       this.getAllUsers()
       // this.units.push(receivedEntry);
     });
@@ -130,8 +120,6 @@ export class UsersComponent implements OnInit {
     const activeModal = this.ngbModal.open(ConfimationComponent, { size: 'sm', container: 'nb-layout', windowClass: 'min_height', backdrop: 'static' });
     activeModal.componentInstance.data = user;
     activeModal.componentInstance.passEntry.subscribe((receivedEntry) => {
-      console.log('receivepassEntrydEntry recievd');
-      console.log(receivedEntry);
       this.getAllUsers()
       // this.units.push(receivedEntry);
     });
@@ -144,8 +132,6 @@ export class UsersComponent implements OnInit {
     const activeModal = this.ngbModal.open(ConfimationComponent, { size: 'sm', container: 'nb-layout', windowClass: 'min_height', backdrop: 'static' });
     activeModal.componentInstance.data = user;
     activeModal.componentInstance.passEntry.subscribe((receivedEntry) => {
-      console.log('receivepassEntrydEntry recievd');
-      console.log(receivedEntry);
       this.getAllUsers()
       // this.units.push(receivedEntry);
     });

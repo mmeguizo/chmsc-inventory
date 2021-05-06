@@ -2,6 +2,7 @@
 import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { AuthService } from '../../../services/auth.service';
+import { RoomsService } from '../../../services/rooms.service';
 import { UserService } from '../../../services/users.service';
 
 
@@ -25,13 +26,15 @@ export class ConfimationComponent implements OnInit {
   public message = '';
   public message1 = '';
   public data;
+  public room;
 
 
   constructor(
 
     public activeModal: NgbActiveModal,
     public auth: AuthService,
-    public user_service: UserService
+    public user_service: UserService,
+    public room_service: RoomsService
 
 
   ) {
@@ -41,23 +44,43 @@ export class ConfimationComponent implements OnInit {
 
   ngOnInit(): void {
 
-    console.log(this.data);
+    console.log(this.room);
 
-    this.name = this.data.username;
 
-    if (this.data.status === 'active' && !this.data.delete) {
-
-      this.message = 'Deactivation';
-      this.message1 = 'Deactivating';
-
-    } else if (this.data.status === 'inactive' && !this.data.delete) {
-      this.message = 'Activation';
-      this.message1 = 'Activating';
-    } else if (this.data.delete) {
-      console.log(this.data.delete);
-      this.message = 'Delete';
-      this.message1 = 'Deleting';
+    //USER
+    if (this.data) {
+      this.name = this.data.username.charAt(0).toUpperCase() + this.data.username.slice(1);;
+      if (this.data.status === 'active' && !this.data.delete) {
+        this.message = 'Deactivation';
+        this.message1 = 'Deactivating';
+      } else if (this.data.status === 'inactive' && !this.data.delete) {
+        this.message = 'Activation';
+        this.message1 = 'Activating';
+      } else if (this.data.delete) {
+        console.log(this.data.delete);
+        this.message = 'Delete';
+        this.message1 = 'Deleting';
+      }
     }
+
+
+    if (this.room) {
+      //ROOM
+      this.name = this.room.room;
+      if (this.room.status === 'active' && !this.room.delete) {
+        this.message = 'Deactivation';
+        this.message1 = 'Deactivating';
+      } else if (this.room.status === 'inactive' && !this.room.delete) {
+        this.message = 'Activation';
+        this.message1 = 'Activating';
+      } else if (this.room.delete) {
+        console.log(this.room.delete);
+        this.message = 'Delete';
+        this.message1 = 'Deleting';
+      }
+
+    }
+
 
 
 
@@ -73,36 +96,66 @@ export class ConfimationComponent implements OnInit {
 
   yes() {
 
+    //USER
+    if (this.data) {
 
-    if (this.data.delete) {
-      this.user_service.deleteUser(this.data).subscribe((data: any) => {
-        if (data.success) {
-          this.auth.Notifytoast('success', data.message, 'Success', 3000, 'bottom-right')
-          this.passEntry.emit(data.data)
-          this.closeModal();
-        } else {
-          this.auth.Notifytoast('danger', data.message, 'Error', 3000, 'bottom-right')
-        }
-      });
-
-
-    } else {
-      this.user_service.changeStatus(this.data).subscribe((data: any) => {
-        if (data.success) {
-          this.auth.Notifytoast('success', data.message, 'Success', 3000, 'bottom-right')
-          this.passEntry.emit(data.data)
-          this.closeModal();
-        } else {
-          this.auth.Notifytoast('danger', data.message, 'Error', 3000, 'bottom-right')
-        }
-      });
+      if (this.data.delete) {
+        this.user_service.deleteUser(this.data).subscribe((data: any) => {
+          if (data.success) {
+            this.auth.Notifytoast('success', data.message, 'Success', 3000, 'bottom-right')
+            this.passEntry.emit(data.data)
+            this.closeModal();
+          } else {
+            this.auth.Notifytoast('danger', data.message, 'Error', 3000, 'bottom-right')
+          }
+        });
 
 
+      } else {
+        this.user_service.changeStatus(this.data).subscribe((data: any) => {
+          if (data.success) {
+            this.auth.Notifytoast('success', data.message, 'Success', 3000, 'bottom-right')
+            this.passEntry.emit(data.data)
+            this.closeModal();
+          } else {
+            this.auth.Notifytoast('danger', data.message, 'Error', 3000, 'bottom-right')
+          }
+        });
+
+
+      }
+    }
+
+    if (this.room) {
+
+      //ROOM
+      if (this.room.delete) {
+        this.room_service.deleteRoom(this.room).subscribe((data: any) => {
+          if (data.success) {
+            this.auth.Notifytoast('success', data.message, 'Success', 3000, 'bottom-right')
+            this.passEntry.emit(data.data)
+            this.closeModal();
+          } else {
+            this.auth.Notifytoast('danger', data.message, 'Error', 3000, 'bottom-right')
+          }
+        });
+
+      } else {
+        this.room_service.changeRoomStatus(this.room).subscribe((data: any) => {
+          if (data.success) {
+            this.auth.Notifytoast('success', data.message, 'Success', 3000, 'bottom-right')
+            this.passEntry.emit(data.data)
+            this.closeModal();
+          } else {
+            this.auth.Notifytoast('danger', data.message, 'Error', 3000, 'bottom-right')
+          }
+        });
+      }
     }
 
 
 
-  }
+  }//end of yes
 
   closeModal() {
     this.activeModal.close();

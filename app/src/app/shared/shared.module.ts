@@ -1,17 +1,17 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormsModule, ReactiveFormsModule  } from '@angular/forms';
-import { dataFilterPipe, NumberWithCommas, IsRead, SumPipe, AssetsPipe,unReverseDate, ReverseDate, StripTags, RoundOff, ChatMessagePipe, FileNameOnly } from '../@core/pipes/dataFilter';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { dataFilterPipe, NumberWithCommas, IsRead, SumPipe, AssetsPipe, unReverseDate, ReverseDate, StripTags, RoundOff, ChatMessagePipe, FileNameOnly } from '../@core/pipes/dataFilter';
 import { TruncatePipe, TruncateTextPipe } from '../@core/pipes/truncate';
 import { DataTableModule } from 'angular2-datatable';
-import { NbStepperModule, NbSpinnerModule, NbListModule,  } from '@nebular/theme';
+import { NbStepperModule, NbSpinnerModule, NbListModule, } from '@nebular/theme';
 // import { MomentModule } from 'angular2-moment';
 //
 // from valor components
-import { TooltipModule, BsDatepickerModule, TimepickerModule, BsDropdownModule  } from 'ngx-bootstrap';
+import { TooltipModule, BsDatepickerModule, TimepickerModule, BsDropdownModule } from 'ngx-bootstrap';
 
 // import { TypeaheadModule } from 'ngx-bootstrap/typeahead';
-import { NbMenuModule, NbActionsModule, NbTreeGridModule} from '@nebular/theme';
+import { NbMenuModule, NbActionsModule, NbTreeGridModule } from '@nebular/theme';
 import { TimeagoModule } from 'ngx-timeago';
 
 import { MatNativeDateModule } from '@angular/material/core';
@@ -37,6 +37,7 @@ import {
   NbTooltipModule,
   NbWindowModule,
 } from '@nebular/theme';
+import { ConfirmationModalComponent } from './confirmation-modal/confirmation-modal.component';
 
 const materialModules = [
   MatFormFieldModule,
@@ -94,9 +95,12 @@ const MODULES = [
     StripTags,
     RoundOff,
     ChatMessagePipe,
-    FileNameOnly
+    FileNameOnly,
+    ConfirmationModalComponent
   ],
-  entryComponents: [],
+  entryComponents: [
+    ConfirmationModalComponent
+  ],
   exports: [
     dataFilterPipe,
     NumberWithCommas,
@@ -122,6 +126,7 @@ const MODULES = [
     DataTableModule,
     FormsModule,
     ReactiveFormsModule,
+    ConfirmationModalComponent,
     ...materialModules
   ],
   providers: [
@@ -129,4 +134,4 @@ const MODULES = [
     unReverseDate,
   ]
 })
-export class SharedModule {}
+export class SharedModule { }

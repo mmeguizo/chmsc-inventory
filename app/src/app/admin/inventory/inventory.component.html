@@ -1,0 +1,88 @@
+<div class="row">
+  <div class="col-sm-12">
+    <nb-card [nbSpinner]="loading" nbSpinnerStatus="success">
+      <nb-card-header>
+        <div class="action-groups-header" style="float: left; clear: both">
+          Rooms Lists
+        </div>
+        <nb-actions size="medium" style="float: right; font-size: 10px;">
+          <nb-action>
+            <div class="input-group">
+              <input type="search" #search class="form-control" [placeholder]="selectQueryString"
+                [(ngModel)]="filterQuery">
+              <div class="input-group-append">
+                <span class="input-group-text pointer" [nbPopover]="filter" nbPopoverPlacement="bottom">
+                  <i class="fas fa-filter"></i>
+                </span>
+              </div>
+            </div>
+          </nb-action>
+          <nb-action icon="plus-square-outline" nbPopover="Add new room" nbPopoverTrigger="hint"
+            nbPopoverPlacement="bottom" (click)="addInventory()"></nb-action>
+          <nb-action icon="close-square-outline" (click)="auth.back()" nbPopover="Close" nbPopoverTrigger="hint"
+            nbPopoverPlacement="right"></nb-action>
+        </nb-actions>
+      </nb-card-header>
+      <nb-card-body>
+        <div class="row">
+          <div class="col-sm-12">
+            <div class="clear"></div>
+            <table class="table" [mfData]="inventory | dataFilter : filterQuery: selectQuery" #mf="mfDataTable"
+              [mfRowsOnPage]="10" [(mfSortBy)]="sortBy" [(mfSortOrder)]="sortOrder">
+              <thead>
+                <tr>
+                  <th scope="col">#</th>
+                  <th scope="col">Name</th>
+                  <th scope="col">Brand</th>
+                  <th scope="col">Model</th>
+                  <th scope="col">Description</th>
+                  <th scope="col">Assigned Room</th>
+                  <th scope="col">Serial No.</th>
+                  <th scope="col">Borrowed</th>
+                  <th scope="col">Status</th>
+                  <!-- <th scope="col" width="10%">Options</th> -->
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let invent of mf.data; let i = index">
+                  <td scope="col">{{ i + 1 }}</td>
+                  <td scope="col">{{ invent.category_id | titlecase  }}</td>
+                  <td scope="col">{{ invent.brand | titlecase  }}</td>
+                  <td scope="col">{{ invent.model  | titlecase  }}</td>
+                  <td scope="col">{{ invent.description  | titlecase  }}</td>
+                  <td scope="col">{{ invent.room_id }}</td>
+                  <td scope="col">{{ invent.serial }}</td>
+                  <td scope="col">{{ invent.borrowed | titlecase }}</td>
+                  <td scope="col">{{ invent.status | titlecase }}</td>
+
+                </tr>
+              </tbody>
+              <tfoot>
+                <tr>
+                  <td colspan="10">
+                    <mfBootstrapPaginator [rowsOnPageSet]="[10,20,50,100]"></mfBootstrapPaginator>
+                  </td>
+                </tr>
+              </tfoot>
+            </table>
+          </div>
+        </div>
+      </nb-card-body>
+    </nb-card>
+  </div>
+</div>
+
+<ng-template #filter nbPopoverTrigger="noop">
+  <nb-card style="margin-bottom: 0">
+    <nb-card-header>
+      Search Filter:
+    </nb-card-header>
+    <nb-list>
+      <nb-list-item class="pointer" (click)="selectFilter('room', 'Room')">Room</nb-list-item>
+      <nb-list-item class="pointer" (click)="selectFilter('status', 'Status')">Status</nb-list-item>
+    </nb-list>
+  </nb-card>
+</ng-template>
+
+
+<!--   -->

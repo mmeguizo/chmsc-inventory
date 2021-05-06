@@ -1,4 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
+import { RoomsService } from '../../services/rooms.service';
+import { UserService } from '../../services/users.service';
 
 @Component({
   selector: 'ngx-dashboard',
@@ -8,6 +11,7 @@ import { Component, OnInit } from '@angular/core';
 export class DashboardComponent implements OnInit {
 
   date;
+
   hours: string;
   minutes: string;
   seconds: string;
@@ -19,9 +23,17 @@ export class DashboardComponent implements OnInit {
   leaves = 0;
   loans = 0;
   PmAm = 0;
+  public userLength = [];
+  public roomLength = [];
+  loading = true;
 
 
-  constructor() {
+  constructor(
+    public user_service: UserService,
+    public room_service: RoomsService,
+    public router: Router,
+
+  ) {
 
     this.date = new Date();
     this.setCurrentTime();
@@ -50,6 +62,54 @@ export class DashboardComponent implements OnInit {
 
 
   ngOnInit(): void {
+
+    this.getAllUsers();
+    this.getAllRoom();
   }
+
+
+  getAllUsers() {
+    // Function to GET all blogs from database
+    this.user_service.getAllUser().subscribe((data: any) => {
+
+      if (data.success) {
+        this.userLength = data.user
+        this.loading = false;
+      } else {
+        this.userLength = [];
+        this.loading = false;
+      }
+    });
+
+
+  }
+
+
+  getAllRoom() {
+    // Function to GET all blogs from database
+    this.room_service.getAllRoom().subscribe((data: any) => {
+      if (data.success) {
+        this.roomLength = data.room
+        this.loading = false;
+      } else {
+        this.roomLength = [];
+        this.loading = false;
+      }
+    });
+
+
+  }
+
+
+
+  user() {
+    this.router.navigate(['/admin/users']);
+  }
+
+  room() {
+    this.router.navigate(['/admin/rooms']);
+  }
+
+
 
 }

@@ -1,0 +1,80 @@
+<div class="modal-header">
+  Add New Inventory
+  <button class="close" aria-label="Close" (click)="closeModal()">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+<form [formGroup]="form">
+  <div class="modal-body">
+    <div class="row">
+      <div class="col-md-4">
+        <mat-form-field>
+          <mat-label>Category</mat-label>
+          <mat-select formControlName="category" (selectionChange)="addNewCategory(type.value)" #type>
+            <mat-option *ngFor="let item of category; let i = index" [value]="item.id">
+              {{ item.category_name | titlecase}}
+            </mat-option>
+            <mat-option value="addNewCategory">-Add New Category-</mat-option>
+          </mat-select>
+          <mat-error *ngIf="form?.get('category').touched && form.controls['category'].errors?.required">Category is
+            <strong>required </strong> </mat-error>
+        </mat-form-field>
+      </div>
+      <div class="col-md-4">
+        <mat-form-field class="input-example">
+          <mat-label>Brand: </mat-label>
+          <input matInput type="text" autocomplete="off" formControlName="brand">
+          <mat-error *ngIf="form?.get('brand').touched && form.controls['brand'].errors?.required">Brand is
+            <strong>required </strong> </mat-error>
+        </mat-form-field>
+      </div>
+      <div class="col-md-4">
+        <mat-form-field class="input-example">
+          <mat-label>Model: </mat-label>
+          <input matInput type="text" autocomplete="off" formControlName="model">
+          <mat-error *ngIf="form?.get('model').touched && form.controls['model'].errors?.required">Model is
+            <strong>required </strong> </mat-error>
+        </mat-form-field>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-4">
+        <mat-form-field class="input-example">
+          <mat-label>Serial: </mat-label>
+          <input matInput type="number" autocomplete="off" formControlName="serial">
+          <mat-error *ngIf="form?.get('serial').touched && form.controls['serial'].errors?.required">Quantity is
+            <strong>required </strong> </mat-error>
+        </mat-form-field>
+      </div>
+      <div class="col-md-4">
+        <mat-form-field class="input-example">
+          <mat-label>Description</mat-label>
+          <input matInput type="text" autocomplete="off" formControlName="description">
+          <mat-error *ngIf="form?.get('description').touched && form.controls['description'].errors?.required">
+            Description is
+            <strong>required </strong> </mat-error>
+        </mat-form-field>
+      </div>
+      <div class="col-md-4">
+        <mat-form-field>
+          <mat-label>Room</mat-label>
+          <mat-select formControlName="room" (selectionChange)="addNewRoom($event.value)" #brand id="room">
+            <mat-option *ngFor="let rooms of room; let i = index" [value]="rooms.id">{{ rooms.room}}</mat-option>
+            <mat-option value="addNewRoom">-Add New Room-</mat-option>
+          </mat-select>
+          <mat-error *ngIf="form?.get('room').touched && form.controls['room'].errors?.required">Room is
+            <strong>required </strong> </mat-error>
+        </mat-form-field>
+      </div>
+    </div>
+  </div>
+  <div class="clear"></div>
+  <div class="row">
+  </div>
+  <div class="modal-footer">
+    <button class="btn btn-danger" (click)="closeModal()">Close</button>
+    <button type="submit" class="btn btn-primary" [disabled]="form?.invalid" (click)="addInventory(form)">
+      <i class="far fa-plus-square"></i> ADD
+    </button>
+  </div>
+</form>
